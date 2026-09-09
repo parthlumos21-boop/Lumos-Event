@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&family=Geist+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Switzer';
+  src: local('Switzer'), local('Switzer-Regular'), local('Mona Sans');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@theme {
+  --color-base: #000000;
+  --color-surface-strong: #fdfdfd;
+  --color-text-primary: #ededed;
+  --color-text-secondary: #24363f;
+  --font-sans: "Switzer", "Mona Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-serif: "Switzer", "Mona Sans", sans-serif;
+}
+
+html, body {
+  background-color: #000000;
+  color: #ededed;
+  font-family: 'Switzer', 'Mona Sans', -apple-system, sans-serif !important;
+  overflow-x: hidden;
+}
+
+/* Headings MUST have transparent background so background images show through */
+h1, h2, h3, h4, h5, h6 {
+  background-color: transparent !important;
+  font-family: 'Switzer', 'Mona Sans', -apple-system, sans-serif !important;
+}
+
+/* Global Scrollbar Hiding Across All Elements, Inputs, and Textareas */
+*, *::before, *::after, textarea, input {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+*::-webkit-scrollbar, textarea::-webkit-scrollbar, input::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Focus visible rules (WCAG 2.2 AA) */
+*:focus-visible {
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
+}
