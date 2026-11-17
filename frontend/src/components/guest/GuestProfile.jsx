@@ -110,8 +110,9 @@ const GuestProfile = ({ portal = 'admin' }) => {
         setSaveSuccess('Guest profile and updates committed directly to MongoDB.');
         setTimeout(() => setSaveSuccess(''), 4000);
 
-        // Instantly refresh audit logs and counts from MongoDB
+        // Instantly refresh audit logs, activities and counts from MongoDB
         fetchAuditLogs();
+        fetchActivities();
         setStats((prev) => ({
           ...prev,
           totalChanges: prev.totalChanges + (res.data.changesCount || 1)
@@ -189,13 +190,13 @@ const GuestProfile = ({ portal = 'admin' }) => {
   }
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-800 p-2 sm:p-5 lg:p-7">
-      <div className="max-w-7xl mx-auto space-y-5">
+    <div className="w-full bg-white font-sans text-gray-800 p-0 sm:p-1">
+      <div className="w-full space-y-5">
         {/* Top Bar: Back to Directory & User Status */}
         <GuestProfileTopBar portal={portal} onBack={handleBack} />
 
         {/* Main Unified White Card Container enclosing all children items */}
-        <div className="bg-white rounded-3xl border border-gray-200/90 shadow-xs p-5 sm:p-7 space-y-6">
+        <div className="bg-white rounded-3xl border border-gray-200/90 shadow-xs p-4 sm:p-6 lg:p-7 space-y-6">
           {/* Profile Header Card */}
           <GuestProfileHeader
             guest={guest}

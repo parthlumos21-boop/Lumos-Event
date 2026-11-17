@@ -18,7 +18,10 @@ export const LandingNavbar = ({ onOpenQRModal }) => {
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    if (href.startsWith('#')) {
+    if (href === '/' || href === '#home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.history.replaceState(null, '', '/');
+    } else if (href.startsWith('#')) {
       const targetId = href.replace('#', '');
       const el = document.getElementById(targetId);
       if (el) {
@@ -37,6 +40,7 @@ export const LandingNavbar = ({ onOpenQRModal }) => {
         <div
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.history.replaceState(null, '', '/');
           }}
           className="flex items-center gap-3 cursor-pointer group shrink-0"
         >

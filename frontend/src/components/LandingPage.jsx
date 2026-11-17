@@ -6,6 +6,7 @@ import DedicatedQRCard from './landing/DedicatedQRCard';
 import LocationMapCard from './landing/LocationMapCard';
 import LandingFooterCard from './landing/LandingFooterCard';
 import QRCodeModal from './common/QRCodeModal';
+import ScrollReveal from './landing/ui/ScrollReveal';
 import Loader from './Loader';
 import axiosClient from '../api/axiosClient';
 
@@ -20,6 +21,11 @@ const LandingPage = () => {
   const [qrModalOpen, setQrModalOpen] = useState(false);
 
   useEffect(() => {
+    // Strip #home or clean hash from URL bar
+    if (window.location.hash === '#home') {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+
     // Brief initial load check
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -49,23 +55,33 @@ const LandingPage = () => {
       {/* 1. Hero Section matching Image-1 with Image-2 embedded in phone */}
       <HeroSection onOpenQRModal={() => setQrModalOpen(true)} />
 
-      {/* 2. Choose your devices Section matching Image-1 */}
-      <DevicesSection />
+      {/* 2. Choose your devices Section matching Image-1 with Scroll Reveal */}
+      <ScrollReveal direction="up" delay={50}>
+        <DevicesSection />
+      </ScrollReveal>
 
-      {/* 3. Be Part of the LUMOS Experience Dark Section matching Image-1 */}
-      <AppDownloadCard />
+      {/* 3. Be Part of the LUMOS Experience Dark Section matching Image-1 with Scroll Reveal */}
+      <ScrollReveal direction="up" delay={50}>
+        <AppDownloadCard />
+      </ScrollReveal>
 
-      {/* 4. Permanent QR Code Check-In Station on White Container */}
-      <DedicatedQRCard
-        qrDataUrl={qrRecord?.qrDataUrl}
-        onOpenModal={() => setQrModalOpen(true)}
-      />
+      {/* 4. Permanent QR Code Check-In Station on White Container with Scroll Reveal */}
+      <ScrollReveal direction="up" delay={50}>
+        <DedicatedQRCard
+          qrDataUrl={qrRecord?.qrDataUrl}
+          onOpenModal={() => setQrModalOpen(true)}
+        />
+      </ScrollReveal>
 
-      {/* 5. Interactive Location Map Section pinned to Shaligram Arcade */}
-      <LocationMapCard />
+      {/* 5. Interactive Location Map Section pinned to Shaligram Arcade with Scroll Reveal */}
+      <ScrollReveal direction="up" delay={50}>
+        <LocationMapCard />
+      </ScrollReveal>
 
-      {/* 6. Footer on White Container */}
-      <LandingFooterCard />
+      {/* 6. Modern Footer (Footer01 Lumos Edition) with Scroll Reveal */}
+      <ScrollReveal direction="none" delay={50}>
+        <LandingFooterCard />
+      </ScrollReveal>
 
       {/* Modal: Permanent QR Flyer Card */}
       <QRCodeModal

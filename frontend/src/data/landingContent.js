@@ -12,7 +12,7 @@ export const landingContent = {
   },
 
   nav: [
-    { label: 'Home', href: '#home' },
+    { label: 'Home', href: '/' },
     { label: 'Services', href: '#services' },
     { label: 'About', href: '#about' },
     { label: 'Location', href: '#location' }

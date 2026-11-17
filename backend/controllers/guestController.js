@@ -398,7 +398,33 @@ exports.getGuestActivities = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid guest record ID' });
     }
 
-    const activities = await GuestActivity.find({ guestId: id }).sort({ activityDate: -1, createdAt: -1 });
+    let activities = await GuestActivity.find({ guestId: id }).sort({ activityDate: -1, createdAt: -1 });
+
+    // If no activities yet, automatically seed initial registration/visit activity into MongoDB
+    if (activities.length === 0) {
+      const guest = await Guest.findById(id);
+      if (guest) {
+        try {
+          const initialActivity = await GuestActivity.create({
+            guestId: guest._id,
+            activityType: 'Guest Visit',
+            title: 'Guest visited the showroom',
+            description: `Guest registered for the Lumos event. Preferred follow-up: ${guest.followUp?.preferredMethod || 'Phone'}.`,
+            activityDate: guest.createdAt || new Date(),
+            createdBy: {
+              userId: guest.createdBy?.userId || null,
+              name: guest.createdBy?.name || 'Staff User',
+              email: guest.createdBy?.email || 'staff@lumossolution.com',
+              role: guest.createdBy?.role || 'admin'
+            }
+          });
+          activities = [initialActivity];
+        } catch (seedErr) {
+          logger.warn('Could not seed initial guest activity:', seedErr.message);
+        }
+      }
+    }
+
     res.json({ success: true, activities, total: activities.length });
   } catch (error) {
     logger.error('FETCH ACTIVITIES ERROR', error.message, error);

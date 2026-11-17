@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Wifi, Battery, Plus, Minus } from 'lucide-react';
 import clsx from 'clsx';
+import '../../Loader.css';
 
 /**
  * Pure CSS/SVG Smartphone Mockup.
@@ -147,19 +148,16 @@ export const PhoneMockup = ({ variant = 'home', className = '' }) => {
           <div className="absolute inset-0 bg-[#0a0d14] flex flex-col items-center justify-center" />
         )}
 
-        {/* Phase 1: Power-on Boot Screen (1.3s) triggered when scrolled into view */}
+        {/* Phase 1: Power-on Boot Screen (1.3s) with authentic LUMOS text loading animation */}
         {bootState === 'booting' && (
           <div className="absolute inset-0 bg-[#0a0d14] flex flex-col items-center justify-center space-y-4 z-20 transition-opacity duration-500 animate-fadeIn">
-            <div className="p-4 rounded-3xl bg-white/5 border border-white/10 animate-pulse shadow-xl">
-              <img
-                src="/lumos logo-title.png"
-                alt="Lumos Powering On"
-                className="h-10 sm:h-12 object-contain"
-              />
-            </div>
-            <div className="flex items-center gap-1.5 text-[10px] text-gray-400 font-mono tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4ecdc4] animate-ping" />
-              <span>Starting System...</span>
+            {/* Authentic Lumos Staggered Text Blur Loading Animation */}
+            <div className="loading-text select-none text-center">
+              <span className="loading-text-words text-2xl sm:text-3xl">L</span>
+              <span className="loading-text-words text-2xl sm:text-3xl">U</span>
+              <span className="loading-text-words text-2xl sm:text-3xl">M</span>
+              <span className="loading-text-words text-2xl sm:text-3xl">O</span>
+              <span className="loading-text-words text-2xl sm:text-3xl">S</span>
             </div>
           </div>
         )}

@@ -212,9 +212,14 @@ const AdminLayout = () => {
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 min-w-0 p-4 md:p-8 lg:p-10 bg-white">
-        <div className="max-w-7xl mx-auto">
+      {/* Main Content Area: Dynamically adapts padding and max-width when sidebar collapses */}
+      <main
+        className={clsx(
+          'flex-1 min-w-0 bg-white transition-all duration-300',
+          sidebarCollapsed ? 'p-2 sm:p-4 lg:p-6' : 'p-4 md:p-6 lg:p-8'
+        )}
+      >
+        <div className={clsx('mx-auto', sidebarCollapsed ? 'max-w-[1560px] w-full' : 'max-w-7xl')}>
           <Outlet />
         </div>
       </main>

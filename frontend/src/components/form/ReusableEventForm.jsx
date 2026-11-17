@@ -293,7 +293,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                       'Lighting & Dimming',
                       'Home Theater',
                       'Audio & Visuals',
-                      'Security',
+                      'Security & Surveillance',
                       'Building / Office Automation',
                       'Just Visiting'
                     ].map((opt) => {
