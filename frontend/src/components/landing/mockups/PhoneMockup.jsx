@@ -1,22 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Wifi, Battery, Plus, Minus } from 'lucide-react';
 import clsx from 'clsx';
 
 /**
  * Pure CSS/SVG Smartphone Mockup.
- * Features a 1.3s power-on boot sequence with Lumos brand logo before revealing the centered live app preview.
+ * Features a scroll-triggered 1.3s power-on boot sequence with Lumos brand logo
+ * that starts when the phone appears into view upon scrolling.
  */
 export const PhoneMockup = ({ variant = 'home', className = '' }) => {
   const [temp, setTemp] = useState(22);
-  const [isBooting, setIsBooting] = useState(true);
+  const phoneRef = useRef(null);
+  const [bootState, setBootState] = useState('idle'); // 'idle' | 'booting' | 'ready'
 
   useEffect(() => {
-    // Phone power-on boot sequence for 1.3 seconds
-    const timer = setTimeout(() => {
-      setIsBooting(false);
-    }, 1300);
-    return () => clearTimeout(timer);
-  }, []);
+    if (variant !== 'home') return;
+
+    // Trigger power-on boot sequence when scrolled into view
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && bootState === 'idle') {
+          setBootState('booting');
+          setTimeout(() => {
+            setBootState('ready');
+          }, 1300);
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    const currentEl = phoneRef.current;
+    if (currentEl) {
+      observer.observe(currentEl);
+    }
+
+    return () => {
+      if (currentEl) observer.unobserve(currentEl);
+      observer.disconnect();
+    };
+  }, [variant, bootState]);
 
   if (variant === 'dial') {
     return (
@@ -104,9 +126,10 @@ export const PhoneMockup = ({ variant = 'home', className = '' }) => {
     );
   }
 
-  // Default "home" variant: Features power-on boot sequence then displays centered live Lumos app screenshot
+  // Default "home" variant: Features scroll-triggered power-on boot sequence then displays centered live Lumos app screenshot
   return (
     <div
+      ref={phoneRef}
       className={clsx(
         'w-[280px] sm:w-[310px] h-[580px] sm:h-[630px] rounded-[48px] bg-[#14161f] p-2.5 sm:p-3 shadow-[0_30px_80px_-15px_rgba(20,25,35,0.45)] border-4 border-[#2c303f] select-none flex flex-col font-sans relative overflow-hidden',
         className
@@ -119,9 +142,14 @@ export const PhoneMockup = ({ variant = 'home', className = '' }) => {
 
       {/* Screen Container */}
       <div className="relative w-full h-full rounded-[38px] overflow-hidden bg-black flex items-center justify-center">
-        {/* Phase 1: Power-on Boot Screen (1–1.5s) */}
-        {isBooting ? (
-          <div className="absolute inset-0 bg-[#0a0d14] flex flex-col items-center justify-center space-y-4 z-20 transition-opacity duration-500">
+        {/* Phase 0: Standby screen before scrolling into view */}
+        {bootState === 'idle' && (
+          <div className="absolute inset-0 bg-[#0a0d14] flex flex-col items-center justify-center" />
+        )}
+
+        {/* Phase 1: Power-on Boot Screen (1.3s) triggered when scrolled into view */}
+        {bootState === 'booting' && (
+          <div className="absolute inset-0 bg-[#0a0d14] flex flex-col items-center justify-center space-y-4 z-20 transition-opacity duration-500 animate-fadeIn">
             <div className="p-4 rounded-3xl bg-white/5 border border-white/10 animate-pulse shadow-xl">
               <img
                 src="/lumos logo-title.png"
@@ -134,8 +162,10 @@ export const PhoneMockup = ({ variant = 'home', className = '' }) => {
               <span>Starting System...</span>
             </div>
           </div>
-        ) : (
-          /* Phase 2: Live App Screen (Perfect Center Alignment) */
+        )}
+
+        {/* Phase 2: Live App Screen (Perfect Center Alignment) */}
+        {bootState === 'ready' && (
           <div className="w-full h-full flex items-center justify-center bg-black animate-fadeIn">
             <img
               src="/lumos_app_preview.png"

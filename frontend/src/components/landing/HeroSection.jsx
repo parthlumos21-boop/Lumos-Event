@@ -29,13 +29,27 @@ export const HeroSection = ({ onOpenQRModal }) => {
   return (
     <section
       id="home"
-      className="w-full bg-white select-none relative pt-2 pb-16 sm:pb-24 overflow-hidden"
+      className="w-full bg-white select-none relative pt-2 pb-16 sm:pb-24 overflow-x-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-8 sm:space-y-12">
+      {/* Desktop Architectural Building Diagonal Overlay (Starts top-right, extends down diagonally behind phone's right side) */}
+      <div className="hidden lg:block absolute right-[-20px] xl:right-0 top-4 xl:top-0 w-[54vw] xl:w-[50vw] max-w-[880px] pointer-events-none z-0 select-none">
+        <img
+          src="/modern_architectural_building.png"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/smart_home_hero.png';
+          }}
+          alt="Lumos Architectural Automation"
+          className="w-full h-auto object-contain opacity-75 xl:opacity-80 [mask-image:linear-gradient(to_bottom,black_45%,rgba(0,0,0,0.5)_75%,transparent_100%)] drop-shadow-[0_20px_40px_rgba(47,118,127,0.06)]"
+        />
+      </div>
+
+      {/* 1 & 2: Top Hero Content (Navbar & 2-Column Grid) in max-w-7xl */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-8 sm:space-y-12 relative z-10">
         {/* 1. In-Page Top Navbar */}
         <LandingNavbar onOpenQRModal={onOpenQRModal} />
 
-        {/* 2. Top Hero Content: 2-Column Grid with Headline on Left and Image-2 on Right */}
+        {/* 2. Top Hero Content: 2-Column Grid with Headline on Left and Mobile Image-2 fallback */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pt-4 sm:pt-8">
           {/* Left Column: Heading, Subhead, CTA Buttons */}
           <div className="lg:col-span-7 space-y-6 text-left">
@@ -51,16 +65,18 @@ export const HeroSection = ({ onOpenQRModal }) => {
 
             {/* Action Buttons: Primary Lumos Teal "Get Started" + White "Permanent QR Code" Dropdown */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <LumosButton
-                variant="primary"
-                size="lg"
-                onClick={() => navigate('/form')}
-              >
-                {landingContent.hero.getStartedText}
-              </LumosButton>
+              <div data-magnetic>
+                <LumosButton
+                  variant="primary"
+                  size="lg"
+                  onClick={() => navigate('/form')}
+                >
+                  {landingContent.hero.getStartedText}
+                </LumosButton>
+              </div>
 
               {/* Permanent QR Code Dropdown Button */}
-              <div className="relative" ref={dropdownRef}>
+              <div className="relative" ref={dropdownRef} data-magnetic>
                 <LumosButton
                   variant="white"
                   size="lg"
@@ -123,76 +139,78 @@ export const HeroSection = ({ onOpenQRModal }) => {
             </div>
           </div>
 
-          {/* Right Column: Image-2 Smart Home Ecosystem Illustration with Transparent PNG & JPG Fallback */}
+          {/* Right Column: Clearance on Desktop (since absolute overlay spans diagonally) & Natural flow on Mobile/Tablet */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative max-w-[400px] sm:max-w-[440px] w-full">
+            <div className="lg:hidden relative max-w-[420px] w-full" data-magnetic>
               <img
-                src="/smart_home_hero.png"
+                src="/modern_architectural_building.png"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = '/smart_home_hero.jpg';
+                  e.currentTarget.src = '/smart_home_hero.png';
                 }}
-                alt="Lumos Smart Home Ecosystem"
-                className="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(47,118,127,0.14)] transition-transform duration-500 hover:scale-[1.02]"
+                alt="Lumos Architectural Automation"
+                className="w-full h-auto object-contain drop-shadow-[0_20px_40px_rgba(47,118,127,0.12)]"
               />
             </div>
           </div>
         </div>
+      </div>
 
-        {/* 3. Lower Zone: Centered Phone with Image-2, Wave, Chips & Symmetrically Balanced "Easy control" */}
-        <div className="relative w-full pt-16 sm:pt-24 pb-20 sm:pb-32 flex flex-col items-center justify-center overflow-hidden">
-          {/* Giant "Easy Control" Typography matching exact reference image */}
-          <div className="absolute -bottom-4 sm:-bottom-8 md:-bottom-10 left-1/2 -translate-x-1/2 select-none pointer-events-none whitespace-nowrap z-0 w-full text-center">
-            <span className="text-[105px] sm:text-[160px] md:text-[205px] lg:text-[245px] xl:text-[280px] font-bold text-[#1b1d26] tracking-[-0.04em] leading-none inline-block">
-              Easy Control
-            </span>
+      {/* 3. Lower Zone: FULL BROWSER-WIDTH CONTAINER with Elevated "Easy Control" & Phone Mockup */}
+      <div className="w-full relative pt-14 sm:pt-20 pb-28 sm:pb-36 md:pb-44 lg:pb-48 flex flex-col items-center justify-center overflow-hidden">
+        {/* Full Browser-Width Giant "Easy Control" Typography (Elevated, 100% visible, zero bottom clipping) */}
+        <div className="absolute bottom-6 sm:bottom-10 md:bottom-14 lg:bottom-16 left-0 right-0 w-full text-center pointer-events-none select-none z-0 whitespace-nowrap">
+          <span className="text-[11.5vw] max-text-[220px] font-bold text-[#1b1d26] tracking-[-0.04em] leading-none inline-block">
+            Easy Control
+          </span>
+        </div>
+
+        {/* Mobile/Tablet Chip Wrap Row (<1024px) */}
+        <div className="lg:hidden flex flex-wrap items-center justify-center gap-2.5 mb-8 z-10 w-full px-4">
+          <FeatureChip icon="Thermometer" label={"Temperature\ncontrol"} />
+          <FeatureChip icon="ShieldCheck" label={"Alarm\nsystem"} />
+          <FeatureChip icon="Sun" label={"Smart\nspotlights"} />
+          <FeatureChip icon="Flame" label={"Smoke\ndetector"} />
+        </div>
+
+        {/* Centered Phone Mockup with Desktop Floating Chips (Overlaps building's lower-left edge) */}
+        <div className="relative z-10 flex items-center justify-center">
+          {/* Top-Left: Temperature control */}
+          <div className="hidden lg:block absolute top-[20%] -left-[180px] z-20" data-magnetic>
+            <FeatureChip icon="Thermometer" label={"Temperature\ncontrol"} />
           </div>
 
-          {/* Mobile/Tablet Chip Wrap Row (<1024px) */}
-          <div className="lg:hidden flex flex-wrap items-center justify-center gap-2.5 mb-8 z-10 w-full px-2">
-            <FeatureChip icon="Thermometer" label={"Climate\ncontrol"} />
-            <FeatureChip icon="ShieldCheck" label={"Security\nsystem"} />
-            <FeatureChip icon="Sun" label={"Smart\nlighting"} />
+          {/* Bottom-Left: Smart spotlights */}
+          <div className="hidden lg:block absolute bottom-[26%] -left-[220px] z-20" data-magnetic>
+            <FeatureChip icon="Sun" label={"Smart\nspotlights"} />
+          </div>
+
+          {/* Top-Right: Alarm system */}
+          <div className="hidden lg:block absolute top-[20%] -right-[180px] z-20" data-magnetic>
+            <FeatureChip icon="ShieldCheck" label={"Alarm\nsystem"} />
+          </div>
+
+          {/* Bottom-Right: Smoke detector */}
+          <div className="hidden lg:block absolute bottom-[26%] -right-[210px] z-20" data-magnetic>
             <FeatureChip icon="Flame" label={"Smoke\ndetector"} />
           </div>
 
-          {/* Centered Phone Mockup with Desktop Floating Chips */}
-          <div className="relative z-10 flex items-center justify-center">
-            {/* Top-Left: Climate control */}
-            <div className="hidden lg:block absolute top-[20%] -left-[180px] z-20">
-              <FeatureChip icon="Thermometer" label={"Climate\ncontrol"} />
-            </div>
-
-            {/* Bottom-Left: Smart lighting */}
-            <div className="hidden lg:block absolute bottom-[26%] -left-[220px] z-20">
-              <FeatureChip icon="Sun" label={"Smart\nlighting"} />
-            </div>
-
-            {/* Top-Right: Security system */}
-            <div className="hidden lg:block absolute top-[20%] -right-[180px] z-20">
-              <FeatureChip icon="ShieldCheck" label={"Security\nsystem"} />
-            </div>
-
-            {/* Bottom-Right: Smoke detector */}
-            <div className="hidden lg:block absolute bottom-[26%] -right-[210px] z-20">
-              <FeatureChip icon="Flame" label={"Smoke\ndetector"} />
-            </div>
-
-            {/* Thin Lumos Teal Sine Wave Line crossing across the section & phone */}
-            <div className="absolute -top-12 sm:-top-16 left-1/2 -translate-x-1/2 w-[700px] sm:w-[950px] lg:w-[1200px] pointer-events-none z-20">
-              <svg viewBox="0 0 1200 240" fill="none" className="w-full overflow-visible opacity-90">
-                <path
-                  d="M -60,140 C 200,160 320,30 520,120 C 660,180 740,20 860,110 C 980,200 1100,100 1260,130"
-                  stroke="#2f767f"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-
-            {/* Smartphone Mockup displaying exact Image-2 screenshot */}
+          {/* Smartphone Mockup with Scroll-Triggered Boot Sequence */}
+          <div data-magnetic>
             <PhoneMockup variant="home" />
           </div>
+        </div>
+
+        {/* Thin Teal Sine Wave Line crossing across Easy Control & Phone bottom */}
+        <div className="absolute bottom-10 sm:bottom-14 md:bottom-20 left-0 right-0 w-full pointer-events-none z-20 overflow-hidden">
+          <svg viewBox="0 0 1400 200" fill="none" className="w-full h-auto overflow-visible opacity-90">
+            <path
+              d="M -40,140 C 140,130 280,145 420,135 C 510,128 590,132 660,140 C 700,145 730,120 755,70 C 780,15 840,10 890,55 C 940,95 990,145 1100,138 C 1210,130 1310,115 1440,90"
+              stroke="#2f767f"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+          </svg>
         </div>
       </div>
     </section>
