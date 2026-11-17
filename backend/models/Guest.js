@@ -24,10 +24,17 @@ const guestSchema = new mongoose.Schema({
     comments: { type: String }
   },
   createdBy: {
-    userId: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
-    name: { type: String, default: 'Mock Employee' },
-    email: { type: String, default: 'employee@lumossolution.com' }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    name: { type: String, default: 'Admin' },
+    email: { type: String, default: 'admin@lumossolution.com' },
+    role: { type: String, default: 'admin' }
+  },
+  updatedBy: {
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    name: { type: String },
+    email: { type: String },
+    role: { type: String }
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Guest', guestSchema, 'office_event_guests');
+module.exports = mongoose.model('Guest', guestSchema, 'lumos_event');

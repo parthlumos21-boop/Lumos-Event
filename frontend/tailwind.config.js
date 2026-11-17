@@ -13,7 +13,7 @@ export default {
         secondary: '#24363f',
       },
       fontFamily: {
-        sans: ['"Switzer"', '"Mona Sans"', '-apple-system', 'sans-serif'],
+        sans: ['"Inter Tight"', '"Inter"', '"Switzer"', '-apple-system', 'sans-serif'],
         mono: ['"Geist Mono"', 'monospace'],
         serif: ['"Instrument Serif"', 'serif'],
       }
