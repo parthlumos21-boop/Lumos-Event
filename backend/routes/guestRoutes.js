@@ -16,6 +16,7 @@ router.delete('/batch', verifyToken, requireRole('admin'), guestController.delet
 // Single Guest Profile, Audit Logs & Business Activities
 router.get('/:id', verifyToken, guestController.getGuestById);
 router.put('/:id', verifyToken, guestController.updateGuest);
+router.put('/:id/staff-rating', verifyToken, guestController.updateStaffRating);
 router.delete('/:id', verifyToken, requireRole('admin'), guestController.deleteGuest);
 
 router.get('/:id/audit-logs', verifyToken, guestController.getGuestAuditLogs);

@@ -16,6 +16,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showCelebration, setShowCelebration] = useState(true);
   const [gifKey, setGifKey] = useState(Date.now());
+  const [customInterest, setCustomInterest] = useState('');
 
   useEffect(() => {
     if (submitStatus === 'success') {
@@ -34,6 +35,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
       relationship: '',
       interests: [],
       rating: 0,
+      staffRating: 0,
       liked: [],
       comments: ''
     }
@@ -45,6 +47,14 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
     setSubmitStatus('loading');
     setErrorMessage('');
     try {
+      const finalInterests = [...(data.interests || [])];
+      if (finalInterests.includes('Other')) {
+        const withoutOther = finalInterests.filter((i) => i !== 'Other');
+        if (customInterest && customInterest.trim().length > 0) {
+          withoutOther.push(customInterest.trim());
+        }
+        data.interests = withoutOther;
+      }
       await axiosClient.post('/guests', data);
       setSubmitStatus('success');
     } catch (error) {
@@ -60,9 +70,11 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
       relationship: '',
       interests: [],
       rating: 0,
+      staffRating: 0,
       liked: [],
       comments: ''
     });
+    setCustomInterest('');
     setSubmitStatus('idle');
   };
 
@@ -240,7 +252,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                             type="button"
                             onClick={() => field.onChange(opt)}
                             className={clsx(
-                              'px-4 py-2.5 rounded-xl border text-sm font-sans transition-all text-left flex items-center justify-between cursor-pointer grow focus:outline-none focus:ring-2 focus:ring-[#2f767f]/30',
+                              'px-4 py-2.5 rounded-xl border text-sm font-sans transition-all text-center flex items-center justify-center cursor-pointer grow focus:outline-none focus:ring-2 focus:ring-[#2f767f]/30 relative',
                               isSelected
                                 ? 'bg-[#2f767f] border-[#2f767f] text-white font-semibold shadow-xs'
                                 : 'bg-white border-gray-300 hover:border-[#2f767f]/50 hover:bg-gray-50 text-gray-700'
@@ -287,39 +299,62 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                 name="interests"
                 control={control}
                 render={({ field }) => (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-                    {[
-                      'Home Automation',
-                      'Lighting & Dimming',
-                      'Home Theater',
-                      'Audio & Visuals',
-                      'Security & Surveillance',
-                      'Building / Office Automation',
-                      'Just Visiting'
-                    ].map((opt) => {
-                      const isSelected = field.value.includes(opt);
-                      return (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => {
-                            if (isSelected) {
-                              field.onChange(field.value.filter((v) => v !== opt));
-                            } else {
-                              field.onChange([...field.value, opt]);
-                            }
-                          }}
-                          className={clsx(
-                            'px-3.5 py-2.5 rounded-full border transition-all text-xs sm:text-sm font-sans focus-visible:ring-2 focus-visible:ring-[#2f767f] text-center flex items-center justify-center cursor-pointer',
-                            isSelected
-                              ? 'bg-[#2f767f] border-[#2f767f] text-white font-semibold shadow-xs'
-                              : 'bg-white border-gray-300 hover:border-[#2f767f]/50 text-gray-700'
-                          )}
-                        >
-                          {opt}
-                        </button>
-                      );
-                    })}
+                  <div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                      {[
+                        'Home Automation',
+                        'Lighting & Dimming',
+                        'Home Theater',
+                        'Audio & Visuals',
+                        'Security & Surveillance',
+                        'Building / Office Automation',
+                        'Just Visiting',
+                        'Other'
+                      ].map((opt) => {
+                        const isSelected = field.value.includes(opt);
+                        return (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() => {
+                              if (isSelected) {
+                                field.onChange(field.value.filter((v) => v !== opt));
+                              } else {
+                                field.onChange([...field.value, opt]);
+                              }
+                            }}
+                            className={clsx(
+                              'px-3.5 py-2.5 rounded-full border transition-all text-xs sm:text-sm font-sans focus-visible:ring-2 focus-visible:ring-[#2f767f] text-center flex items-center justify-center cursor-pointer',
+                              isSelected
+                                ? 'bg-[#2f767f] border-[#2f767f] text-white font-semibold shadow-xs'
+                                : 'bg-white border-gray-300 hover:border-[#2f767f]/50 text-gray-700'
+                            )}
+                          >
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Custom Interest Input when Other is selected */}
+                    {field.value.includes('Other') && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        className="mt-4 pt-3 border-t border-gray-200"
+                      >
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">
+                          Specify Custom Area of Interest
+                        </label>
+                        <input
+                          type="text"
+                          value={customInterest}
+                          onChange={(e) => setCustomInterest(e.target.value)}
+                          placeholder="e.g. Solar Automation, Smart Glass, Acoustic Paneling..."
+                          className="w-full px-4 py-2.5 rounded-xl border border-[#2f767f] bg-white text-[#2f767f] placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#2f767f] font-sans text-sm"
+                        />
+                      </motion.div>
+                    )}
                   </div>
                 )}
               />
@@ -332,29 +367,61 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                   Event Feedback
                 </h2>
 
-                <div className="mb-6">
-                  <h3 className="font-medium text-sm mb-3 text-gray-700 font-sans">How Was Your Visit?</h3>
-                  <Controller
-                    name="rating"
-                    control={control}
-                    render={({ field }) => (
-                      <div className="flex gap-2">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <button
-                            key={star}
-                            type="button"
-                            onClick={() => field.onChange(star)}
-                            className={clsx(
-                              'text-4xl transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded cursor-pointer',
-                              field.value >= star ? 'text-amber-400' : 'text-gray-300 hover:text-gray-400'
-                            )}
-                          >
-                            ★
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  />
+                {/* Side-by-side ratings row: Left: Visit, Right: Staff */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                  {/* Left: How Was Your Visit? */}
+                  <div>
+                    <h3 className="font-medium text-sm mb-3 text-gray-700 font-sans">How Was Your Visit?</h3>
+                    <Controller
+                      name="rating"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="flex gap-2">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => field.onChange(star)}
+                              className={clsx(
+                                'text-4xl transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded cursor-pointer',
+                                field.value >= star ? 'text-amber-400' : 'text-gray-300 hover:text-gray-400'
+                              )}
+                              title={`Rate visit ${star} stars`}
+                            >
+                              ★
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    />
+                  </div>
+
+                  {/* Right: How Was Staff? */}
+                  <div>
+                    <h3 className="font-medium text-sm mb-3 text-gray-700 font-sans">How Was Staff?</h3>
+                    <Controller
+                      name="staffRating"
+                      control={control}
+                      render={({ field }) => (
+                        <div className="flex gap-2">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => field.onChange(star)}
+                              className={clsx(
+                                'text-4xl transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded cursor-pointer',
+                                field.value >= star ? 'text-amber-400' : 'text-gray-300 hover:text-gray-400'
+                              )}
+                              title={`Rate staff ${star} stars`}
+                            >
+                              ★
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
 

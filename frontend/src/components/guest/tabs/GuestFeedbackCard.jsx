@@ -9,11 +9,13 @@ const RATING_LABELS = {
 };
 
 const GuestFeedbackCard = ({ guest, onSave, saving }) => {
-  const [editingField, setEditingField] = useState(null); // 'rating' | 'comments' | 'all' | null
+  const [editingField, setEditingField] = useState(null); // 'staffRating' | 'rating' | 'comments' | 'all' | null
   const [hoverRating, setHoverRating] = useState(0);
+  const [hoverStaffRating, setHoverStaffRating] = useState(0);
   const [saveIndicator, setSaveIndicator] = useState(false);
 
   const [formData, setFormData] = useState({
+    staffRating: 5,
     rating: 5,
     comments: ''
   });
@@ -23,7 +25,8 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
     if (guest) {
       const fb = guest.feedback || {};
       setFormData({
-        rating: typeof fb.rating === 'number' ? fb.rating : (fb.rating ? Number(fb.rating) : 0),
+        staffRating: typeof fb.staffRating === 'number' ? fb.staffRating : (fb.staffRating ? Number(fb.staffRating) : (fb.rating ? Number(fb.rating) : 5)),
+        rating: typeof fb.rating === 'number' ? fb.rating : (fb.rating ? Number(fb.rating) : 5),
         comments: fb.comments || ''
       });
     }
@@ -33,6 +36,9 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
     const payload = {
       feedback: {
         rating: Number(formData.rating) || 0,
+        staffRating: Number(formData.staffRating) || 0,
+        feedbackType: 'staff-rating',
+        'feedback-type': 'staff-rating',
         comments: formData.comments.trim(),
         liked: guest?.feedback?.liked || []
       },
@@ -53,7 +59,8 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
     if (guest) {
       const fb = guest.feedback || {};
       setFormData({
-        rating: typeof fb.rating === 'number' ? fb.rating : (fb.rating ? Number(fb.rating) : 0),
+        staffRating: typeof fb.staffRating === 'number' ? fb.staffRating : (fb.staffRating ? Number(fb.staffRating) : (fb.rating ? Number(fb.rating) : 5)),
+        rating: typeof fb.rating === 'number' ? fb.rating : (fb.rating ? Number(fb.rating) : 5),
         comments: fb.comments || ''
       });
     }
@@ -71,6 +78,7 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
 
   const isEditing = (field) => editingField === 'all' || editingField === field;
 
+  const currentStaffRating = formData.staffRating;
   const currentRating = formData.rating;
 
   return (
@@ -129,8 +137,122 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
 
       {/* Fields */}
       <div className="space-y-5 text-xs">
-        {/* Row 1: How Was Your Visit? */}
+        {/* Row 1: How was Staff? (Appears FIRST before How Was Your Visit) */}
         <div className="flex items-start gap-3 group/field relative">
+          <div className="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center shrink-0 text-[#007788] mt-0.5">
+            <i className="fa-solid fa-star text-sm" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] text-gray-400 font-medium block">How was Staff?</span>
+              {!isEditing('staffRating') && (
+                <button
+                  type="button"
+                  onClick={() => setEditingField('staffRating')}
+                  className="opacity-0 group-hover/field:opacity-100 transition-opacity text-gray-400 hover:text-[#007788] cursor-pointer"
+                  title="Click to change staff rating"
+                >
+                  <i className="fa-solid fa-pen text-[10px]" />
+                </button>
+              )}
+            </div>
+
+            {!isEditing('staffRating') ? (
+              <div
+                onClick={() => setEditingField('staffRating')}
+                className="flex items-center gap-3 mt-1 cursor-pointer group/stars"
+                title="Click to edit staff rating"
+              >
+                <div className="flex items-center gap-1 text-base">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                      key={star}
+                      className={
+                        star <= currentStaffRating
+                          ? 'text-amber-400 drop-shadow-2xs'
+                          : 'text-gray-200'
+                      }
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+                <span className="font-bold text-gray-900 text-xs">
+                  {currentStaffRating > 0 ? (RATING_LABELS[currentStaffRating] || `${currentStaffRating}/5`) : 'No rating recorded'}
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center flex-wrap gap-2 mt-1.5">
+                <div className="flex items-center gap-1 text-xl select-none">
+                  {[1, 2, 3, 4, 5].map((star) => {
+                    const active = (hoverStaffRating || currentStaffRating) >= star;
+                    return (
+                      <button
+                        key={star}
+                        type="button"
+                        onMouseEnter={() => setHoverStaffRating(star)}
+                        onMouseLeave={() => setHoverStaffRating(0)}
+                        onClick={() => {
+                          setFormData((prev) => ({ ...prev, staffRating: star }));
+                          if (editingField === 'staffRating') {
+                            const payload = {
+                              feedback: {
+                                rating: formData.rating,
+                                staffRating: star,
+                                feedbackType: 'staff-rating',
+                                'feedback-type': 'staff-rating',
+                                comments: formData.comments.trim(),
+                                liked: guest?.feedback?.liked || []
+                              },
+                              remarks: `Updated staff rating to ${star} stars`
+                            };
+                            onSave(payload);
+                            setEditingField(null);
+                            setSaveIndicator(true);
+                            setTimeout(() => setSaveIndicator(false), 3000);
+                          }
+                        }}
+                        className={`transition-transform hover:scale-125 cursor-pointer ${
+                          active ? 'text-amber-400 drop-shadow-xs' : 'text-gray-200'
+                        }`}
+                        title={`Rate staff ${star} star${star > 1 ? 's' : ''}`}
+                      >
+                        ★
+                      </button>
+                    );
+                  })}
+                </div>
+                <span className="text-xs font-semibold text-gray-600 ml-1">
+                  {RATING_LABELS[hoverStaffRating || currentStaffRating] || ''}
+                </span>
+
+                {editingField === 'staffRating' && (
+                  <div className="flex items-center gap-1 ml-auto">
+                    <button
+                      type="button"
+                      onClick={() => handleSaveField('staffRating')}
+                      className="p-1 bg-[#007788] text-white rounded-lg hover:bg-[#006674] cursor-pointer"
+                      title="Save (or press Enter)"
+                    >
+                      <i className="fa-solid fa-check text-[11px]" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancelField}
+                      className="p-1 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer"
+                      title="Cancel"
+                    >
+                      <i className="fa-solid fa-xmark text-[11px]" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Row 2: How Was Your Visit? */}
+        <div className="flex items-start gap-3 group/field relative pt-2 border-t border-gray-100/80">
           <div className="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center shrink-0 text-[#007788] mt-0.5">
             <i className="fa-solid fa-star text-sm" />
           </div>
@@ -187,14 +309,16 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
                         onClick={() => {
                           setFormData((prev) => ({ ...prev, rating: star }));
                           if (editingField === 'rating') {
-                            // Instant auto-save or let user press Enter / click check
                             const payload = {
                               feedback: {
                                 rating: star,
+                                staffRating: formData.staffRating,
+                                feedbackType: 'staff-rating',
+                                'feedback-type': 'staff-rating',
                                 comments: formData.comments.trim(),
                                 liked: guest?.feedback?.liked || []
                               },
-                              remarks: `Updated rating to ${star} stars`
+                              remarks: `Updated visit rating to ${star} stars`
                             };
                             onSave(payload);
                             setEditingField(null);
@@ -241,7 +365,7 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
           </div>
         </div>
 
-        {/* Row 2: Comments / Suggestions */}
+        {/* Row 3: Comments / Suggestions */}
         <div className="flex items-start gap-3 group/field relative pt-2 border-t border-gray-100/80">
           <div className="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center shrink-0 text-[#007788] mt-0.5">
             <i className="fa-solid fa-comment-dots text-sm" />

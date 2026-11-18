@@ -190,9 +190,9 @@ export const HeroSection = ({ onOpenQRModal }) => {
             <FeatureChip icon="ShieldCheck" label={"Alarm\nsystem"} />
           </div>
 
-          {/* Bottom-Right: Smoke detector */}
+          {/* Bottom-Right: Access Control */}
           <div className="hidden lg:block absolute bottom-[26%] -right-[210px] z-20" data-magnetic>
-            <FeatureChip icon="Flame" label={"Smoke\ndetector"} />
+            <FeatureChip icon="Lock" label={"Access\nControl"} />
           </div>
 
           {/* Smartphone Mockup with Scroll-Triggered Boot Sequence */}

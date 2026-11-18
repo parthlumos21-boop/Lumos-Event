@@ -89,7 +89,7 @@ export const landingContent = {
   },
 
   devices: {
-    heading: 'Choose your devices',
+    heading: 'Our Services',
     subheading: 'Tailored automation modules engineered to integrate harmoniously into modern architecture.',
     items: [
       {
@@ -123,10 +123,10 @@ export const landingContent = {
         icon: 'Camera'
       },
       {
-        id: 'smoke',
-        name: 'Smoke detector',
-        desc: 'Dual-chamber photoelectric sensors with siren relay.',
-        icon: 'Flame'
+        id: 'access',
+        name: 'Access Control',
+        desc: 'Encrypted biometric verification, automated barriers, and credentials.',
+        icon: 'Lock'
       },
       {
         id: 'audio',

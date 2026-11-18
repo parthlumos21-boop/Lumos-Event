@@ -55,7 +55,7 @@ const LandingPage = () => {
       {/* 1. Hero Section matching Image-1 with Image-2 embedded in phone */}
       <HeroSection onOpenQRModal={() => setQrModalOpen(true)} />
 
-      {/* 2. Choose your devices Section matching Image-1 with Scroll Reveal */}
+      {/* 2. Our Services Section matching Image-1 with Scroll Reveal */}
       <ScrollReveal direction="up" delay={50}>
         <DevicesSection />
       </ScrollReveal>

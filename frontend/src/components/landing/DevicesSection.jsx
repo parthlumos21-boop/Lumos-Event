@@ -42,7 +42,7 @@ export const DevicesSection = () => {
         <ScrollReveal direction="up" delay={0}>
           <div className="flex items-center justify-between gap-4">
             <Heading level={2} size="section" className="text-[#1b1d26]">
-              Choose your devices
+              Our Services
             </Heading>
 
             {/* Round Arrow Buttons matching Image-1 */}

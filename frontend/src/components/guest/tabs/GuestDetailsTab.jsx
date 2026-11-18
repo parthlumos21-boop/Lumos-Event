@@ -135,7 +135,11 @@ const GuestDetailsTab = ({ guest, onSave, saving, successMsg, errorMsg }) => {
       },
       feedback: {
         rating: formData.rating,
-        comments: formData.comments.trim()
+        staffRating: guest?.feedback?.staffRating || 0,
+        feedbackType: guest?.feedback?.feedbackType || 'staff-rating',
+        'feedback-type': 'staff-rating',
+        comments: formData.comments.trim(),
+        liked: guest?.feedback?.liked || []
       },
       remarks: formData.remarks.trim() || 'Updated via Guest Details form'
     };

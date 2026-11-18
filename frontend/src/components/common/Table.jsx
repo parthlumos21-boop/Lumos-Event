@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Search,
   ArrowUpDown,
@@ -15,6 +16,7 @@ import {
   Check
 } from 'lucide-react';
 import clsx from 'clsx';
+import { DASHBOARD_FILTER_MAP } from '../dashboard/GuestInsightsPanels';
 
 const Table = ({
   columns = [],
@@ -56,6 +58,39 @@ const Table = ({
 
   const filterRef = useRef(null);
   const dateRef = useRef(null);
+  const location = useLocation();
+
+  // Listen for filter parameters from URL / state (e.g. from Dashboard click-throughs)
+  useEffect(() => {
+    if (!location) return;
+    const searchParams = new URLSearchParams(location.search);
+    const qInterest = searchParams.get('interest');
+    const qRel = searchParams.get('relationship');
+
+    // 1. Sync Interests Filter
+    const stateInterests = location.state?.filterInterests;
+    if (stateInterests && Array.isArray(stateInterests) && stateInterests.length > 0) {
+      setSelectedInterests(stateInterests);
+      setCurrentPage(1);
+    } else if (qInterest) {
+      const mapped =
+        DASHBOARD_FILTER_MAP?.interests?.[qInterest] || [qInterest];
+      setSelectedInterests(mapped);
+      setCurrentPage(1);
+    }
+
+    // 2. Sync Relationships Filter
+    const stateRels = location.state?.filterRelationships;
+    if (stateRels && Array.isArray(stateRels) && stateRels.length > 0) {
+      setSelectedRelationships(stateRels);
+      setCurrentPage(1);
+    } else if (qRel) {
+      const mapped =
+        DASHBOARD_FILTER_MAP?.relationships?.[qRel] || [qRel];
+      setSelectedRelationships(mapped);
+      setCurrentPage(1);
+    }
+  }, [location, location.search, location.state]);
 
   // Close popovers on click outside
   useEffect(() => {
@@ -1132,7 +1167,7 @@ const Table = ({
                       )}
                     </button>
                     <span className="text-xs font-mono font-medium text-gray-400">
-                      #{serialNo}
+                      {serialNo}
                     </span>
                     <div>
                       <h4

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axiosClient from '../../api/axiosClient';
 import Table from '../common/Table';
 import EditRecordModal from '../common/EditRecordModal';
 import { useAuth } from '../../context/AuthContext';
 import { Users, Star, RefreshCw, Calendar, Phone, Mail, Building, Plus } from 'lucide-react';
+import { DASHBOARD_FILTER_MAP } from '../dashboard/GuestInsightsPanels';
 
 const AdminGuests = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { role } = useAuth();
   const [guests, setGuests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +21,21 @@ const AdminGuests = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await axiosClient.get('/guests');
+      const searchParams = new URLSearchParams(location.search);
+      const params = {};
+      const qInterest = searchParams.get('interest');
+      const qRel = searchParams.get('relationship');
+
+      if (qInterest) {
+        const mapped = DASHBOARD_FILTER_MAP?.interests?.[qInterest] || [qInterest];
+        params.interest = mapped.join(',');
+      }
+      if (qRel) {
+        const mapped = DASHBOARD_FILTER_MAP?.relationships?.[qRel] || [qRel];
+        params.relationship = mapped.join(',');
+      }
+
+      const res = await axiosClient.get('/guests', { params });
       setGuests(res.data?.guests || []);
     } catch (err) {
       console.error('Error fetching guests:', err);
@@ -31,7 +47,7 @@ const AdminGuests = () => {
 
   useEffect(() => {
     fetchGuests();
-  }, []);
+  }, [location.search]);
 
   const handleUpdateSave = async (id, updatedFields) => {
     const res = await axiosClient.put(`/guests/${id}`, updatedFields);
@@ -153,6 +169,29 @@ const AdminGuests = () => {
           </span>
         ) : (
           <span className="text-xs text-gray-400">No</span>
+        );
+      }
+    },
+    {
+      key: 'createdBy.name',
+      label: 'Added By',
+      render: (row) => {
+        const creatorName = row.createdBy?.name || 'Admin';
+        const creatorRole = row.createdBy?.role || 'admin';
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full bg-[#31747d]/10 text-[#31747d] flex items-center justify-center font-bold text-[10px] shrink-0 font-mono">
+              {creatorName.charAt(0).toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <span className="font-semibold text-gray-900 block text-xs truncate max-w-[120px]">
+                {creatorName}
+              </span>
+              <span className="text-[10px] text-gray-400 capitalize block">
+                {creatorRole}
+              </span>
+            </div>
+          </div>
         );
       }
     },

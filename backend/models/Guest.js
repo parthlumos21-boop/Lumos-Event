@@ -20,6 +20,9 @@ const guestSchema = new mongoose.Schema({
   },
   feedback: {
     rating: { type: Number },
+    staffRating: { type: Number, default: 0 },
+    feedbackType: { type: String, default: 'staff-rating' },
+    'feedback-type': { type: String, default: 'staff-rating' },
     liked: [{ type: String }],
     comments: { type: String }
   },
@@ -36,5 +39,15 @@ const guestSchema = new mongoose.Schema({
     role: { type: String }
   }
 }, { timestamps: true });
+
+// Compound and multikey indexes for 500,000+ record scale
+guestSchema.index({ 'createdBy.userId': 1, createdAt: -1 });
+guestSchema.index({ 'createdBy.email': 1, createdAt: -1 });
+guestSchema.index({ relationship: 1 });
+guestSchema.index({ interests: 1 });
+guestSchema.index({ createdAt: -1 });
+guestSchema.index({ 'feedback.rating': 1 });
+guestSchema.index({ 'followUp.required': 1 });
+guestSchema.index({ 'guest.phone': 1 });
 
 module.exports = mongoose.model('Guest', guestSchema, 'lumos_event');

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Save, Phone, Mail, User as UserIcon, Star, MessageSquare } from 'lucide-react';
+import { X, Save, Phone, Mail, User as UserIcon, Star, MessageSquare, Eye, EyeOff, Lock } from 'lucide-react';
 import SearchableSelect from './SearchableSelect';
 
 const relationshipOptions = [
@@ -31,11 +31,13 @@ const departmentOptions = [
 
 const EditRecordModal = ({ isOpen, onClose, record, type = 'guest', onSave }) => {
   const [formData, setFormData] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (record) {
+      setShowPassword(false);
       if (type === 'guest') {
         const isStandardRel = relationshipOptions.some(r => r.value === record.relationship && r.value !== 'Other');
         const relValue = isStandardRel ? record.relationship : (record.relationship ? 'Other' : '');
@@ -56,7 +58,8 @@ const EditRecordModal = ({ isOpen, onClose, record, type = 'guest', onSave }) =>
           name: record.name || '',
           email: record.email || '',
           role: record.role || 'employee',
-          department: record.department || 'General'
+          department: record.department || 'General',
+          password: ''
         });
       }
       setError('');
@@ -85,6 +88,9 @@ const EditRecordModal = ({ isOpen, onClose, record, type = 'guest', onSave }) =>
           interests: formData.interests || [],
           feedback: {
             rating: Number(formData.rating) || 0,
+            staffRating: record.feedback?.staffRating || 0,
+            feedbackType: record.feedback?.feedbackType || 'staff-rating',
+            'feedback-type': 'staff-rating',
             liked: record.feedback?.liked || [],
             comments: formData.comments ? formData.comments.trim() : ''
           }
@@ -97,6 +103,9 @@ const EditRecordModal = ({ isOpen, onClose, record, type = 'guest', onSave }) =>
           role: (formData.role || 'employee').toLowerCase().trim(),
           department: (formData.department && formData.department.trim()) ? formData.department.trim() : 'General'
         };
+        if (formData.password && formData.password.trim().length > 0) {
+          payload.password = formData.password.trim();
+        }
         await onSave(record._id, payload);
       }
       onClose();
@@ -281,6 +290,31 @@ const EditRecordModal = ({ isOpen, onClose, record, type = 'guest', onSave }) =>
                     placeholder="Select department"
                     searchPlaceholder="Search department..."
                   />
+                </div>
+              </div>
+
+              {/* Password Field with Eye Icon Visibility Toggle */}
+              <div>
+                <label className="block font-semibold text-gray-700 mb-1">
+                  Password <span className="text-gray-400 font-normal text-[11px]">(Leave blank to keep current)</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.password || ''}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    placeholder="Enter new password to update..."
+                    className="w-full px-3 py-2 pr-10 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:border-[#31747d] text-xs font-sans"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+                    title={showPassword ? 'Hide password' : 'Show password'}
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                  </button>
                 </div>
               </div>
             </>

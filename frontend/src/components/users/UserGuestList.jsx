@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axiosClient from '../../api/axiosClient';
 import Table from '../common/Table';
 import EditRecordModal from '../common/EditRecordModal';
 import { useAuth } from '../../context/AuthContext';
 import { Users, Star, RefreshCw, Calendar, Phone, Mail, Building, Plus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { DASHBOARD_FILTER_MAP } from '../dashboard/GuestInsightsPanels';
 
 const UserGuestList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { role } = useAuth();
   const [guests, setGuests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +21,21 @@ const UserGuestList = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await axiosClient.get('/guests');
+      const searchParams = new URLSearchParams(location.search);
+      const params = {};
+      const qInterest = searchParams.get('interest');
+      const qRel = searchParams.get('relationship');
+
+      if (qInterest) {
+        const mapped = DASHBOARD_FILTER_MAP?.interests?.[qInterest] || [qInterest];
+        params.interest = mapped.join(',');
+      }
+      if (qRel) {
+        const mapped = DASHBOARD_FILTER_MAP?.relationships?.[qRel] || [qRel];
+        params.relationship = mapped.join(',');
+      }
+
+      const res = await axiosClient.get('/guests', { params });
       setGuests(res.data?.guests || []);
     } catch (err) {
       console.error('Error fetching guests:', err);
@@ -31,7 +47,7 @@ const UserGuestList = () => {
 
   useEffect(() => {
     fetchGuests();
-  }, []);
+  }, [location.search]);
 
   const handleUpdateSave = async (id, updatedFields) => {
     const res = await axiosClient.put(`/guests/${id}`, updatedFields);
