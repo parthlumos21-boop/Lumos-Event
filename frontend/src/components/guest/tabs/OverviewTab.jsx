@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import GuestInformationCard from './GuestInformationCard';
+import GuestFeedbackCard from './GuestFeedbackCard';
 import RecordInformationCard from './RecordInformationCard';
 import RecentActivitiesCard from './RecentActivitiesCard';
 import SystemHistoryCard from './SystemHistoryCard';
@@ -28,8 +29,14 @@ const OverviewTab = ({
         <RecordInformationCard guest={guest} />
       </div>
 
-      {/* Right Column (5 cols): Recent Activities & System History */}
+      {/* Right Column (5 cols): Feedback (Top), Recent Activities & System History */}
       <div className="lg:col-span-5 space-y-6">
+        <GuestFeedbackCard
+          guest={guest}
+          onSave={onSaveInline}
+          saving={saving}
+        />
+
         <RecentActivitiesCard
           activities={recentActivities}
           onNavigateActivities={() => onNavigateTab('activities')}

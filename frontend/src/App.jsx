@@ -64,6 +64,8 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route index element={<UserDashboard />} />
+            <Route path="dashboard" element={<UserDashboard />} />
             <Route path="all" element={<UserGuestList />} />
             <Route path="guests/:id" element={<GuestProfile portal="user" />} />
             <Route path="form" element={<ReusableEventForm portalType="user" />} />

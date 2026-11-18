@@ -125,14 +125,6 @@ const SystemHistoryCard = ({ auditLogs = [], onOpenFullAuditModal }) => {
           );
         })}
       </div>
-
-      {/* Audit Reassurance Green Banner */}
-      <div className="mt-4 p-3 bg-emerald-50/70 border border-emerald-200/70 rounded-2xl flex items-center gap-2.5 text-xs text-emerald-800">
-        <i className="fa-solid fa-circle-check text-emerald-600 text-sm shrink-0" />
-        <p className="text-[11px] font-medium leading-relaxed">
-          Complete audit trail is maintained for this record. You can always trace who made changes and when.
-        </p>
-      </div>
     </div>
   );
 };

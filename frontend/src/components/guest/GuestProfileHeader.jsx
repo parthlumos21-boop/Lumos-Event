@@ -26,15 +26,9 @@ const GuestProfileHeader = ({
           </div>
 
           <div className="space-y-1">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
-                {guestName}
-              </h1>
-              <span className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                Active
-              </span>
-            </div>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
+              {guestName}
+            </h1>
             <p className="text-xs text-gray-400 font-mono tracking-wider font-semibold">
               {guestIdCode}
             </p>

@@ -165,7 +165,7 @@ const UserGuestList = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => navigate('/users/form')}
             className="inline-flex items-center gap-2 px-4 py-2 bg-[#31747d] hover:bg-[#255b62] text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
@@ -177,10 +177,11 @@ const UserGuestList = () => {
           <button
             onClick={fetchGuests}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white border border-gray-200 hover:border-[#31747d] text-gray-700 hover:text-[#31747d] rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            title="Refresh Data"
+            aria-label="Refresh Data"
+            className="p-2.5 bg-white border border-gray-200 hover:border-[#31747d] text-gray-700 hover:text-[#31747d] rounded-full shadow-xs transition-colors cursor-pointer flex items-center justify-center shrink-0"
           >
-            <RefreshCw size={13} className={loading ? 'animate-spin text-[#31747d]' : ''} />
-            <span>Refresh</span>
+            <RefreshCw size={14} className={loading ? 'animate-spin text-[#31747d]' : ''} />
           </button>
         </div>
       </div>

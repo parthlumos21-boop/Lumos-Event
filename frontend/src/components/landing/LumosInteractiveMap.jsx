@@ -107,15 +107,17 @@ const LumosInteractiveMap = ({ children }) => {
       {apiKey && !mapError ? (
         <div ref={mapRef} className="w-full h-full" />
       ) : (
-        /* Zero-Config Interactive Dark Navigation Street Map Engine */
+        /* Zero-Config Interactive Dark Navigation Street Map Engine (Bottom clipped to hide 'Report a map error' bar) */
         <div className="relative w-full h-full overflow-hidden select-none">
           <iframe
             title="Lumos Location Map"
             src={`https://maps.google.com/maps?q=${LUMOS_COORDS.lat},${LUMOS_COORDS.lng}&z=${zoom}&output=embed&hl=en`}
-            className="w-full h-full border-0 filter invert-[90%] hue-rotate-180 contrast-[120%] brightness-[85%] saturate-[80%]"
+            className="w-full h-[calc(100%+38px)] -mb-[38px] border-0 filter invert-[90%] hue-rotate-180 contrast-[120%] brightness-[85%] saturate-[80%]"
             loading="lazy"
             allowFullScreen
           />
+          {/* Bottom clean edge shield */}
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#161d2d] to-transparent pointer-events-none z-10" />
 
           {/* Custom Pulsing Lumos Turquoise Radar Pin Beacon (Center Overlay) */}
           <div

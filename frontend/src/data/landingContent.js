@@ -23,7 +23,7 @@ export const landingContent = {
     h1Line2: 'living',
     subheadline: 'Beautifully connected. A premium architectural and technology experience.',
     getStartedText: 'Get Started',
-    qrButtonText: 'Permanent QR Code',
+    qrButtonText: 'Qr Code',
     photoAsset: '/lumos_lighting.jpg', // Architectural hero photo
     backgroundText: 'Easy control',
     chips: [

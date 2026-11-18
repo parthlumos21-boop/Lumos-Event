@@ -131,7 +131,7 @@ export const HeroSection = ({ onOpenQRModal }) => {
                       className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#1b1d26] hover:bg-[#2f767f]/10 hover:text-[#2f767f] transition-colors text-left cursor-pointer"
                     >
                       <FileText size={15} />
-                      <span>Open Registration Form Directly</span>
+                      <span>Event Form</span>
                     </button>
                   </div>
                 )}

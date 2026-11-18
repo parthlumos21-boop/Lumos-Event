@@ -47,7 +47,7 @@ export const LandingNavbar = ({ onOpenQRModal }) => {
           <img
             src={landingContent.brand.logo}
             alt={landingContent.brand.name}
-            className="h-9 sm:h-10 object-contain transition-transform group-hover:scale-105"
+            className="h-11 sm:h-12 md:h-13 object-contain transition-transform group-hover:scale-105"
           />
         </div>
 

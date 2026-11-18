@@ -178,26 +178,27 @@ const AdminGuests = () => {
         <div>
           <h1 className="text-3xl font-extrabold text-[#31747d] tracking-tight">Guests Directory</h1>
           <p className="text-sm text-gray-500 mt-1">
-            All guest records from MongoDB <span className="font-mono text-[#31747d]">lumos_event</span> collection in <span className="font-mono text-[#31747d]">LumosEvent</span> Database
+            View and manage guests registered for the Lumos event.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
-          <button
-            onClick={fetchGuests}
-            disabled={loading}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 hover:border-[#31747d] text-gray-700 hover:text-[#31747d] rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
-          >
-            <RefreshCw size={14} className={loading ? 'animate-spin text-[#31747d]' : ''} />
-            <span>Refresh Data</span>
-          </button>
-
+        <div className="flex items-center gap-2.5 self-start sm:self-auto">
           <button
             onClick={() => navigate('/admin/form')}
             className="inline-flex items-center gap-2 px-4 py-2 bg-[#31747d] hover:bg-[#255b62] text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
           >
             <Plus size={14} />
             <span>Add Guest</span>
+          </button>
+
+          <button
+            onClick={fetchGuests}
+            disabled={loading}
+            title="Refresh Data"
+            aria-label="Refresh Data"
+            className="p-2.5 bg-white border border-gray-200 hover:border-[#31747d] text-gray-700 hover:text-[#31747d] rounded-full shadow-xs transition-colors cursor-pointer flex items-center justify-center shrink-0"
+          >
+            <RefreshCw size={14} className={loading ? 'animate-spin text-[#31747d]' : ''} />
           </button>
         </div>
       </div>

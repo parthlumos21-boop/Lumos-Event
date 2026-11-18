@@ -18,7 +18,7 @@ const AVAILABLE_INTERESTS = [
   'Lighting',
   'Automation',
   'Audio & Visuals',
-  'Security',
+  'Security & Surveillance',
   'Home Theater',
   'Smart Locks',
   'HVAC'
@@ -260,7 +260,7 @@ const GuestDetailsTab = ({ guest, onSave, saving, successMsg, errorMsg }) => {
         </div>
       </div>
 
-      {/* Areas of Interest Section */}
+      {/* Areas of Interest Section - Shows only selected tabs stored in MongoDB */}
       <div className="bg-white border border-gray-200/90 rounded-3xl p-6 shadow-xs space-y-4">
         <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
           <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
@@ -272,24 +272,49 @@ const GuestDetailsTab = ({ guest, onSave, saving, successMsg, errorMsg }) => {
           </span>
         </div>
 
-        <div className="flex flex-wrap gap-2.5">
-          {AVAILABLE_INTERESTS.map((item) => {
-            const isSelected = formData.interests.includes(item);
-            return (
-              <button
-                type="button"
+        <div className="flex flex-wrap items-center gap-2.5">
+          {formData.interests && formData.interests.length > 0 ? (
+            formData.interests.map((item) => (
+              <span
                 key={item}
-                onClick={() => handleInterestToggle(item)}
-                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer select-none ${
-                  isSelected
-                    ? 'bg-[#007788] text-white shadow-2xs'
-                    : 'bg-gray-50 text-gray-700 border border-gray-200 hover:border-[#007788]'
-                }`}
+                className="px-4 py-2 rounded-full text-xs font-semibold bg-[#007788] text-white shadow-2xs inline-flex items-center gap-2"
               >
-                {item}
-              </button>
-            );
-          })}
+                <span>{item}</span>
+                <button
+                  type="button"
+                  onClick={() => handleInterestToggle(item)}
+                  className="text-white/80 hover:text-white transition-opacity cursor-pointer"
+                  title={`Remove ${item}`}
+                >
+                  <i className="fa-solid fa-xmark text-[11px]" />
+                </button>
+              </span>
+            ))
+          ) : (
+            <p className="text-xs text-gray-400 italic">No areas of interest selected.</p>
+          )}
+
+          {/* Quick Add Selector if some available interests are not yet selected */}
+          {AVAILABLE_INTERESTS.filter((i) => !formData.interests.includes(i)).length > 0 && (
+            <div className="relative inline-block">
+              <select
+                value=""
+                onChange={(e) => {
+                  if (e.target.value) {
+                    handleInterestToggle(e.target.value);
+                  }
+                }}
+                className="px-3.5 py-1.5 bg-gray-50 hover:bg-gray-100 border border-dashed border-[#007788]/60 text-[#007788] text-xs font-semibold rounded-full cursor-pointer focus:outline-none"
+              >
+                <option value="">+ Add Interest...</option>
+                {AVAILABLE_INTERESTS.filter((i) => !formData.interests.includes(i)).map((i) => (
+                  <option key={i} value={i}>
+                    {i}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </div>
 
@@ -400,11 +425,8 @@ const GuestDetailsTab = ({ guest, onSave, saving, successMsg, errorMsg }) => {
       <div className="bg-white border border-gray-200/90 rounded-3xl p-6 shadow-xs space-y-3">
         <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
           <i className="fa-solid fa-comment-dots text-[#007788]" />
-          <h3 className="text-sm font-bold text-gray-900">Reason for Change / Audit Remarks</h3>
+          <h3 className="text-sm font-bold text-gray-900">Audit Remarks</h3>
         </div>
-        <p className="text-[11px] text-gray-500">
-          Optionally record a note explaining why this profile was modified. This note will appear permanently in the System History audit log.
-        </p>
         <input
           type="text"
           value={formData.remarks}

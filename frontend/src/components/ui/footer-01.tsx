@@ -227,14 +227,10 @@ export default function Footer01() {
           </nav>
         </div>
 
-        {/* Legal & Status Bar */}
+        {/* Legal Bar */}
         <div className="mt-16 flex flex-col-reverse items-start justify-between gap-6 border-t border-gray-100 py-8 sm:flex-row sm:items-center">
           <div className="flex flex-col gap-3 text-sm text-[#6b7078] sm:flex-row sm:items-center sm:gap-6">
             <span>© {new Date().getFullYear()} Lumos Event & Automation</span>
-            <div className="inline-flex items-center gap-2 text-xs text-[#2f767f] font-medium">
-              <StatusDot tone="success" pulse />
-              All systems operational
-            </div>
           </div>
           <div className="flex items-center gap-1">
             {socials.map(({ name, icon: Icon }) => (

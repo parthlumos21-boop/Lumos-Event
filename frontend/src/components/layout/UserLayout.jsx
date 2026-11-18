@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Users, FileText, LogOut, Menu, X, QrCode } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  LogOut,
+  Menu,
+  X,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  QrCode
+} from 'lucide-react';
 import clsx from 'clsx';
 import QRCodeModal from '../common/QRCodeModal';
 
@@ -9,8 +20,16 @@ const UserLayout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
+
+  // Employee navigation items
+  const navItems = [
+    { to: '/users/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/users/all', label: 'Guests', icon: Users, matchPrefix: '/users/guests' },
+    { to: '/users/form', label: 'Event Form', icon: FileText, matchPrefix: '/users/form' }
+  ];
 
   const handleLogout = async () => {
     await logout();
@@ -18,138 +37,237 @@ const UserLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-800 flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-xs">
-        <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate('/')}>
-            <img src="/lumos logo-title.png" alt="Lumos Logo" className="h-9 object-contain" />
+    <div className="min-h-screen bg-white font-sans text-gray-800">
+      {/* Mobile Top Navigation Bar */}
+      <div className="md:hidden flex items-center justify-between px-5 py-3.5 bg-white border-b border-[#E7EAF0] z-30 sticky top-0 shadow-xs">
+        <div
+          className="flex items-center gap-3 cursor-pointer"
+          onClick={() => navigate('/users/dashboard')}
+        >
+          <img src="/lumos logo-title.png" alt="Lumos Logo" className="h-9 object-contain" />
+        </div>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setQrModalOpen(true)}
+            className="p-2 text-[#31747d] hover:bg-[#31747d]/10 rounded-full transition-colors cursor-pointer"
+            title="Permanent QR Code"
+          >
+            <QrCode size={20} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="p-2 text-gray-600 hover:text-[#31747d] focus:outline-none transition-colors cursor-pointer"
+            aria-label="Toggle navigation menu"
+          >
+            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Backdrop for Mobile Slide-in Drawer */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 md:hidden transition-opacity"
+        />
+      )}
+
+      {/* Redesigned Sidebar: 3 Independent Flex Sections (Employee Isolated) */}
+      <aside
+        className={clsx(
+          'fixed inset-y-0 left-0 z-40 bg-white border-r border-[#E7EAF0] flex flex-col transition-all duration-300 ease-in-out shadow-xl md:shadow-none h-screen',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
+          sidebarCollapsed ? 'w-[78px]' : 'w-[280px]'
+        )}
+      >
+        {/* Section A: Header (shrink-0) */}
+        <div
+          className={clsx(
+            'shrink-0 border-b border-[#E7EAF0] flex items-center transition-all min-h-[72px]',
+            sidebarCollapsed
+              ? 'px-1 py-3 flex-col justify-center items-center gap-2'
+              : 'px-5 py-4 justify-between'
+          )}
+        >
+          {/* Logo & Branding */}
+          <div
+            className={clsx(
+              'flex items-center cursor-pointer group transition-all',
+              sidebarCollapsed ? 'w-full justify-center px-0.5' : 'min-w-0'
+            )}
+            onClick={() => {
+              navigate('/users/dashboard');
+              setSidebarOpen(false);
+            }}
+            title="Lumos Workspace"
+          >
+            <img
+              src="/lumos logo-title.png"
+              alt="Lumos Logo"
+              className={clsx(
+                'object-contain transition-all group-hover:scale-105 drop-shadow-xs',
+                sidebarCollapsed ? 'h-9 w-auto max-w-[72px]' : 'h-10 max-h-10'
+              )}
+            />
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-4">
-            <NavLink
-              to="/users/all"
-              className={({ isActive }) =>
-                clsx(
-                  'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors font-sans',
-                  isActive || location.pathname.startsWith('/users/guests')
-                    ? 'bg-[#31747d] text-white'
-                    : 'text-gray-600 hover:text-[#31747d] hover:bg-gray-100'
-                )
-              }
-            >
-              <Users size={16} />
-              <span>All Guests</span>
-            </NavLink>
-
-            <NavLink
-              to="/users/form"
-              className={({ isActive }) =>
-                clsx(
-                  'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors font-sans',
-                  isActive
-                    ? 'bg-[#31747d] text-white'
-                    : 'text-gray-600 hover:text-[#31747d] hover:bg-gray-100'
-                )
-              }
-            >
-              <FileText size={16} />
-              <span>Event Form</span>
-            </NavLink>
-
-            {/* Permanent QR Code Button */}
+          {/* Desktop Collapse/Expand Toggle & Mobile Close */}
+          <div className="flex items-center gap-1">
             <button
               type="button"
-              onClick={() => setQrModalOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-[#31747d]/30 text-[#31747d] hover:bg-[#31747d]/10 transition-colors cursor-pointer"
-              title="Preview, Download & Print Permanent Event QR Code"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className={clsx(
+                'hidden md:flex text-gray-400 hover:text-[#31747d] hover:bg-gray-100 rounded-xl transition-colors cursor-pointer',
+                sidebarCollapsed ? 'p-1' : 'p-1.5'
+              )}
+              title={sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+              aria-label={sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
             >
-              <QrCode size={15} />
-              <span>QR Code</span>
+              {sidebarCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
-          </nav>
 
-          {/* User Profile & Actions */}
-          <div className="hidden md:flex items-center gap-4">
-            <div className="flex items-center gap-2.5 text-xs text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full">
-              <span className="w-6 h-6 rounded-full bg-[#31747d] text-white flex items-center justify-center font-bold font-mono text-[10px]">
-                {user?.name?.charAt(0) || 'U'}
-              </span>
-              <span className="font-medium">{user?.name}</span>
-              <span className="text-gray-400">|</span>
-              <span className="text-[#31747d] capitalize font-mono text-[11px]">{user?.role}</span>
-            </div>
-
+            {/* Mobile Close Button */}
             <button
-              onClick={handleLogout}
-              title="Sign Out"
-              className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors cursor-pointer"
+              type="button"
+              onClick={() => setSidebarOpen(false)}
+              className="md:hidden p-1.5 text-gray-400 hover:text-gray-700 rounded-lg cursor-pointer"
+              aria-label="Close menu"
             >
-              <LogOut size={18} />
-            </button>
-          </div>
-
-          {/* Mobile Toggle */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-gray-600 hover:text-[#31747d] focus:outline-none"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <X size={20} />
             </button>
           </div>
         </div>
 
-        {/* Mobile Nav */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-3 font-sans text-sm">
-            <NavLink
-              to="/users/all"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 py-2 text-gray-700 hover:text-[#31747d]"
+        {/* Section B: Navigation Items (flex-1 overflow-y-auto) */}
+        <nav className="flex-1 overflow-y-auto p-3 space-y-1.5 scrollbar-thin">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isItemActive =
+              location.pathname === item.to ||
+              (item.matchPrefix && location.pathname.startsWith(item.matchPrefix));
+
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={() => setSidebarOpen(false)}
+                title={sidebarCollapsed ? item.label : undefined}
+                className={clsx(
+                  'flex items-center rounded-2xl text-sm transition-all font-sans group min-h-[48px]',
+                  sidebarCollapsed
+                    ? 'justify-center p-3'
+                    : 'gap-3.5 px-4 py-3',
+                  isItemActive
+                    ? 'bg-[#31747d] text-white font-semibold shadow-xs'
+                    : 'text-[#34445A] font-medium hover:bg-gray-100 hover:text-[#31747d]'
+                )}
+              >
+                <Icon
+                  size={20}
+                  className={clsx(
+                    'shrink-0 transition-colors',
+                    isItemActive ? 'text-white' : 'text-[#5A6B82] group-hover:text-[#31747d]'
+                  )}
+                />
+                {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
+              </NavLink>
+            );
+          })}
+
+          {/* Permanent QR Code Action Button */}
+          <button
+            type="button"
+            onClick={() => {
+              setQrModalOpen(true);
+              setSidebarOpen(false);
+            }}
+            title={sidebarCollapsed ? 'Permanent QR Code' : undefined}
+            className={clsx(
+              'w-full flex items-center rounded-2xl text-sm transition-all font-sans group min-h-[48px] text-[#31747d] font-semibold hover:bg-[#31747d]/10 cursor-pointer',
+              sidebarCollapsed ? 'justify-center p-3' : 'gap-3.5 px-4 py-3'
+            )}
+          >
+            <QrCode size={20} className="shrink-0 text-[#31747d]" />
+            {!sidebarCollapsed && <span className="truncate">Permanent QR Code</span>}
+          </button>
+        </nav>
+
+        {/* Section C: Bottom Profile & Actions (shrink-0) */}
+        <div className="shrink-0 p-3 border-t border-[#E7EAF0] bg-white space-y-2">
+          {/* View Public Site Link */}
+          {!sidebarCollapsed ? (
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="w-full flex items-center justify-between px-3.5 py-2 text-xs font-medium text-gray-500 hover:text-[#31747d] rounded-xl hover:bg-gray-50 transition-colors font-sans cursor-pointer"
             >
-              <Users size={18} /> All Guests
-            </NavLink>
-            <NavLink
-              to="/users/form"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 py-2 text-gray-700 hover:text-[#31747d]"
+              <span>View Public Site</span>
+              <ExternalLink size={14} className="text-gray-400" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              title="View Public Site"
+              className="w-full flex items-center justify-center p-2 text-gray-400 hover:text-[#31747d] hover:bg-gray-50 rounded-xl transition-colors cursor-pointer"
             >
-              <FileText size={18} /> Event Form
-            </NavLink>
+              <ExternalLink size={16} />
+            </button>
+          )}
+
+          {/* User Profile Card */}
+          <div
+            className={clsx(
+              'flex items-center bg-white border border-[#E7EAF0] rounded-2xl shadow-2xs transition-all',
+              sidebarCollapsed
+                ? 'justify-center p-2 flex-col gap-2'
+                : 'justify-between p-3 gap-3'
+            )}
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <div
+                className="w-9 h-9 rounded-full bg-[#31747d] text-white flex items-center justify-center font-bold font-mono text-sm shrink-0 shadow-2xs"
+                title={user?.name || 'Employee'}
+              >
+                {user?.name?.charAt(0) || 'U'}
+              </div>
+              {!sidebarCollapsed && (
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-gray-900 truncate font-sans">
+                    {user?.name || 'Staff Member'}
+                  </p>
+                  <p className="text-[11px] text-[#31747d] font-mono capitalize">
+                    {user?.role || 'Employee'}
+                  </p>
+                </div>
+              )}
+            </div>
 
             <button
               type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setQrModalOpen(true);
-              }}
-              className="flex items-center gap-2.5 py-2 text-[#31747d] font-semibold"
+              onClick={handleLogout}
+              title="Logout"
+              aria-label="Logout"
+              className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors cursor-pointer shrink-0"
             >
-              <QrCode size={18} /> Permanent QR Code
+              <LogOut size={16} />
             </button>
-
-            <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
-              <div>
-                <p className="font-semibold text-gray-900">{user?.name}</p>
-                <p className="text-xs text-[#31747d] capitalize font-mono">{user?.role}</p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-semibold"
-              >
-                <LogOut size={14} /> Sign Out
-              </button>
-            </div>
           </div>
-        )}
-      </header>
+        </div>
+      </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8 bg-white">
-        <Outlet />
+      {/* Main Content Area: Offset by sidebar width on desktop */}
+      <main
+        className={clsx(
+          'min-h-screen flex-1 min-w-0 bg-white transition-all duration-300',
+          sidebarCollapsed ? 'md:ml-[78px] p-2 sm:p-4 lg:p-6' : 'md:ml-[280px] p-4 md:p-6 lg:p-8'
+        )}
+      >
+        <div className={clsx('mx-auto', sidebarCollapsed ? 'max-w-[1560px] w-full' : 'max-w-7xl')}>
+          <Outlet />
+        </div>
       </main>
 
       {/* Permanent QR Code Modal */}
