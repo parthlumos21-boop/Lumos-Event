@@ -852,8 +852,8 @@ const Table = ({
         )}
       </div>
 
-      {/* 2. Desktop & Tablet Table (Clean headers, NO per-column inputs) */}
-      <div className="hidden md:block overflow-x-auto w-full">
+      {/* 2. Desktop Table (Clean headers, NO per-column inputs) */}
+      <div className="hidden lg:block overflow-x-auto w-full">
         <table className="w-full text-left border-collapse min-w-[760px]">
           <thead>
             <tr className="bg-gray-50/80 border-b border-gray-200/80 text-[11px] font-bold uppercase tracking-wider text-gray-500 select-none">
@@ -1078,8 +1078,8 @@ const Table = ({
         </table>
       </div>
 
-      {/* 3. Mobile Responsive View (Stacked Cards to prevent overflow) */}
-      <div className="md:hidden divide-y divide-gray-100">
+      {/* 3. Mobile & Tablet Responsive View (Stacked Cards to prevent overflow) */}
+      <div className="lg:hidden divide-y divide-gray-100">
         {/* Mobile Column Search Toggle Bar */}
         <div className="p-3 bg-gray-50/70 border-b border-gray-100 flex items-center justify-between">
           <button
@@ -1144,6 +1144,15 @@ const Table = ({
             const serialNo = (currentPage - 1) * pageSize + idx + 1;
             const isExpanded = expandedRowIds.includes(rowId);
 
+            // Universal field resolvers for both visitors and staff/employees
+            const primaryName = row.name || row.guest?.name || getVal(row, 'name') || getVal(row, 'guest.name') || '-';
+            const subText = row.department || row.guest?.company || row.company || '';
+            const phoneText = row.phone || row.guest?.phone || getVal(row, 'phone') || getVal(row, 'guest.phone') || '';
+            const emailText = row.email || row.guest?.email || getVal(row, 'email') || getVal(row, 'guest.email') || '';
+            const badgeText = row.role
+              ? (row.role.toLowerCase() === 'employee' ? 'Staff' : (row.role.charAt(0).toUpperCase() + row.role.slice(1).toLowerCase()))
+              : (row.relationship || 'Guest');
+
             return (
               <div
                 key={rowId}
@@ -1174,10 +1183,10 @@ const Table = ({
                         onClick={() => onRowDoubleClick && onRowDoubleClick(row)}
                         className="text-sm font-bold text-gray-900 hover:text-[#31747d] cursor-pointer"
                       >
-                        {row.guest?.name || '-'}
+                        {primaryName}
                       </h4>
-                      {row.guest?.company && (
-                        <p className="text-[11px] text-gray-500">{row.guest.company}</p>
+                      {subText && (
+                        <p className="text-[11px] text-gray-500">{subText}</p>
                       )}
                     </div>
                   </div>
@@ -1188,28 +1197,28 @@ const Table = ({
                         ★ {row.feedback.rating}/5
                       </span>
                     ) : null}
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#007788]/10 text-[#007788] border border-[#007788]/20">
-                      {row.relationship || 'Guest'}
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#007788]/10 text-[#007788] border border-[#007788]/20 capitalize">
+                      {badgeText}
                     </span>
                   </div>
                 </div>
 
                 {/* Mobile Contact Quick Line */}
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-600 pl-6">
-                  {row.guest?.phone && (
+                  {phoneText && (
                     <a
-                      href={`tel:${row.guest.phone}`}
+                      href={`tel:${phoneText}`}
                       className="hover:text-[#31747d] flex items-center gap-1 font-mono"
                     >
-                      <span>📞</span> {row.guest.phone}
+                      <span>📞</span> {phoneText}
                     </a>
                   )}
-                  {row.guest?.email && (
+                  {emailText && (
                     <a
-                      href={`mailto:${row.guest.email}`}
+                      href={`mailto:${emailText}`}
                       className="hover:text-[#31747d] flex items-center gap-1 truncate max-w-[200px]"
                     >
-                      <span>✉️</span> {row.guest.email}
+                      <span>✉️</span> {emailText}
                     </a>
                   )}
                 </div>
@@ -1217,6 +1226,11 @@ const Table = ({
                 {/* Expandable details */}
                 {isExpanded && (
                   <div className="pl-6 pt-2 border-t border-gray-100 text-xs space-y-2 animate-in fade-in">
+                    {row.department && (
+                      <div className="text-[11px] text-gray-600">
+                        <span className="font-semibold text-gray-500">Department:</span> {row.department}
+                      </div>
+                    )}
                     {Array.isArray(row.interests) && row.interests.length > 0 && (
                       <div>
                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
@@ -1236,7 +1250,9 @@ const Table = ({
                     )}
 
                     <div className="flex items-center justify-between text-[11px] text-gray-500 pt-1">
-                      <span>Follow-up: {row.followUp?.required ? 'Required' : 'None'}</span>
+                      {row.followUp && (
+                        <span>Follow-up: {row.followUp?.required ? 'Required' : 'None'}</span>
+                      )}
                       <span>
                         Added: {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : '-'}
                       </span>

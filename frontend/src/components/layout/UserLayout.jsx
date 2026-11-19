@@ -239,7 +239,11 @@ const UserLayout = () => {
                     {user?.name || 'Staff Member'}
                   </p>
                   <p className="text-[11px] text-[#31747d] font-mono capitalize">
-                    {user?.role || 'Employee'}
+                    {user?.role?.toLowerCase() === 'employee'
+                      ? 'Staff'
+                      : (user?.role
+                          ? (user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase())
+                          : 'Staff')}
                   </p>
                 </div>
               )}

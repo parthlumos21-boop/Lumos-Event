@@ -240,7 +240,11 @@ const AdminLayout = () => {
                     {user?.name || 'System Admin'}
                   </p>
                   <p className="text-[11px] text-[#31747d] font-mono capitalize">
-                    {user?.role || 'Admin'}
+                    {user?.role?.toLowerCase() === 'employee'
+                      ? 'Staff'
+                      : (user?.role
+                          ? (user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase())
+                          : 'Admin')}
                   </p>
                 </div>
               )}

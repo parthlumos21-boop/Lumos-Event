@@ -136,9 +136,6 @@ const AdminEmployees = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-extrabold text-[#31747d] tracking-tight">Employee Directory</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            All records from MongoDB <span className="font-mono text-[#31747d]">users</span> collection in <span className="font-mono text-[#31747d]">LumosEvent</span> Database
-          </p>
         </div>
 
         {/* Top Right Action Button */}

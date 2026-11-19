@@ -93,52 +93,58 @@ export const landingContent = {
     subheading: 'Tailored automation modules engineered to integrate harmoniously into modern architecture.',
     items: [
       {
+        id: 'home-automation',
+        name: 'Home Automation',
+        desc: 'Integrated smart living and centralized ecosystem orchestration.',
+        icon: 'Home'
+      },
+      {
         id: 'lighting',
-        name: 'Smart lighting',
-        desc: 'Tunable circadian white dimming with scene presets.',
+        name: 'Smart Lighting Control',
+        desc: 'Circadian dimming, scene presets and scheduled illumination.',
         icon: 'Sun'
       },
       {
-        id: 'climate',
-        name: 'Climate control',
-        desc: 'Multi-zone HVAC sync with thermal predictive logic.',
+        id: 'hvac',
+        name: 'HVAC control',
+        desc: 'Multi-zone intelligent temperature and air quality management.',
         icon: 'Thermometer'
       },
       {
-        id: 'lock',
-        name: 'Smart door lock',
-        desc: 'Encrypted biometric verification and guest credentials.',
+        id: 'security',
+        name: 'Security & Surveillance',
+        desc: 'Perimeter monitoring, intrusion alerts and access protection.',
+        icon: 'ShieldCheck'
+      },
+      {
+        id: 'locks',
+        name: 'Door locks',
+        desc: 'Biometric smart deadbolts and encrypted keyless entry.',
         icon: 'Lock'
       },
       {
-        id: 'qr',
-        name: 'Permanent QR access',
-        desc: 'Camera-scannable check-in for guests and event visitors.',
-        icon: 'QrCode'
-      },
-      {
-        id: 'camera',
-        name: 'Security camera',
-        desc: 'Ultra-HD optical coverage with smart perimeter alerts.',
+        id: 'cctv',
+        name: 'CCTV',
+        desc: 'Ultra-HD optical surveillance with 24/7 continuous coverage.',
         icon: 'Camera'
       },
       {
-        id: 'access',
-        name: 'Access Control',
-        desc: 'Encrypted biometric verification, automated barriers, and credentials.',
-        icon: 'Lock'
-      },
-      {
-        id: 'audio',
-        name: 'Music speaker',
-        desc: 'Architectural flush-mount multi-room acoustic zones.',
+        id: 'audio-visuals',
+        name: 'Audio & Visuals',
+        desc: 'Architectural multi-room audio and high-fidelity video distribution.',
         icon: 'Volume2'
       },
       {
-        id: 'wifi',
-        name: 'Wi-Fi network',
-        desc: 'Enterprise-grade mesh roaming with zero dead zones.',
-        icon: 'Wifi'
+        id: 'home-theater',
+        name: 'Home Theater',
+        desc: 'Immersive cinematic acoustics, projection and lighting presets.',
+        icon: 'Film'
+      },
+      {
+        id: 'multipurpose-room',
+        name: 'Multipurpose Room',
+        desc: 'Adaptive motorized room modes, acoustic zoning and scene switching.',
+        icon: 'Sliders'
       }
     ]
   },
