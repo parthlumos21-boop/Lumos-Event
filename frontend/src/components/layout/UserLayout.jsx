@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -11,6 +11,8 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  Calendar,
   QrCode
 } from 'lucide-react';
 import clsx from 'clsx';
@@ -23,6 +25,16 @@ const UserLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [appointmentsSubmenuOpen, setAppointmentsSubmenuOpen] = useState(
+    location.pathname.startsWith('/user/appointment') || location.pathname.startsWith('/users/appointment')
+  );
+
+  // Keep submenu open if navigated to appointment route
+  useEffect(() => {
+    if (location.pathname.startsWith('/user/appointment') || location.pathname.startsWith('/users/appointment')) {
+      setAppointmentsSubmenuOpen(true);
+    }
+  }, [location.pathname]);
 
   // Employee navigation items
   const navItems = [
@@ -175,6 +187,87 @@ const UserLayout = () => {
               </NavLink>
             );
           })}
+
+          {/* Expandable Appointment Main Item with Submenu */}
+          <div className="space-y-1">
+            <button
+              type="button"
+              onClick={() => {
+                if (sidebarCollapsed) {
+                  setSidebarCollapsed(false);
+                  setAppointmentsSubmenuOpen(true);
+                } else {
+                  setAppointmentsSubmenuOpen(!appointmentsSubmenuOpen);
+                }
+              }}
+              title={sidebarCollapsed ? 'Appointment' : undefined}
+              className={clsx(
+                'w-full flex items-center rounded-2xl text-sm transition-all font-sans group min-h-[48px] cursor-pointer',
+                sidebarCollapsed ? 'justify-center p-3' : 'justify-between px-4 py-3',
+                location.pathname.includes('/appointment')
+                  ? 'bg-[#31747d]/10 text-[#31747d] font-semibold'
+                  : 'text-[#34445A] font-medium hover:bg-gray-100 hover:text-[#31747d]'
+              )}
+            >
+              <div className="flex items-center gap-3.5 min-w-0">
+                <Calendar
+                  size={20}
+                  className={clsx(
+                    'shrink-0 transition-colors',
+                    location.pathname.includes('/appointment')
+                      ? 'text-[#31747d]'
+                      : 'text-[#5A6B82] group-hover:text-[#31747d]'
+                  )}
+                />
+                {!sidebarCollapsed && <span className="truncate">Appointment</span>}
+              </div>
+
+              {!sidebarCollapsed && (
+                <ChevronDown
+                  size={16}
+                  className={clsx(
+                    'text-gray-400 transition-transform duration-200 shrink-0',
+                    appointmentsSubmenuOpen && 'rotate-180 text-[#31747d]'
+                  )}
+                />
+              )}
+            </button>
+
+            {/* Sub-sidebar items: Add Appointment and Appointments */}
+            {!sidebarCollapsed && appointmentsSubmenuOpen && (
+              <div className="pl-11 pr-2 py-1 space-y-1 animate-in fade-in">
+                <NavLink
+                  to="/user/appointmentform"
+                  onClick={() => setSidebarOpen(false)}
+                  className={({ isActive }) =>
+                    clsx(
+                      'block px-3 py-2 rounded-xl text-xs font-sans transition-all',
+                      isActive
+                        ? 'bg-[#31747d] text-white font-semibold shadow-xs'
+                        : 'text-gray-600 hover:bg-gray-100 hover:text-[#31747d] font-medium'
+                    )
+                  }
+                >
+                  Add Appointment
+                </NavLink>
+
+                <NavLink
+                  to="/user/appointments"
+                  onClick={() => setSidebarOpen(false)}
+                  className={({ isActive }) =>
+                    clsx(
+                      'block px-3 py-2 rounded-xl text-xs font-sans transition-all',
+                      isActive
+                        ? 'bg-[#31747d] text-white font-semibold shadow-xs'
+                        : 'text-gray-600 hover:bg-gray-100 hover:text-[#31747d] font-medium'
+                    )
+                  }
+                >
+                  Appointments
+                </NavLink>
+              </div>
+            )}
+          </div>
 
           {/* Permanent QR Code Action Button */}
           <button

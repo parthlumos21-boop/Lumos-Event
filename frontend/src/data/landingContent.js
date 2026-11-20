@@ -13,14 +13,14 @@ export const landingContent = {
 
   nav: [
     { label: 'Home', href: '/' },
-    { label: 'Services', href: '#services' },
+    { label: 'Solutions', href: '#solutions' },
     { label: 'About', href: '#about' },
     { label: 'Location', href: '#location' }
   ],
 
   hero: {
     h1Line1: 'Intelligent',
-    h1Line2: 'living',
+    h1Line2: 'Living',
     subheadline: 'Beautifully connected. A premium architectural and technology experience.',
     getStartedText: 'Get Started',
     qrButtonText: 'Qr Code',
@@ -89,8 +89,8 @@ export const landingContent = {
   },
 
   devices: {
-    heading: 'Our Services',
-    subheading: 'Tailored automation modules engineered to integrate harmoniously into modern architecture.',
+    heading: 'Our Solutions',
+    subheading: 'Tailored automation solutions engineered to integrate harmoniously into modern architecture.',
     items: [
       {
         id: 'home-automation',

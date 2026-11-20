@@ -12,6 +12,7 @@ const LumosDashboardView = ({
   userName = 'Dashboard',
   guestListRoute = '/admin/guests',
   newGuestRoute = '/admin/form',
+  newAppointmentRoute = '/admin/appointmentform',
   guestDetailRoutePrefix = '/admin/guests'
 }) => {
   const navigate = useNavigate();
@@ -81,6 +82,10 @@ const LumosDashboardView = ({
     navigate(newGuestRoute);
   };
 
+  const handleNavigateAppointment = () => {
+    navigate(newAppointmentRoute);
+  };
+
   const handleSelectGuest = (guestId) => {
     navigate(`${guestDetailRoutePrefix}/${guestId}`);
   };
@@ -118,10 +123,11 @@ const LumosDashboardView = ({
         onNavigateForm={handleNavigateForm}
       />
 
-      {/* 3. Quick Access (2 centered-icon cards) */}
+      {/* 3. Quick Access (3 action cards) */}
       <QuickAccessCards
         onNavigateGuests={handleNavigateGuests}
         onNavigateForm={handleNavigateForm}
+        onNavigateAppointment={handleNavigateAppointment}
       />
 
       {/* 4. Recent Registrations (Full-width hybrid list/table with top 5 recent guests) */}

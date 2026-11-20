@@ -11,6 +11,7 @@ const UserDashboard = () => {
       userName={user?.name || 'Dashboard'}
       guestListRoute="/users/all"
       newGuestRoute="/users/form"
+      newAppointmentRoute="/user/appointmentform"
       guestDetailRoutePrefix="/users/guests"
     />
   );

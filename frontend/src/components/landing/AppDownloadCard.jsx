@@ -14,7 +14,10 @@ export const AppDownloadCard = () => {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-[-0.04em] text-white font-sans leading-tight">
               Be Part of the LUMOS Experience
             </h2>
-            <p className="text-sm sm:text-base text-gray-400 font-sans font-light">
+            <p
+              style={{ color: '#ffffff', opacity: 1 }}
+              className="text-sm sm:text-base lg:text-lg !text-white font-sans font-normal opacity-100 drop-shadow-sm"
+            >
               Start controlling your space easily and comfortably.
             </p>
           </div>

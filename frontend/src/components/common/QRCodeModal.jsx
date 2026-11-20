@@ -48,7 +48,127 @@ const QRCodeModal = ({ isOpen, onClose }) => {
   };
 
   const handlePrint = () => {
-    window.print();
+    if (!qrData?.qrDataUrl) {
+      window.print();
+      return;
+    }
+
+    // Create an isolated hidden iframe for clean 1-page printing
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.right = '0';
+    printFrame.style.bottom = '0';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = '0';
+    document.body.appendChild(printFrame);
+
+    const frameDoc = printFrame.contentWindow.document;
+    frameDoc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Lumos Event QR Desk Card</title>
+          <style>
+            @page {
+              size: A4 portrait;
+              margin: 15mm;
+            }
+            * {
+              box-sizing: border-box;
+              margin: 0;
+              padding: 0;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            }
+            html, body {
+              width: 100%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: #ffffff;
+              overflow: hidden;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            .card-wrapper {
+              width: 100%;
+              max-width: 440px;
+              padding: 36px 28px;
+              border: 2px solid #e2e8f0;
+              border-radius: 28px;
+              text-align: center;
+              background: #ffffff;
+              page-break-inside: avoid;
+              break-inside: avoid;
+              page-break-after: avoid;
+              break-after: avoid;
+            }
+            .logo {
+              height: 48px;
+              object-fit: contain;
+              margin-bottom: 12px;
+            }
+            .title {
+              font-size: 19px;
+              font-weight: 700;
+              color: #1e293b;
+              margin-bottom: 6px;
+            }
+            .subtitle {
+              font-size: 13px;
+              color: #64748b;
+              margin-bottom: 22px;
+            }
+            .qr-frame {
+              display: inline-block;
+              padding: 18px;
+              border: 1px solid #cbd5e1;
+              border-radius: 20px;
+              background: #ffffff;
+              margin-bottom: 14px;
+            }
+            .qr-image {
+              width: 220px;
+              height: 220px;
+              display: block;
+              object-fit: contain;
+            }
+            .badge {
+              font-size: 12px;
+              font-weight: 600;
+              color: #007788;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="card-wrapper">
+            <img src="/lumos logo-title.png" alt="Lumos Logo" class="logo" />
+            <h1 class="title">Office Opening & Event Registration</h1>
+            <p class="subtitle">Scan with your phone camera to check-in</p>
+            <div class="qr-frame">
+              <img src="${qrData.qrDataUrl}" alt="Lumos Event Form QR" class="qr-image" />
+            </div>
+            <p class="badge">Official Lumos Event Registration</p>
+          </div>
+        </body>
+      </html>
+    `);
+    frameDoc.close();
+    printFrame.contentWindow.focus();
+    setTimeout(() => {
+      try {
+        printFrame.contentWindow.print();
+      } catch (err) {
+        console.error('Print frame error, falling back to window.print():', err);
+        window.print();
+      }
+      setTimeout(() => {
+        try {
+          document.body.removeChild(printFrame);
+        } catch (_) {}
+      }, 1000);
+    }, 250);
   };
 
   return (
@@ -138,6 +258,18 @@ const QRCodeModal = ({ isOpen, onClose }) => {
 
       <style>{`
         @media print {
+          @page {
+            size: A4 portrait;
+            margin: 10mm;
+          }
+          html, body {
+            height: 100vh !important;
+            max-height: 100vh !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #ffffff !important;
+          }
           body * {
             visibility: hidden;
           }
@@ -145,15 +277,19 @@ const QRCodeModal = ({ isOpen, onClose }) => {
             visibility: visible;
           }
           #printable-qr-card {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 80% !important;
-            max-width: 500px !important;
+            position: absolute !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 85% !important;
+            max-width: 440px !important;
             border: 2px solid #e5e7eb !important;
-            padding: 40px !important;
+            padding: 32px !important;
             box-shadow: none !important;
+            page-break-after: avoid !important;
+            page-break-inside: avoid !important;
+            break-after: avoid !important;
+            break-inside: avoid !important;
           }
         }
       `}</style>

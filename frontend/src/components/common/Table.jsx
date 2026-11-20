@@ -17,6 +17,10 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 import { DASHBOARD_FILTER_MAP } from '../dashboard/GuestInsightsPanels';
+import AppointmentAdvancedFilters, {
+  isDateMatchingPreset,
+  isTimeMatchingPeriod
+} from '../appointments/AppointmentAdvancedFilters';
 
 const Table = ({
   columns = [],
@@ -25,6 +29,7 @@ const Table = ({
   pageSize: initialPageSize = 10,
   emptyMessage = 'No records found',
   role = 'employee',
+  type = 'guest',
   onUpdate,
   onDelete,
   onRowDoubleClick
@@ -46,12 +51,20 @@ const Table = ({
   const [isDateOpen, setIsDateOpen] = useState(false);
   const [filterSearch, setFilterSearch] = useState('');
 
-  // Advanced multi-select filters
+  // Advanced multi-select filters (Guest)
   const [selectedRelationships, setSelectedRelationships] = useState([]);
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedFollowUp, setSelectedFollowUp] = useState([]);
   const [dateRange, setDateRange] = useState({ preset: 'all', from: '', to: '' });
+
+  // Advanced multi-select filters (Appointments)
+  const [appointmentFilters, setAppointmentFilters] = useState({
+    reference: [],
+    status: [],
+    date: [],
+    time: []
+  });
 
   // Mobile expandable card rows
   const [expandedRowIds, setExpandedRowIds] = useState([]);
@@ -178,6 +191,16 @@ const Table = ({
 
   // Total active filter count
   const activeFiltersCount = useMemo(() => {
+    if (type === 'appointments') {
+      let count = 0;
+      if (appointmentFilters.reference?.length > 0) count++;
+      if (appointmentFilters.status?.length > 0) count++;
+      if (appointmentFilters.date?.length > 0) count++;
+      if (appointmentFilters.time?.length > 0) count++;
+      if (dateRange.preset !== 'all' || (dateRange.from && dateRange.to)) count++;
+      return count;
+    }
+
     let count = 0;
     if (selectedRelationships.length > 0) count++;
     if (selectedInterests.length > 0) count++;
@@ -185,14 +208,18 @@ const Table = ({
     if (selectedFollowUp.length > 0) count++;
     if (dateRange.preset !== 'all' || (dateRange.from && dateRange.to)) count++;
     return count;
-  }, [selectedRelationships, selectedInterests, selectedRatings, selectedFollowUp, dateRange]);
+  }, [type, appointmentFilters, selectedRelationships, selectedInterests, selectedRatings, selectedFollowUp, dateRange]);
 
   const clearAllFilters = () => {
     setColumnFilters({});
-    setSelectedRelationships([]);
-    setSelectedInterests([]);
-    setSelectedRatings([]);
-    setSelectedFollowUp([]);
+    if (type === 'appointments') {
+      setAppointmentFilters({ reference: [], status: [], date: [], time: [] });
+    } else {
+      setSelectedRelationships([]);
+      setSelectedInterests([]);
+      setSelectedRatings([]);
+      setSelectedFollowUp([]);
+    }
     setDateRange({ preset: 'all', from: '', to: '' });
     setCurrentPage(1);
   };
@@ -233,28 +260,59 @@ const Table = ({
 
       if (!matchColumns) return false;
 
-      // 2. Relationship Filter
-      if (selectedRelationships.length > 0) {
-        if (!selectedRelationships.includes(row.relationship)) return false;
-      }
+      // Appointment Filters vs Guest Filters
+      if (type === 'appointments') {
+        // 1. Reference Filter (OR within group)
+        if (appointmentFilters.reference?.length > 0) {
+          const ref = row.reference || 'Direct Client';
+          if (!appointmentFilters.reference.includes(ref)) return false;
+        }
 
-      // 3. Interests Filter
-      if (selectedInterests.length > 0) {
-        const rowInterests = Array.isArray(row.interests) ? row.interests : [];
-        const hasMatch = selectedInterests.some((i) => rowInterests.includes(i));
-        if (!hasMatch) return false;
-      }
+        // 2. Status Filter (OR within group)
+        if (appointmentFilters.status?.length > 0) {
+          const st = row.status || 'Scheduled';
+          if (!appointmentFilters.status.includes(st)) return false;
+        }
 
-      // 4. Rating Filter
-      if (selectedRatings.length > 0) {
-        const r = row.feedback?.rating;
-        if (!selectedRatings.includes(Number(r))) return false;
-      }
+        // 3. Appointment Date Presets (OR within group)
+        if (appointmentFilters.date?.length > 0) {
+          const matchDate = appointmentFilters.date.some((preset) =>
+            isDateMatchingPreset(row.appointmentDate, preset)
+          );
+          if (!matchDate) return false;
+        }
 
-      // 5. Follow Up Filter
-      if (selectedFollowUp.length > 0) {
-        const isFu = row.followUp?.required ? 'Yes' : 'No';
-        if (!selectedFollowUp.includes(isFu)) return false;
+        // 4. Appointment Time Periods (OR within group)
+        if (appointmentFilters.time?.length > 0) {
+          const matchTime = appointmentFilters.time.some((period) =>
+            isTimeMatchingPeriod(row.appointmentTime, period)
+          );
+          if (!matchTime) return false;
+        }
+      } else {
+        // 2. Relationship Filter
+        if (selectedRelationships.length > 0) {
+          if (!selectedRelationships.includes(row.relationship)) return false;
+        }
+
+        // 3. Interests Filter
+        if (selectedInterests.length > 0) {
+          const rowInterests = Array.isArray(row.interests) ? row.interests : [];
+          const hasMatch = selectedInterests.some((i) => rowInterests.includes(i));
+          if (!hasMatch) return false;
+        }
+
+        // 4. Rating Filter
+        if (selectedRatings.length > 0) {
+          const r = row.feedback?.rating;
+          if (!selectedRatings.includes(Number(r))) return false;
+        }
+
+        // 5. Follow Up Filter
+        if (selectedFollowUp.length > 0) {
+          const isFu = row.followUp?.required ? 'Yes' : 'No';
+          if (!selectedFollowUp.includes(isFu)) return false;
+        }
       }
 
       // 6. Date Filter
@@ -293,6 +351,7 @@ const Table = ({
   }, [
     data,
     columnFilters,
+    appointmentFilters,
     selectedRelationships,
     selectedInterests,
     selectedRatings,
@@ -559,6 +618,31 @@ const Table = ({
                 </button>
 
                 {isFilterOpen && (
+                  type === 'appointments' ? (
+                    <AppointmentAdvancedFilters
+                      isOpen={isFilterOpen}
+                      onClose={() => setIsFilterOpen(false)}
+                      data={data}
+                      appliedFilters={appointmentFilters}
+                      onLiveChange={(newFilters) => {
+                        setAppointmentFilters(newFilters);
+                        setCurrentPage(1);
+                      }}
+                      onApplyFilters={(newFilters) => {
+                        setAppointmentFilters(newFilters);
+                        setCurrentPage(1);
+                      }}
+                      onResetFilters={() => {
+                        setAppointmentFilters({
+                          reference: [],
+                          status: [],
+                          date: [],
+                          time: []
+                        });
+                        setCurrentPage(1);
+                      }}
+                    />
+                  ) : (
                   <>
                     {/* Mobile Backdrop */}
                     <div
@@ -785,6 +869,7 @@ const Table = ({
                     </div>
                   </div>
                   </>
+                  )
                 )}
               </div>
 
@@ -1144,14 +1229,27 @@ const Table = ({
             const serialNo = (currentPage - 1) * pageSize + idx + 1;
             const isExpanded = expandedRowIds.includes(rowId);
 
-            // Universal field resolvers for both visitors and staff/employees
-            const primaryName = row.name || row.guest?.name || getVal(row, 'name') || getVal(row, 'guest.name') || '-';
-            const subText = row.department || row.guest?.company || row.company || '';
-            const phoneText = row.phone || row.guest?.phone || getVal(row, 'phone') || getVal(row, 'guest.phone') || '';
-            const emailText = row.email || row.guest?.email || getVal(row, 'email') || getVal(row, 'guest.email') || '';
-            const badgeText = row.role
-              ? (row.role.toLowerCase() === 'employee' ? 'Staff' : (row.role.charAt(0).toUpperCase() + row.role.slice(1).toLowerCase()))
-              : (row.relationship || 'Guest');
+            const isAppointment = type === 'appointments';
+
+            // Universal field resolvers for appointments, guests, and team members
+            const primaryName = isAppointment
+              ? (row.clientName || row.name || '-')
+              : (row.name || row.guest?.name || getVal(row, 'name') || getVal(row, 'guest.name') || '-');
+            const subText = isAppointment
+              ? (row.location || row.reference || '')
+              : (row.department || row.guest?.company || row.company || '');
+            const phoneText = isAppointment
+              ? (row.contact || row.phone || '')
+              : (row.phone || row.guest?.phone || getVal(row, 'phone') || getVal(row, 'guest.phone') || '');
+            const emailText = isAppointment
+              ? (row.createdBy?.email || row.email || '')
+              : (row.email || row.guest?.email || getVal(row, 'email') || getVal(row, 'guest.email') || '');
+            const badgeText = isAppointment
+              ? (row.status || 'Scheduled')
+              : (row.role
+                ? (row.role.toLowerCase() === 'employee' ? 'Staff' : (row.role.charAt(0).toUpperCase() + row.role.slice(1).toLowerCase()))
+                : (row.relationship || 'Guest'));
+            const displaySrNo = isAppointment && row.srNo ? row.srNo : serialNo;
 
             return (
               <div
@@ -1161,13 +1259,13 @@ const Table = ({
                   isSelected ? 'bg-[#31747d]/10' : 'bg-white'
                 )}
               >
-                {/* Mobile Card Top: Selection, No, Name, Relationship, Rating */}
+                {/* Mobile Card Top: Selection, No, Name, Relationship/Status, Rating */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2.5">
                     <button
                       type="button"
                       onClick={() => handleToggleRow(rowId)}
-                      className="text-gray-400 hover:text-[#31747d]"
+                      className="text-gray-400 hover:text-[#31747d] cursor-pointer"
                     >
                       {isSelected ? (
                         <CheckSquare size={16} className="text-[#31747d]" />
@@ -1176,7 +1274,7 @@ const Table = ({
                       )}
                     </button>
                     <span className="text-xs font-mono font-medium text-gray-400">
-                      {serialNo}
+                      {displaySrNo}
                     </span>
                     <div>
                       <h4
@@ -1197,14 +1295,36 @@ const Table = ({
                         ★ {row.feedback.rating}/5
                       </span>
                     ) : null}
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#007788]/10 text-[#007788] border border-[#007788]/20 capitalize">
+                    <span
+                      className={clsx(
+                        'px-2.5 py-0.5 rounded-full text-[10px] font-semibold border capitalize',
+                        isAppointment
+                          ? (badgeText === 'Completed'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              : badgeText === 'Cancelled'
+                              ? 'bg-rose-50 text-rose-700 border-rose-200'
+                              : badgeText === 'Rescheduled'
+                              ? 'bg-amber-50 text-amber-700 border-amber-200'
+                              : 'bg-[#007788]/10 text-[#007788] border-[#007788]/20')
+                          : 'bg-[#007788]/10 text-[#007788] border-[#007788]/20'
+                      )}
+                    >
                       {badgeText}
                     </span>
                   </div>
                 </div>
 
-                {/* Mobile Contact Quick Line */}
+                {/* Mobile Contact & Appointment Schedule Quick Line */}
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-600 pl-6">
+                  {isAppointment && (row.appointmentDate || row.appointmentTime) && (
+                    <span className="font-mono text-[#007788] font-semibold flex items-center gap-1.5">
+                      <span>📅</span>
+                      <span>
+                        {row.appointmentDate ? new Date(row.appointmentDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}
+                        {row.appointmentTime ? ` • ${row.appointmentTime}` : ''}
+                      </span>
+                    </span>
+                  )}
                   {phoneText && (
                     <a
                       href={`tel:${phoneText}`}
@@ -1213,7 +1333,7 @@ const Table = ({
                       <span>📞</span> {phoneText}
                     </a>
                   )}
-                  {emailText && (
+                  {!isAppointment && emailText && (
                     <a
                       href={`mailto:${emailText}`}
                       className="hover:text-[#31747d] flex items-center gap-1 truncate max-w-[200px]"
@@ -1226,37 +1346,75 @@ const Table = ({
                 {/* Expandable details */}
                 {isExpanded && (
                   <div className="pl-6 pt-2 border-t border-gray-100 text-xs space-y-2 animate-in fade-in">
-                    {row.department && (
-                      <div className="text-[11px] text-gray-600">
-                        <span className="font-semibold text-gray-500">Department:</span> {row.department}
-                      </div>
-                    )}
-                    {Array.isArray(row.interests) && row.interests.length > 0 && (
-                      <div>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
-                          Interests:
-                        </span>
-                        <div className="flex flex-wrap gap-1">
-                          {row.interests.map((i) => (
-                            <span
-                              key={i}
-                              className="px-2 py-0.5 bg-gray-100 text-gray-700 text-[10px] font-semibold rounded-md"
-                            >
-                              {i}
-                            </span>
-                          ))}
+                    {isAppointment ? (
+                      /* Appointment Detailed Fields */
+                      <div className="space-y-1.5 text-[11px] text-gray-600">
+                        {row.location && (
+                          <div>
+                            <span className="font-semibold text-gray-500">Location:</span> {row.location}
+                          </div>
+                        )}
+                        {row.reference && (
+                          <div>
+                            <span className="font-semibold text-gray-500">Reference:</span> {row.reference}{row.referenceName ? ` (${row.referenceName})` : ''}
+                          </div>
+                        )}
+                        {row.internalReference && (
+                          <div>
+                            <span className="font-semibold text-gray-500">Internal Ref:</span> {row.internalReference}
+                          </div>
+                        )}
+                        {row.requirements && (
+                          <div>
+                            <span className="font-semibold text-gray-500">Requirements:</span> {row.requirements}
+                          </div>
+                        )}
+                        {row.remark && (
+                          <div>
+                            <span className="font-semibold text-gray-500">Remarks:</span> {row.remark}
+                          </div>
+                        )}
+                        <div className="flex items-center justify-between text-[11px] text-gray-400 pt-1 border-t border-gray-100">
+                          <span>Created by {row.createdBy?.name || 'Staff'}</span>
+                          <span>{row.createdAt ? new Date(row.createdAt).toLocaleDateString('en-GB') : '-'}</span>
                         </div>
                       </div>
-                    )}
+                    ) : (
+                      /* Guest / User Fields */
+                      <>
+                        {row.department && (
+                          <div className="text-[11px] text-gray-600">
+                            <span className="font-semibold text-gray-500">Department:</span> {row.department}
+                          </div>
+                        )}
+                        {Array.isArray(row.interests) && row.interests.length > 0 && (
+                          <div>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+                              Interests:
+                            </span>
+                            <div className="flex flex-wrap gap-1">
+                              {row.interests.map((i) => (
+                                <span
+                                  key={i}
+                                  className="px-2 py-0.5 bg-gray-100 text-gray-700 text-[10px] font-semibold rounded-md"
+                                >
+                                  {i}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
 
-                    <div className="flex items-center justify-between text-[11px] text-gray-500 pt-1">
-                      {row.followUp && (
-                        <span>Follow-up: {row.followUp?.required ? 'Required' : 'None'}</span>
-                      )}
-                      <span>
-                        Added: {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : '-'}
-                      </span>
-                    </div>
+                        <div className="flex items-center justify-between text-[11px] text-gray-500 pt-1">
+                          {row.followUp && (
+                            <span>Follow-up: {row.followUp?.required ? 'Required' : 'None'}</span>
+                          )}
+                          <span>
+                            Added: {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : '-'}
+                          </span>
+                        </div>
+                      </>
+                    )}
 
                     {/* Mobile Action Buttons */}
                     <div className="flex items-center gap-2 pt-2">
@@ -1264,7 +1422,7 @@ const Table = ({
                         <button
                           type="button"
                           onClick={() => onRowDoubleClick(row)}
-                          className="flex-1 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl text-xs text-center"
+                          className="flex-1 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl text-xs text-center cursor-pointer"
                         >
                           View Profile
                         </button>
@@ -1273,7 +1431,7 @@ const Table = ({
                         <button
                           type="button"
                           onClick={() => onUpdate(row)}
-                          className="flex-1 py-1.5 bg-[#31747d] hover:bg-[#255b62] text-white font-semibold rounded-xl text-xs text-center"
+                          className="flex-1 py-1.5 bg-[#31747d] hover:bg-[#255b62] text-white font-semibold rounded-xl text-xs text-center cursor-pointer"
                         >
                           Edit
                         </button>

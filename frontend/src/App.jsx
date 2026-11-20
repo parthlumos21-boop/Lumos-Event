@@ -24,6 +24,11 @@ import GuestProfile from './components/guest/GuestProfile';
 // Reusable Form
 import ReusableEventForm from './components/form/ReusableEventForm';
 
+// Appointments
+import AppointmentForm from './components/appointments/AppointmentForm';
+import AppointmentList from './components/appointments/AppointmentList';
+import AppointmentProfile from './components/appointments/AppointmentProfile';
+
 function App() {
   return (
     <AuthProvider>
@@ -53,6 +58,9 @@ function App() {
             <Route path="guests/:id" element={<GuestProfile portal="admin" />} />
             <Route path="employees" element={<AdminEmployees />} />
             <Route path="form" element={<ReusableEventForm portalType="admin" />} />
+            <Route path="appointmentform" element={<AppointmentForm portalType="admin" />} />
+            <Route path="appointments" element={<AppointmentList portal="admin" />} />
+            <Route path="appointments/:id" element={<AppointmentProfile portal="admin" />} />
           </Route>
 
           {/* User Routes: Accessible by authenticated users/employees/admin */}
@@ -69,6 +77,9 @@ function App() {
             <Route path="all" element={<UserGuestList />} />
             <Route path="guests/:id" element={<GuestProfile portal="user" />} />
             <Route path="form" element={<ReusableEventForm portalType="user" />} />
+            <Route path="appointmentform" element={<AppointmentForm portalType="user" />} />
+            <Route path="appointments" element={<AppointmentList portal="user" />} />
+            <Route path="appointments/:id" element={<AppointmentProfile portal="user" />} />
           </Route>
 
           {/* User Portal Alternative Route */}
@@ -82,7 +93,12 @@ function App() {
           >
             <Route index element={<UserDashboard />} />
             <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="all" element={<UserGuestList />} />
             <Route path="guests/:id" element={<GuestProfile portal="user" />} />
+            <Route path="form" element={<ReusableEventForm portalType="user" />} />
+            <Route path="appointmentform" element={<AppointmentForm portalType="user" />} />
+            <Route path="appointments" element={<AppointmentList portal="user" />} />
+            <Route path="appointments/:id" element={<AppointmentProfile portal="user" />} />
           </Route>
 
           {/* Catch-all */}

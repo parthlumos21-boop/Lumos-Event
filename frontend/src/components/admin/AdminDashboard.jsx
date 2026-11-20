@@ -11,6 +11,7 @@ const AdminDashboard = () => {
       userName={user?.name || 'Dashboard'}
       guestListRoute="/admin/guests"
       newGuestRoute="/admin/form"
+      newAppointmentRoute="/admin/appointmentform"
       guestDetailRoutePrefix="/admin/guests"
     />
   );

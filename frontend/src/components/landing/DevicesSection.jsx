@@ -90,13 +90,13 @@ export const DevicesSection = () => {
   ];
 
   return (
-    <section id="services" className="w-full bg-white py-16 sm:py-24 select-none">
+    <section id="solutions" className="w-full bg-white py-16 sm:py-24 select-none scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-8">
         {/* Header with Title and Arrow Navigation Buttons */}
         <ScrollReveal direction="up" delay={0}>
           <div className="flex items-center justify-between gap-4">
             <Heading level={2} size="section" className="text-[#1b1d26]">
-              Our Services
+              Our Solutions
             </Heading>
 
             {/* Round Arrow Buttons */}
@@ -109,7 +109,7 @@ export const DevicesSection = () => {
                   'w-12 h-12 rounded-full border border-gray-200 text-[#1b1d26] flex items-center justify-center transition-all cursor-pointer shadow-xs',
                   !canScrollLeft ? 'opacity-30 cursor-not-allowed bg-gray-50' : 'bg-white hover:bg-[#2f767f] hover:text-white hover:border-[#2f767f]'
                 )}
-                aria-label="Previous services"
+                aria-label="Previous solutions"
               >
                 <ChevronLeft size={20} />
               </button>
@@ -122,7 +122,7 @@ export const DevicesSection = () => {
                   'w-12 h-12 rounded-full bg-[#2f767f] text-white flex items-center justify-center transition-all cursor-pointer shadow-xs hover:bg-[#255f67]',
                   !canScrollRight && 'opacity-60'
                 )}
-                aria-label="Next services"
+                aria-label="Next solutions"
               >
                 <ChevronRight size={20} />
               </button>

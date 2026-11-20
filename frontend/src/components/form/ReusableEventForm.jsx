@@ -376,14 +376,15 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                       name="rating"
                       control={control}
                       render={({ field }) => (
-                        <div className="flex gap-2">
+                        <div className="flex gap-1.5 sm:gap-2">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <button
                               key={star}
                               type="button"
                               onClick={() => field.onChange(star)}
+                              style={{ touchAction: 'manipulation' }}
                               className={clsx(
-                                'text-4xl transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded cursor-pointer',
+                                'text-3xl sm:text-4xl min-w-[40px] min-h-[40px] flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded-lg cursor-pointer select-none active:scale-95',
                                 field.value >= star ? 'text-amber-400' : 'text-gray-300 hover:text-gray-400'
                               )}
                               title={`Rate visit ${star} stars`}
@@ -403,14 +404,15 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                       name="staffRating"
                       control={control}
                       render={({ field }) => (
-                        <div className="flex gap-2">
+                        <div className="flex gap-1.5 sm:gap-2">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <button
                               key={star}
                               type="button"
                               onClick={() => field.onChange(star)}
+                              style={{ touchAction: 'manipulation' }}
                               className={clsx(
-                                'text-4xl transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded cursor-pointer',
+                                'text-3xl sm:text-4xl min-w-[40px] min-h-[40px] flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded-lg cursor-pointer select-none active:scale-95',
                                 field.value >= star ? 'text-amber-400' : 'text-gray-300 hover:text-gray-400'
                               )}
                               title={`Rate staff ${star} stars`}
