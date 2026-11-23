@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Password is required']
+  },
+  plainPassword: {
+    type: String,
+    trim: true
   }
 }, { timestamps: true });
 

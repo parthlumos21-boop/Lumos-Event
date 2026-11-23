@@ -69,7 +69,7 @@ export const PhoneMockup = ({ variant = 'home', className = '' }) => {
         <div className="relative w-full h-full rounded-[40px] sm:rounded-[44px] overflow-hidden bg-[#0c0e14] flex flex-col justify-between text-white p-4">
           {/* Top Dynamic Island Notch */}
           <div className="w-full shrink-0 pt-1.5 pb-1 flex items-center justify-center">
-            <div className="w-20 sm:w-24 h-4 bg-black rounded-full ring-1 ring-white/10" />
+            <div className="w-[66px] sm:w-[78px] h-[18px] sm:h-[21px] bg-black rounded-full ring-1 ring-white/10" />
           </div>
 
           {/* Header */}
@@ -168,10 +168,10 @@ export const PhoneMockup = ({ variant = 'home', className = '' }) => {
 
       {/* Inner Screen Container: Fills Entire Mobile Screen with High Screen-to-Body Ratio */}
       <div className="relative w-full h-full rounded-[40px] sm:rounded-[44px] overflow-hidden bg-black flex items-center justify-center">
-        {/* Dynamic Island Notch Overlay (Positioned in dead-center clearance between "Lounge ›" and "...") */}
-        <div className="absolute top-2 sm:top-2.5 left-1/2 -translate-x-1/2 w-20 sm:w-22 h-3.5 sm:h-4 bg-black rounded-full z-30 flex items-center justify-end px-1.5 shadow-sm pointer-events-none ring-1 ring-white/10">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#0d1629] ring-1 ring-[#1b2640]/70 flex items-center justify-center">
-            <div className="w-0.5 h-0.5 rounded-full bg-[#2563eb]/90" />
+        {/* Dynamic Island Notch Overlay (Proportions matching reference phone mockup) */}
+        <div className="absolute top-2 sm:top-2.5 left-1/2 -translate-x-1/2 w-[66px] sm:w-[78px] md:w-[84px] h-[18px] sm:h-[21px] md:h-[23px] bg-black rounded-full z-30 flex items-center justify-end px-2 shadow-sm pointer-events-none ring-1 ring-white/10">
+          <div className="w-2 h-2 rounded-full bg-[#0d1629] ring-1 ring-[#1b2640]/70 flex items-center justify-center">
+            <div className="w-1 h-1 rounded-full bg-[#2563eb]/90" />
           </div>
         </div>
 

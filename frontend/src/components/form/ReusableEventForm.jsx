@@ -150,7 +150,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             {/* Section 1: Guest Details */}
             <section className="bg-gray-50 border border-gray-200 rounded-2xl p-6 h-full flex flex-col">
               <h2 className="font-semibold text-lg mb-6 text-[#2f767f] font-sans">Guest Information</h2>
@@ -300,7 +300,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                 control={control}
                 render={({ field }) => (
                   <div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-2.5">
                       {[
                         'Home Automation',
                         'Lighting & Dimming',
@@ -376,7 +376,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                       name="rating"
                       control={control}
                       render={({ field }) => (
-                        <div className="flex gap-1.5 sm:gap-2">
+                        <div className="flex flex-wrap gap-1 sm:gap-1.5 lg:gap-2">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <button
                               key={star}
@@ -384,7 +384,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                               onClick={() => field.onChange(star)}
                               style={{ touchAction: 'manipulation' }}
                               className={clsx(
-                                'text-3xl sm:text-4xl min-w-[40px] min-h-[40px] flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded-lg cursor-pointer select-none active:scale-95',
+                                'text-2xl sm:text-3xl lg:text-4xl min-w-[32px] sm:min-w-[36px] lg:min-w-[40px] min-h-[36px] sm:min-h-[40px] flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded-lg cursor-pointer select-none active:scale-95',
                                 field.value >= star ? 'text-amber-400' : 'text-gray-300 hover:text-gray-400'
                               )}
                               title={`Rate visit ${star} stars`}
@@ -404,7 +404,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                       name="staffRating"
                       control={control}
                       render={({ field }) => (
-                        <div className="flex gap-1.5 sm:gap-2">
+                        <div className="flex flex-wrap gap-1 sm:gap-1.5 lg:gap-2">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <button
                               key={star}
@@ -412,7 +412,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                               onClick={() => field.onChange(star)}
                               style={{ touchAction: 'manipulation' }}
                               className={clsx(
-                                'text-3xl sm:text-4xl min-w-[40px] min-h-[40px] flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded-lg cursor-pointer select-none active:scale-95',
+                                'text-2xl sm:text-3xl lg:text-4xl min-w-[32px] sm:min-w-[36px] lg:min-w-[40px] min-h-[36px] sm:min-h-[40px] flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-[#2f767f] rounded-lg cursor-pointer select-none active:scale-95',
                                 field.value >= star ? 'text-amber-400' : 'text-gray-300 hover:text-gray-400'
                               )}
                               title={`Rate staff ${star} stars`}

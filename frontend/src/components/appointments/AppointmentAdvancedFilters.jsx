@@ -6,8 +6,8 @@ export const REFERENCE_OPTIONS = [
   'Architect',
   'Interior Designer',
   'Builder',
-  'Automation Consultant',
-  'Direct Client',
+  'PMC/Automation Consultant',
+  'Walk-in Client',
   'Other'
 ];
 
@@ -182,7 +182,8 @@ export const AppointmentAdvancedFilters = ({
 
     data.forEach((row) => {
       // Reference
-      const ref = row.reference || 'Direct Client';
+      const rawRef = row.reference === 'Direct Client' ? 'Walk-in Client' : (row.reference === 'Automation Consultant' ? 'PMC/Automation Consultant' : row.reference);
+      const ref = rawRef || 'Walk-in Client';
       if (res.reference[ref] !== undefined) {
         res.reference[ref]++;
       } else {

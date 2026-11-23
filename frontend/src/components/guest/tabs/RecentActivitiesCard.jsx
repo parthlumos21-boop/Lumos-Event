@@ -11,7 +11,10 @@ const formatActivityTime = (dateStr) => {
 };
 
 const RecentActivitiesCard = ({ activities = [], onNavigateActivities }) => {
-  const displayActivities = activities && activities.length > 0 ? activities.slice(0, 3) : [];
+  const genuineActivities = (activities || []).filter(
+    (act) => act.title !== 'Guest visited the showroom' && act.title !== 'Guest visited the event'
+  );
+  const displayActivities = genuineActivities.length > 0 ? genuineActivities.slice(0, 3) : [];
 
   const getIconProps = (type) => {
     switch (type) {

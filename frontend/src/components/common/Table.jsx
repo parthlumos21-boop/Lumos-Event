@@ -264,7 +264,8 @@ const Table = ({
       if (type === 'appointments') {
         // 1. Reference Filter (OR within group)
         if (appointmentFilters.reference?.length > 0) {
-          const ref = row.reference || 'Direct Client';
+          const rawRef = row.reference === 'Direct Client' ? 'Walk-in Client' : (row.reference === 'Automation Consultant' ? 'PMC/Automation Consultant' : row.reference);
+          const ref = rawRef || 'Walk-in Client';
           if (!appointmentFilters.reference.includes(ref)) return false;
         }
 
@@ -1406,8 +1407,14 @@ const Table = ({
                         )}
 
                         <div className="flex items-center justify-between text-[11px] text-gray-500 pt-1">
-                          {row.followUp && (
-                            <span>Follow-up: {row.followUp?.required ? 'Required' : 'None'}</span>
+                          {row.feedback?.staffRating > 0 ? (
+                            <span className="text-amber-600 font-mono">
+                              ★ Staff: {row.feedback.staffRating}/5
+                            </span>
+                          ) : (
+                            <span className="text-gray-400 font-mono">
+                              Staff: N/A
+                            </span>
                           )}
                           <span>
                             Added: {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : '-'}

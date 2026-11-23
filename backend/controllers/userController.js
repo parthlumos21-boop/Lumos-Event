@@ -2,15 +2,42 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const logger = require('../utils/logger');
+const passwordHelper = require('../utils/passwordHelper');
 
 exports.getAllEmployees = async (req, res) => {
   try {
-    const employees = await User.find().select('-password').sort({ createdAt: -1 });
+    const rawEmployees = await User.find().sort({ createdAt: -1 }).lean();
+    // High-performance O(1) per-record resolution guaranteeing zero $2 hashcodes
+    const employees = rawEmployees.map((emp) => ({
+      ...emp,
+      password: passwordHelper.resolveReadablePassword(emp)
+    }));
     logger.info('FETCH USERS', `Retrieved ${employees.length} user/employee record(s) from database.`);
     res.json({ employees, total: employees.length });
   } catch (error) {
     logger.error('FETCH USERS ERROR', error.message, error);
     res.status(500).json({ message: 'Failed to fetch employees', error: error.message });
+  }
+};
+
+exports.getEmployeeDepartments = async (req, res) => {
+  try {
+    const departments = await User.aggregate([
+      { $match: { department: { $exists: true, $ne: '' } } },
+      { $group: { _id: '$department', count: { $sum: 1 } } },
+      { $sort: { _id: 1 } }
+    ]);
+    res.json({
+      success: true,
+      departments: departments.map((d) => ({
+        id: d._id,
+        name: d._id,
+        count: d.count
+      }))
+    });
+  } catch (err) {
+    logger.error('FETCH DEPARTMENTS ERROR', err.message, err);
+    res.status(500).json({ success: false, message: 'Failed to fetch departments' });
   }
 };
 
@@ -48,7 +75,8 @@ exports.createEmployee = async (req, res) => {
       role: cleanRole,
       department: cleanDept,
       email: cleanEmail,
-      password: hashedPassword
+      password: hashedPassword,
+      plainPassword: password.trim()
     });
 
     const saved = await newEmployee.save();
@@ -99,19 +127,27 @@ exports.updateEmployee = async (req, res) => {
     }
     if (department) updates.department = department.trim();
     if (email) updates.email = email.toLowerCase().trim();
-    if (password) {
-      updates.password = await bcrypt.hash(password, 10);
+    if (password && password.trim().length > 0) {
+      if (!password.startsWith('$2a$') && !password.startsWith('$2b$')) {
+        updates.password = await bcrypt.hash(password.trim(), 10);
+        updates.plainPassword = password.trim();
+      }
     }
     updates.updatedAt = Date.now();
 
-    const updated = await User.findByIdAndUpdate(id, { $set: updates }, { new: true }).select('-password');
+    const updated = await User.findByIdAndUpdate(id, { $set: updates }, { new: true });
     if (!updated) {
       logger.warn('USER UPDATE FAILED', `User ID ${id} not found.`);
       return res.status(404).json({ success: false, message: 'User record not found' });
     }
 
+    const sanitized = {
+      ...updated.toObject(),
+      password: updated.plainPassword || ''
+    };
+
     logger.success('USER UPDATED', `User ID ${id} (${updated.email}) updated by admin ${req.user?.email || 'admin'}`);
-    res.json({ success: true, message: 'User details updated successfully', employee: updated });
+    res.json({ success: true, message: 'User details updated successfully', employee: sanitized });
   } catch (error) {
     logger.error('USER UPDATE ERROR', error.message, error);
     res.status(500).json({ success: false, message: 'Failed to update user', error: error.message });

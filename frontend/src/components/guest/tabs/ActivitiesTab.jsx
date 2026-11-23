@@ -23,12 +23,17 @@ const TYPE_COLORS = {
 const ActivitiesTab = ({ activities = [], onOpenAddActivity, loading }) => {
   const [filterType, setFilterType] = useState('ALL');
 
-  const filteredActivities = activities.filter((act) => {
+  // Filter out any legacy synthetic auto-seeded visit text
+  const genuineActivities = activities.filter(
+    (act) => act.title !== 'Guest visited the showroom' && act.title !== 'Guest visited the event'
+  );
+
+  const filteredActivities = genuineActivities.filter((act) => {
     if (filterType === 'ALL') return true;
     return act.activityType === filterType;
   });
 
-  const uniqueTypes = ['ALL', ...new Set(activities.map((a) => a.activityType))];
+  const uniqueTypes = ['ALL', ...new Set(genuineActivities.map((a) => a.activityType))];
 
   return (
     <div className="space-y-6 font-sans">
@@ -37,10 +42,10 @@ const ActivitiesTab = ({ activities = [], onOpenAddActivity, loading }) => {
         <div>
           <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
             <i className="fa-solid fa-bolt text-[#007788]" />
-            <span>Business Activities & Interactions</span>
+            <span>Activity History</span>
           </h3>
           <p className="text-xs text-gray-500 mt-0.5">
-            Track meetings, follow-up calls, visits, emails and customer communications
+            Track guest interaction updates, meetings, calls, and remarks
           </p>
         </div>
 
@@ -50,7 +55,7 @@ const ActivitiesTab = ({ activities = [], onOpenAddActivity, loading }) => {
           className="inline-flex items-center gap-2 px-4 py-2 bg-[#007788] hover:bg-[#006674] text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer"
         >
           <i className="fa-solid fa-plus text-xs" />
-          <span>Log New Activity</span>
+          <span>Add Update</span>
         </button>
       </div>
 
@@ -87,9 +92,9 @@ const ActivitiesTab = ({ activities = [], onOpenAddActivity, loading }) => {
           <div className="w-12 h-12 rounded-full bg-gray-50 border border-gray-200 text-gray-400 mx-auto flex items-center justify-center">
             <i className="fa-solid fa-calendar-days text-lg" />
           </div>
-          <p className="text-sm font-semibold text-gray-700">No activities recorded yet</p>
+          <p className="text-sm font-semibold text-gray-700">No activity history recorded yet</p>
           <p className="text-xs text-gray-400 max-w-sm mx-auto">
-            Log client calls, showroom visits, follow-up meetings or team remarks to maintain complete business history.
+            Log client calls, showroom visits, follow-up meetings or team remarks to maintain complete update history.
           </p>
           <button
             type="button"
@@ -97,7 +102,7 @@ const ActivitiesTab = ({ activities = [], onOpenAddActivity, loading }) => {
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#007788] text-white rounded-full text-xs font-semibold hover:bg-[#006674] transition-colors cursor-pointer"
           >
             <i className="fa-solid fa-plus text-xs" />
-            <span>Log First Activity</span>
+            <span>Add Update</span>
           </button>
         </div>
       ) : (

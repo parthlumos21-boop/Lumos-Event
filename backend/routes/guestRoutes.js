@@ -10,6 +10,9 @@ router.post('/', optionalToken, guestController.createGuest);
 router.get('/', verifyToken, guestController.getAllGuests);
 router.get('/stats', verifyToken, guestController.getGuestStats);
 
+// Export guest records to Excel (.xlsx) and PDF (.pdf) - Placed before /:id routes
+router.get('/export', verifyToken, guestController.exportGuests);
+
 // Batch delete guests (Admin strictly required) - Must be before /:id routes
 router.delete('/batch', verifyToken, requireRole('admin'), guestController.deleteBatchGuests);
 

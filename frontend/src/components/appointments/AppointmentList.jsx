@@ -97,9 +97,9 @@ export const AppointmentList = ({ portal = 'admin' }) => {
       render: (row) => (
         <div>
           <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 text-gray-700 border border-gray-200">
-            {row.reference || 'Direct Client'}
+            {row.reference === 'Direct Client' ? 'Walk-in Client' : (row.reference || 'Walk-in Client')}
           </span>
-          {row.referenceName && row.reference !== 'Direct Client' && (
+          {row.referenceName && row.reference !== 'Walk-in Client' && row.reference !== 'Direct Client' && (
             <span className="text-[11px] font-medium text-gray-800 block mt-0.5 truncate max-w-[150px] font-sans">
               👤 {row.referenceName}
             </span>
@@ -155,13 +155,27 @@ export const AppointmentList = ({ portal = 'admin' }) => {
       }
     },
     {
-      key: 'createdBy',
-      label: 'Staff / Role',
-      render: (row) => (
-        <span className="text-xs text-gray-600 font-sans block truncate max-w-[120px]">
-          {row.createdBy?.name || 'Staff'}
-        </span>
-      )
+      key: 'createdBy.name',
+      label: 'Added By',
+      render: (row) => {
+        const creatorName = row.createdBy?.name || 'Admin';
+        const creatorRole = row.createdBy?.role || 'admin';
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full bg-[#31747d]/10 text-[#31747d] flex items-center justify-center font-bold text-[10px] shrink-0 font-mono">
+              {creatorName.charAt(0).toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <span className="font-semibold text-gray-900 block text-xs truncate max-w-[120px]">
+                {creatorName}
+              </span>
+              <span className="text-[10px] text-gray-400 capitalize block">
+                {creatorRole}
+              </span>
+            </div>
+          </div>
+        );
+      }
     }
   ];
 

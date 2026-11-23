@@ -27,7 +27,7 @@ const LumosDashboardView = ({
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  // Scalable O(1) memory dashboard data fetching via MongoDB aggregate endpoint
+  // Scalable O(1) memory dashboard data fetching via MongoDB aggregate endpoints
   const fetchDashboardData = useCallback(async (isRefresh = false) => {
     if (isRefresh) {
       setRefreshing(true);
@@ -36,16 +36,33 @@ const LumosDashboardView = ({
     }
 
     try {
-      const statsRes = await axiosClient.get('/guests/stats').catch(() => ({
-        data: {
-          totalGuests: 0,
-          followUpRequired: 0,
-          averageRating: '5.0',
-          recentGuests: [],
-          interests: [],
-          relationships: []
-        }
-      }));
+      const [statsRes, aptStatsRes] = await Promise.all([
+        axiosClient.get('/guests/stats').catch(() => ({
+          data: {
+            totalGuests: 0,
+            followUpRequired: 0,
+            averageRating: '5.0',
+            recentGuests: [],
+            interests: [],
+            relationships: []
+          }
+        })),
+        axiosClient.get('/appointments/stats').catch(() => ({
+          data: {
+            totalAppointments: 0,
+            scheduledCount: 0,
+            pendingCount: 0,
+            completedCount: 0,
+            cancelledCount: 0,
+            rescheduledCount: 0,
+            todayCount: 0,
+            upcomingCount: 0,
+            recentAppointments: [],
+            references: [],
+            statusBreakdown: []
+          }
+        }))
+      ]);
 
       const d = statsRes.data || {};
       setStats({

@@ -59,7 +59,7 @@ const EditRecordModal = ({ isOpen, onClose, record, type = 'guest', onSave }) =>
           email: record.email || '',
           role: record.role || 'employee',
           department: record.department || 'General',
-          password: ''
+          password: record.plainPassword || record.password || ''
         });
       }
       setError('');
@@ -296,15 +296,15 @@ const EditRecordModal = ({ isOpen, onClose, record, type = 'guest', onSave }) =>
               {/* Password Field with Eye Icon Visibility Toggle */}
               <div>
                 <label className="block font-semibold text-gray-700 mb-1">
-                  Password <span className="text-gray-400 font-normal text-[11px]">(Leave blank to keep current)</span>
+                  Password <span className="text-gray-400 font-normal text-[11px]">(Click eye to view or edit)</span>
                 </label>
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password || ''}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    placeholder="Enter new password to update..."
-                    className="w-full px-3 py-2 pr-10 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:border-[#31747d] text-xs font-sans"
+                    placeholder="Enter password..."
+                    className="w-full px-3 py-2 pr-10 bg-gray-50 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:border-[#31747d] text-xs font-mono"
                   />
                   <button
                     type="button"

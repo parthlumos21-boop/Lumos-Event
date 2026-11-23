@@ -45,8 +45,8 @@ const AddActivityModal = ({ isOpen, onClose, onSubmit, submitting }) => {
               <i className="fa-solid fa-calendar-days text-sm" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-gray-900">Log Business Activity</h3>
-              <p className="text-xs text-gray-500">Record a call, visit, meeting or remarks</p>
+              <h3 className="text-base font-bold text-gray-900">Add New Update</h3>
+              <p className="text-xs text-gray-500">Record an interaction, meeting, follow-up call, or remarks</p>
             </div>
           </div>
           <button
@@ -69,13 +69,13 @@ const AddActivityModal = ({ isOpen, onClose, onSubmit, submitting }) => {
 
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-              Activity Type <span className="text-red-500">*</span>
+              Update Type <span className="text-red-500">*</span>
             </label>
             <SearchableSelect
               options={ACTIVITY_TYPES}
               value={activityType}
               onChange={setActivityType}
-              placeholder="Select activity type"
+              placeholder="Select update type"
             />
           </div>
 
@@ -95,7 +95,7 @@ const AddActivityModal = ({ isOpen, onClose, onSubmit, submitting }) => {
 
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-              Activity Date & Time
+              Update Date & Time
             </label>
             <input
               type="datetime-local"
@@ -134,7 +134,7 @@ const AddActivityModal = ({ isOpen, onClose, onSubmit, submitting }) => {
               className="inline-flex items-center gap-1.5 px-5 py-2 bg-[#007788] hover:bg-[#006674] text-white rounded-full text-xs font-semibold shadow-xs transition-colors cursor-pointer disabled:opacity-50"
             >
               <i className="fa-solid fa-circle-check text-xs" />
-              <span>{submitting ? 'Saving...' : 'Save Activity'}</span>
+              <span>{submitting ? 'Saving...' : 'Save Update'}</span>
             </button>
           </div>
         </form>

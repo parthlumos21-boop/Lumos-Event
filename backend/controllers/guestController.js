@@ -251,7 +251,10 @@ exports.getGuestById = async (req, res) => {
 
     let [totalChanges, totalActivities] = await Promise.all([
       GuestAuditLog.countDocuments({ recordId: id }),
-      GuestActivity.countDocuments({ guestId: id })
+      GuestActivity.countDocuments({
+        guestId: id,
+        title: { $nin: ['Guest visited the showroom', 'Guest visited the event'] }
+      })
     ]);
 
     // Ensure initial real records exist in MongoDB if record had none
@@ -263,8 +266,8 @@ exports.getGuestById = async (req, res) => {
           action: 'CREATE',
           changedBy: {
             userId: guest.createdBy?.userId?._id || guest.createdBy?.userId || null,
-            name: guest.createdBy?.name || 'Keval V Shah',
-            email: guest.createdBy?.email || 'keval@lumossolution.com',
+            name: guest.createdBy?.name || 'Staff User',
+            email: guest.createdBy?.email || 'staff@lumossolution.com',
             role: guest.createdBy?.role || 'admin'
           },
           changedAt: guest.createdAt || new Date(),
@@ -272,27 +275,6 @@ exports.getGuestById = async (req, res) => {
           remarks: 'Initial guest registration'
         });
         totalChanges = 1;
-      } catch (e) {
-        // ignore
-      }
-    }
-
-    if (totalActivities === 0) {
-      try {
-        await GuestActivity.create({
-          guestId: guest._id,
-          activityType: 'Guest Visit',
-          title: 'Guest visited the event',
-          description: 'Guest checked into the Lumos event showroom.',
-          activityDate: guest.createdAt || new Date(),
-          createdBy: {
-            userId: guest.createdBy?.userId?._id || guest.createdBy?.userId || null,
-            name: guest.createdBy?.name || 'Keval V Shah',
-            email: guest.createdBy?.email || 'keval@lumossolution.com',
-            role: guest.createdBy?.role || 'admin'
-          }
-        });
-        totalActivities = 1;
       } catch (e) {
         // ignore
       }
@@ -679,32 +661,11 @@ exports.getGuestActivities = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid guest record ID' });
     }
 
-    let activities = await GuestActivity.find({ guestId: id }).sort({ activityDate: -1, createdAt: -1 });
-
-    // If no activities yet, automatically seed initial registration/visit activity into MongoDB
-    if (activities.length === 0) {
-      const guest = await Guest.findById(id);
-      if (guest) {
-        try {
-          const initialActivity = await GuestActivity.create({
-            guestId: guest._id,
-            activityType: 'Guest Visit',
-            title: 'Guest visited the showroom',
-            description: `Guest registered for the Lumos event. Preferred follow-up: ${guest.followUp?.preferredMethod || 'Phone'}.`,
-            activityDate: guest.createdAt || new Date(),
-            createdBy: {
-              userId: guest.createdBy?.userId || null,
-              name: guest.createdBy?.name || 'Staff User',
-              email: guest.createdBy?.email || 'staff@lumossolution.com',
-              role: guest.createdBy?.role || 'admin'
-            }
-          });
-          activities = [initialActivity];
-        } catch (seedErr) {
-          logger.warn('Could not seed initial guest activity:', seedErr.message);
-        }
-      }
-    }
+    // Return only actual user-logged activities (excluding auto-seeded visit text)
+    const activities = await GuestActivity.find({
+      guestId: id,
+      title: { $nin: ['Guest visited the showroom', 'Guest visited the event'] }
+    }).sort({ activityDate: -1, createdAt: -1 });
 
     res.json({ success: true, activities, total: activities.length });
   } catch (error) {
@@ -934,5 +895,107 @@ exports.updateStaffRating = async (req, res) => {
   } catch (error) {
     logger.error('STAFF RATING UPDATE ERROR', error.message, error);
     res.status(500).json({ success: false, message: 'Failed to update staff rating', error: error.message });
+  }
+};
+
+// GET /api/guests/export
+// Export guest records to Excel (.xlsx) or PDF (.pdf) with role-based security
+exports.exportGuests = async (req, res) => {
+  try {
+    const { format = 'xlsx', from, to } = req.query;
+
+    let filter = {};
+
+    // Role-based security check:
+    // Employees can only export records created by their own account
+    // Admins can export all guest records
+    if (req.user && req.user.role === 'employee') {
+      const userObjId = mongoose.Types.ObjectId.isValid(req.user.id)
+        ? new mongoose.Types.ObjectId(req.user.id)
+        : req.user.id;
+      filter = {
+        $or: [
+          { 'createdBy.userId': userObjId },
+          { 'createdBy.email': req.user.email }
+        ]
+      };
+    }
+
+    // Apply date range filters
+    if (from || to) {
+      filter.createdAt = {};
+      if (from) {
+        const fromDate = new Date(from);
+        fromDate.setHours(0, 0, 0, 0);
+        filter.createdAt.$gte = fromDate;
+      }
+      if (to) {
+        const toDate = new Date(to);
+        toDate.setHours(23, 59, 59, 999);
+        filter.createdAt.$lte = toDate;
+      }
+    }
+
+    // Fetch records from lumos_event collection
+    const records = await Guest.find(filter)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Calculate dynamic summary metrics
+    const totalRecords = records.length;
+
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+    const todayRecords = records.filter((r) => {
+      const created = r.createdAt ? new Date(r.createdAt) : null;
+      return created && created >= startOfToday && created <= endOfToday;
+    }).length;
+
+    const formatDateStr = (dStr) => {
+      if (!dStr) return '';
+      const d = new Date(dStr);
+      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+    };
+
+    let dateRange = 'All Dates';
+    if (from && to) {
+      dateRange = `${formatDateStr(from)} – ${formatDateStr(to)}`;
+    } else if (from) {
+      dateRange = `From ${formatDateStr(from)}`;
+    } else if (to) {
+      dateRange = `Up to ${formatDateStr(to)}`;
+    }
+
+    const summary = {
+      totalRecords,
+      todayRecords,
+      dateRange
+    };
+
+    const timeStampStr = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
+
+    if (String(format).toLowerCase() === 'pdf') {
+      const { generateGuestPDF } = require('../services/guestExportService');
+      const pdfBuffer = await generateGuestPDF({ records, summary });
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="Lumos_Guest_Report_${timeStampStr}.pdf"`);
+      return res.send(pdfBuffer);
+    } else {
+      const { generateGuestExcel } = require('../services/guestExportService');
+      const excelBuffer = await generateGuestExcel({ records, summary });
+
+      res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      );
+      res.setHeader('Content-Disposition', `attachment; filename="Lumos_Guest_Report_${timeStampStr}.xlsx"`);
+      return res.send(excelBuffer);
+    }
+  } catch (error) {
+    logger.error('GUEST EXPORT ERROR', error.message, error);
+    res.status(500).json({ success: false, message: 'Failed to export guest records', error: error.message });
   }
 };

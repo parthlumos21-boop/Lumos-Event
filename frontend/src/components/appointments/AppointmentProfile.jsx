@@ -36,12 +36,38 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
   const [isAddActivityModalOpen, setIsAddActivityModalOpen] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
 
+  // Reference users for Internal Reference dropdown from MongoDB users collection
+  const [userOptions, setUserOptions] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoadingUsers(true);
+      try {
+        const res = await axiosClient.get('/appointments/reference-users');
+        if (res.data?.success && Array.isArray(res.data.users)) {
+          const opts = res.data.users.map((u) => ({
+            label: u.name,
+            value: u.name,
+            subLabel: `${u.role === 'admin' ? 'Admin' : 'Employee'} • ${u.email || ''}`
+          }));
+          setUserOptions(opts);
+        }
+      } catch (err) {
+        console.error('Error fetching reference users in appointment profile:', err);
+      } finally {
+        setLoadingUsers(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   // Modal edit state
   const [editFormData, setEditFormData] = useState({
     clientName: '',
     location: '',
     contact: '',
-    reference: 'Direct Client',
+    reference: 'Walk-in Client',
     referenceName: '',
     internalReference: '',
     appointmentDate: '',
@@ -72,7 +98,7 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
           clientName: app.clientName || '',
           location: app.location || '',
           contact: app.contact || '',
-          reference: app.reference || 'Direct Client',
+          reference: app.reference === 'Direct Client' ? 'Walk-in Client' : (app.reference || 'Walk-in Client'),
           referenceName: app.referenceName || '',
           internalReference: app.internalReference || '',
           appointmentDate: app.appointmentDate ? app.appointmentDate.split('T')[0] : '',
@@ -543,12 +569,12 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
                     <option value="Architect">Architect</option>
                     <option value="Interior Designer">Interior Designer</option>
                     <option value="Builder">Builder</option>
-                    <option value="Automation Consultant">Automation Consultant</option>
-                    <option value="Direct Client">Direct Client</option>
+                    <option value="PMC/Automation Consultant">PMC/Automation Consultant</option>
+                    <option value="Walk-in Client">Walk-in Client</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
-                {editFormData.reference !== 'Direct Client' && (
+                {editFormData.reference !== 'Walk-in Client' && (
                   <div>
                     <label className="block text-gray-600 font-semibold mb-1">Reference Name</label>
                     <input
@@ -561,13 +587,13 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
                   </div>
                 )}
                 <div>
-                  <label className="block text-gray-600 font-semibold mb-1">Internal Reference</label>
-                  <input
-                    type="text"
+                  <SearchableSelect
+                    label="Internal Reference"
+                    options={userOptions}
                     value={editFormData.internalReference}
-                    onChange={(e) => setEditFormData({ ...editFormData, internalReference: e.target.value })}
-                    placeholder="Internal staff member"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-medium focus:border-[#007788] focus:outline-none"
+                    onChange={(val) => setEditFormData({ ...editFormData, internalReference: val })}
+                    placeholder={loadingUsers ? 'Loading team members...' : 'Select or search internal reference...'}
+                    searchPlaceholder="Search team member name or role..."
                   />
                 </div>
                 <div>

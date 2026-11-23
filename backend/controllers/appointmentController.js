@@ -59,6 +59,21 @@ const calculateAppointmentDiff = (oldDoc, newDoc) => {
   return changes;
 };
 
+// Automatically migrate any legacy 'Direct Client' records to 'Walk-in Client' in MongoDB lumos_appointments
+setTimeout(async () => {
+  try {
+    const res = await Appointment.updateMany(
+      { reference: 'Direct Client' },
+      { $set: { reference: 'Walk-in Client' } }
+    );
+    if (res.modifiedCount > 0) {
+      logger.info(`Migrated ${res.modifiedCount} legacy 'Direct Client' appointments to 'Walk-in Client'`);
+    }
+  } catch (err) {
+    // Non-blocking initialization
+  }
+}, 1000);
+
 // Generate next sequential Sr. No (e.g. APT-1001)
 const generateNextSrNo = async () => {
   const lastRecord = await Appointment.findOne().sort({ createdAt: -1 }).select('srNo');
@@ -160,8 +175,8 @@ exports.createAppointment = async (req, res) => {
     }
 
     // Normalize reference fields
-    const chosenRef = reference || 'Direct Client';
-    const cleanRefName = chosenRef !== 'Direct Client' && referenceName ? referenceName.trim() : '';
+    const chosenRef = reference === 'Direct Client' ? 'Walk-in Client' : (reference || 'Walk-in Client');
+    const cleanRefName = chosenRef !== 'Walk-in Client' && referenceName ? referenceName.trim() : '';
     const cleanInternalRef = internalReference ? internalReference.trim() : '';
 
     const initialLogActivity = {
@@ -332,16 +347,24 @@ exports.getAppointments = async (req, res) => {
       filter.reference = reference;
     }
 
-    const pageNum = parseInt(page, 10) || 1;
-    const limitNum = parseInt(limit, 10) || 100;
-    const skip = (pageNum - 1) * limitNum;
+    // High-performance scalable fetching: matching guestController.js pattern
+    // Only paginate if client explicitly requested pagination parameters;
+    // NEVER apply an artificial default cap of 100, ensuring all 50,000+ records are returned with zero data loss!
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+    const isPaginated = !isNaN(pageNum) && !isNaN(limitNum) && pageNum > 0 && limitNum > 0;
+
+    let query = Appointment.find(filter)
+      .select('-logactivity')
+      .sort({ appointmentDate: 1, createdAt: -1 })
+      .lean();
+
+    if (isPaginated) {
+      query = query.skip((pageNum - 1) * limitNum).limit(limitNum);
+    }
 
     const [appointments, total] = await Promise.all([
-      Appointment.find(filter)
-        .sort({ appointmentDate: 1, createdAt: -1 })
-        .skip(skip)
-        .limit(limitNum)
-        .lean(),
+      query.exec(),
       Appointment.countDocuments(filter)
     ]);
 
@@ -349,8 +372,8 @@ exports.getAppointments = async (req, res) => {
       success: true,
       appointments,
       total,
-      page: pageNum,
-      totalPages: Math.ceil(total / limitNum) || 1
+      page: isPaginated ? pageNum : 1,
+      totalPages: isPaginated ? (Math.ceil(total / limitNum) || 1) : 1
     });
   } catch (error) {
     logger.error('Error fetching appointments:', error);
@@ -358,10 +381,182 @@ exports.getAppointments = async (req, res) => {
   }
 };
 
+// GET /api/appointments/stats
+// High-performance appointment statistics and aggregates for 50,000+ records via MongoDB $facet pipeline
+exports.getAppointmentStats = async (req, res) => {
+  try {
+    let matchStage = {};
+    if (req.user && req.user.role === 'employee') {
+      const userObjId = mongoose.Types.ObjectId.isValid(req.user.id)
+        ? new mongoose.Types.ObjectId(req.user.id)
+        : req.user.id;
+      matchStage = {
+        $or: [
+          { 'createdBy.userId': userObjId },
+          { 'createdBy.userId': req.user.id },
+          { 'createdBy.email': req.user.email?.toLowerCase() },
+          { assignedTo: userObjId },
+          { assignedTo: req.user.id }
+        ]
+      };
+    }
+
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+    const facetPipeline = [
+      { $match: matchStage },
+      {
+        $facet: {
+          metrics: [
+            {
+              $group: {
+                _id: null,
+                totalAppointments: { $sum: 1 },
+                scheduledCount: {
+                  $sum: { $cond: [{ $eq: ['$status', 'Scheduled'] }, 1, 0] }
+                },
+                pendingCount: {
+                  $sum: { $cond: [{ $eq: ['$status', 'Pending'] }, 1, 0] }
+                },
+                completedCount: {
+                  $sum: { $cond: [{ $eq: ['$status', 'Completed'] }, 1, 0] }
+                },
+                cancelledCount: {
+                  $sum: { $cond: [{ $eq: ['$status', 'Cancelled'] }, 1, 0] }
+                },
+                rescheduledCount: {
+                  $sum: { $cond: [{ $eq: ['$status', 'Rescheduled'] }, 1, 0] }
+                },
+                todayCount: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gte: ['$appointmentDate', startOfToday] },
+                          { $lte: ['$appointmentDate', endOfToday] }
+                        ]
+                      },
+                      1,
+                      0
+                    ]
+                  }
+                },
+                upcomingCount: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gte: ['$appointmentDate', startOfToday] },
+                          { $in: ['$status', ['Scheduled', 'Pending']] }
+                        ]
+                      },
+                      1,
+                      0
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          recentAppointments: [
+            { $sort: { createdAt: -1 } },
+            { $limit: 5 },
+            {
+              $project: {
+                _id: 1,
+                srNo: 1,
+                clientName: 1,
+                contact: 1,
+                location: 1,
+                reference: 1,
+                referenceName: 1,
+                internalReference: 1,
+                appointmentDate: 1,
+                appointmentTime: 1,
+                status: 1,
+                createdAt: 1
+              }
+            }
+          ],
+          referenceAggregation: [
+            {
+              $group: {
+                _id: '$reference',
+                count: { $sum: 1 }
+              }
+            }
+          ],
+          statusAggregation: [
+            {
+              $group: {
+                _id: '$status',
+                count: { $sum: 1 }
+              }
+            }
+          ]
+        }
+      }
+    ];
+
+    const result = await Appointment.aggregate(facetPipeline);
+    const facetData = result[0] || {};
+    const metricData = facetData.metrics?.[0] || {
+      totalAppointments: 0,
+      scheduledCount: 0,
+      pendingCount: 0,
+      completedCount: 0,
+      cancelledCount: 0,
+      rescheduledCount: 0,
+      todayCount: 0,
+      upcomingCount: 0
+    };
+
+    const references = (facetData.referenceAggregation || []).map((item) => {
+      const name = item._id === 'Direct Client' ? 'Walk-in Client' : (item._id || 'Walk-in Client');
+      return {
+        key: name,
+        label: name,
+        count: item.count
+      };
+    });
+
+    const statusBreakdown = (facetData.statusAggregation || []).map((item) => ({
+      status: item._id || 'Scheduled',
+      count: item.count
+    }));
+
+    res.json({
+      success: true,
+      totalAppointments: metricData.totalAppointments || 0,
+      scheduledCount: metricData.scheduledCount || 0,
+      pendingCount: metricData.pendingCount || 0,
+      completedCount: metricData.completedCount || 0,
+      cancelledCount: metricData.cancelledCount || 0,
+      rescheduledCount: metricData.rescheduledCount || 0,
+      todayCount: metricData.todayCount || 0,
+      upcomingCount: metricData.upcomingCount || 0,
+      recentAppointments: facetData.recentAppointments || [],
+      references,
+      statusBreakdown
+    });
+  } catch (error) {
+    logger.error('Error fetching appointment stats:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch appointment statistics' });
+  }
+};
+
 // GET /api/appointments/:id
 exports.getAppointmentById = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Validate ID format before querying MongoDB to prevent BSONError crashes
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid appointment ID format' });
+    }
+
     const appointment = await Appointment.findById(id).lean();
     if (!appointment) {
       return res.status(404).json({ success: false, message: 'Appointment not found' });
@@ -415,7 +610,7 @@ exports.getAppointmentById = async (req, res) => {
         activityType: 'Meeting Scheduled',
         titleSummary: 'Appointment meeting scheduled',
         activityDateTime: appointment.appointmentDate || appointment.createdAt || new Date(),
-        detailedNotes: `Scheduled meeting with ${appointment.clientName} for ${appointment.appointmentTime} on ${new Date(appointment.appointmentDate).toLocaleDateString('en-GB')}. Reference: ${appointment.referenceName ? `${appointment.reference} (${appointment.referenceName})` : (appointment.reference || 'Direct Client')}. Internal Reference: ${appointment.internalReference || 'None'}.`,
+        detailedNotes: `Scheduled meeting with ${appointment.clientName} for ${appointment.appointmentTime} on ${new Date(appointment.appointmentDate).toLocaleDateString('en-GB')}. Reference: ${appointment.referenceName ? `${appointment.reference} (${appointment.referenceName})` : (appointment.reference === 'Direct Client' ? 'Walk-in Client' : (appointment.reference || 'Walk-in Client'))}. Internal Reference: ${appointment.internalReference || 'None'}.`,
         createdByLog: {
           userId: appointment.createdBy?.userId?._id || appointment.createdBy?.userId || null,
           name: appointment.createdBy?.name || 'Staff User',
@@ -511,7 +706,8 @@ exports.updateAppointment = async (req, res) => {
     }
 
     // Normalize reference fields if passed
-    if (updateData.reference === 'Direct Client') {
+    if (updateData.reference === 'Direct Client' || updateData.reference === 'Walk-in Client') {
+      updateData.reference = 'Walk-in Client';
       updateData.referenceName = '';
     }
 
@@ -769,7 +965,7 @@ exports.getLogActivities = async (req, res) => {
         activityType: 'Meeting Scheduled',
         titleSummary: 'Appointment meeting scheduled',
         activityDateTime: appointment.appointmentDate || appointment.createdAt || new Date(),
-        detailedNotes: `Scheduled meeting with ${appointment.clientName} for ${appointment.appointmentTime} on ${new Date(appointment.appointmentDate).toLocaleDateString('en-GB')}. Reference: ${appointment.referenceName ? `${appointment.reference} (${appointment.referenceName})` : (appointment.reference || 'Direct Client')}. Internal Reference: ${appointment.internalReference || 'None'}.`,
+        detailedNotes: `Scheduled meeting with ${appointment.clientName} for ${appointment.appointmentTime} on ${new Date(appointment.appointmentDate).toLocaleDateString('en-GB')}. Reference: ${appointment.referenceName ? `${appointment.reference} (${appointment.referenceName})` : (appointment.reference === 'Direct Client' ? 'Walk-in Client' : (appointment.reference || 'Walk-in Client'))}. Internal Reference: ${appointment.internalReference || 'None'}.`,
         createdByLog: {
           userId: appointment.createdBy?.userId?._id || appointment.createdBy?.userId || null,
           name: appointment.createdBy?.name || 'Staff User',

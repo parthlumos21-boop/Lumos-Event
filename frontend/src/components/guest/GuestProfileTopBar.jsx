@@ -5,7 +5,7 @@ const GuestProfileTopBar = ({ portal = 'admin', onBack }) => {
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const userName = user?.name || (portal === 'admin' ? 'Keval V Shah' : 'Staff Member');
+  const userName = user?.name || (portal === 'admin' ? 'Admin' : 'Staff Member');
   const userInitials = userName
     .split(' ')
     .filter(Boolean)

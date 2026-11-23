@@ -6,6 +6,7 @@ import EditRecordModal from '../common/EditRecordModal';
 import { useAuth } from '../../context/AuthContext';
 import { Users, Star, RefreshCw, Calendar, Phone, Mail, Building, Plus } from 'lucide-react';
 import { DASHBOARD_FILTER_MAP } from '../dashboard/GuestInsightsPanels';
+import { GuestExportDropdown } from '../guest/GuestExportDropdown';
 
 const UserGuestList = () => {
   const navigate = useNavigate();
@@ -142,16 +143,16 @@ const UserGuestList = () => {
       }
     },
     {
-      key: 'followUp.required',
-      label: 'Follow Up',
+      key: 'feedback.staffRating',
+      label: 'Staff',
       render: (row) => {
-        const req = row.followUp?.required;
-        return req ? (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-50 text-rose-600 border border-rose-200">
-            Yes ({row.followUp?.preferredMethod || 'Phone'})
+        const staffRating = row.feedback?.staffRating;
+        return staffRating > 0 ? (
+          <span className="inline-flex items-center gap-1 text-amber-500 font-semibold font-mono text-xs">
+            <Star size={12} fill="currentColor" /> {staffRating}/5
           </span>
         ) : (
-          <span className="text-xs text-gray-400">No</span>
+          <span className="text-xs text-gray-400">N/A</span>
         );
       }
     },
@@ -189,6 +190,8 @@ const UserGuestList = () => {
             <Plus size={14} />
             <span>New Guest</span>
           </button>
+
+          <GuestExportDropdown />
 
           <button
             onClick={fetchGuests}

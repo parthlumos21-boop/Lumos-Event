@@ -4,11 +4,11 @@ const RecordInformationCard = ({ guest }) => {
   const createdBy = guest?.createdBy || {};
   const updatedBy = guest?.updatedBy || {};
 
-  const createdName = createdBy.name || 'Keval V Shah';
-  const createdInitials = (createdName.slice(0, 2) || 'KV').toUpperCase();
+  const createdName = createdBy.name || 'Staff User';
+  const createdInitials = (createdName.slice(0, 2) || 'ST').toUpperCase();
 
-  const updatedName = updatedBy.name || 'Parth Joshi';
-  const updatedInitials = (updatedName.slice(0, 2) || 'PJ').toUpperCase();
+  const updatedName = updatedBy.name || createdBy.name || 'Staff User';
+  const updatedInitials = (updatedName.slice(0, 2) || 'ST').toUpperCase();
 
   const createdAt = guest?.createdAt ? new Date(guest.createdAt) : new Date();
   const updatedAt = guest?.updatedAt ? new Date(guest.updatedAt) : new Date();

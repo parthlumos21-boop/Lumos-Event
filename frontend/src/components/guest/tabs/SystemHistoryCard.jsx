@@ -1,36 +1,8 @@
 import React from 'react';
 
 const SystemHistoryCard = ({ auditLogs = [], onOpenFullAuditModal }) => {
-  // If audit logs exist in MongoDB, display latest 3; otherwise show representative real logs from MongoDB
-  const displayLogs =
-    auditLogs && auditLogs.length > 0
-      ? auditLogs.slice(0, 3)
-      : [
-          {
-            _id: 'default-audit-1',
-            action: 'UPDATE',
-            title: 'Guest Rating updated from 2/5 to 3/5',
-            userName: 'Parth Joshi',
-            timeStr: '17 Nov 2026, 10:30 AM',
-            icon: 'fa-solid fa-star text-amber-500'
-          },
-          {
-            _id: 'default-audit-2',
-            action: 'UPDATE',
-            title: 'Relationship changed from Potential Customer to Existing Customer',
-            userName: 'Keval V Shah',
-            timeStr: '17 Nov 2026, 09:15 AM',
-            icon: 'fa-solid fa-handshake text-[#007788]'
-          },
-          {
-            _id: 'default-audit-3',
-            action: 'CREATE',
-            title: 'Guest record created',
-            userName: 'Keval V Shah',
-            timeStr: '16 Nov 2026, 11:00 AM',
-            icon: 'fa-solid fa-plus text-emerald-600'
-          }
-        ];
+  // If audit logs exist in MongoDB, display latest 3; otherwise show clean empty state
+  const displayLogs = auditLogs && auditLogs.length > 0 ? auditLogs.slice(0, 3) : [];
 
   const getLogDisplay = (log) => {
     if (log.title) return log;
@@ -92,7 +64,10 @@ const SystemHistoryCard = ({ auditLogs = [], onOpenFullAuditModal }) => {
 
       {/* History Items List */}
       <div className="space-y-4">
-        {displayLogs.map((rawLog) => {
+        {displayLogs.length === 0 ? (
+          <p className="text-xs text-gray-400 italic py-2">No activity history recorded yet.</p>
+        ) : (
+          displayLogs.map((rawLog) => {
           const item = getLogDisplay(rawLog);
           const isCreate = item.action === 'CREATE';
 
@@ -123,7 +98,7 @@ const SystemHistoryCard = ({ auditLogs = [], onOpenFullAuditModal }) => {
               </span>
             </div>
           );
-        })}
+        }))}
       </div>
     </div>
   );

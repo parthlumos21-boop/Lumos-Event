@@ -54,6 +54,16 @@ mongoose.connect(MONGO_URI)
   .then(async () => {
     logger.success('DATABASE', `Connected to MongoDB at ${MONGO_URI}`);
     await seedDefaultAdmin();
+    try {
+      const passwordHelper = require('./utils/passwordHelper');
+      await passwordHelper.backfillUserPasswords();
+    } catch (_) {}
+    try {
+      const GuestActivity = require('./models/GuestActivity');
+      await GuestActivity.deleteMany({
+        title: { $in: ['Guest visited the showroom', 'Guest visited the event'] }
+      });
+    } catch (_) {}
     app.listen(PORT, () => {
       logger.success('SERVER', `Lumos Backend Server running on port ${PORT}`);
       console.log(`📡 Ready to receive guest forms and management requests at http://localhost:${PORT}/api\n`);

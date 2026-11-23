@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchableSelect from '../../common/SearchableSelect';
+import { useAuth } from '../../../context/AuthContext';
 
 const RELATIONSHIP_OPTIONS = [
   'Architect',
@@ -27,6 +28,8 @@ const AVAILABLE_INTERESTS = [
 const PREFERRED_METHODS = ['Phone', 'Email', 'WhatsApp', 'In-Person'];
 
 const GuestDetailsTab = ({ guest, onSave, saving, successMsg, errorMsg }) => {
+  const { role } = useAuth();
+  const isAdmin = role === 'admin';
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -332,15 +335,19 @@ const GuestDetailsTab = ({ guest, onSave, saving, successMsg, errorMsg }) => {
         {/* Star Rating */}
         <div>
           <label className="block text-xs font-semibold text-gray-700 mb-2">
-            Guest Rating ({formData.rating}/5)
+            Guest Rating ({formData.rating}/5) {!isAdmin && <span className="text-gray-400 font-normal italic">(Admin only)</span>}
           </label>
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 type="button"
                 key={star}
-                onClick={() => handleChange('rating', star)}
-                className="p-1 hover:scale-110 transition-transform cursor-pointer"
+                disabled={!isAdmin}
+                onClick={() => isAdmin && handleChange('rating', star)}
+                className={`p-1 transition-transform ${
+                  isAdmin ? 'hover:scale-110 cursor-pointer' : 'cursor-default opacity-80'
+                }`}
+                title={isAdmin ? `Rate ${star} star${star > 1 ? 's' : ''}` : 'Only administrators can update rating scores'}
               >
                 <i
                   className={`fa-solid fa-star text-xl ${

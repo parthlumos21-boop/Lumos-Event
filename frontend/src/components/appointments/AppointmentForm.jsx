@@ -12,8 +12,8 @@ const REFERENCE_OPTIONS = [
   'Architect',
   'Interior Designer',
   'Builder',
-  'Automation Consultant',
-  'Direct Client',
+  'PMC/Automation Consultant',
+  'Walk-in Client',
   'Other'
 ];
 
@@ -78,7 +78,7 @@ export const AppointmentForm = ({ portalType = 'admin' }) => {
       clientName: '',
       location: '',
       contact: '',
-      reference: 'Direct Client',
+      reference: 'Walk-in Client',
       referenceName: '',
       internalReference: '',
       requirements: '',
@@ -88,7 +88,7 @@ export const AppointmentForm = ({ portalType = 'admin' }) => {
     }
   });
 
-  const selectedRef = watch('reference', 'Direct Client');
+  const selectedRef = watch('reference', 'Walk-in Client');
 
   const onSubmit = async (data) => {
     setSubmitStatus('loading');
@@ -96,8 +96,8 @@ export const AppointmentForm = ({ portalType = 'admin' }) => {
     try {
       const payload = {
         ...data,
-        reference: data.reference || 'Direct Client',
-        referenceName: data.reference !== 'Direct Client' ? (data.referenceName || '').trim() : '',
+        reference: data.reference || 'Walk-in Client',
+        referenceName: data.reference !== 'Walk-in Client' ? (data.referenceName || '').trim() : '',
         internalReference: (data.internalReference || '').trim()
       };
       await axiosClient.post('/appointments', payload);
@@ -114,7 +114,7 @@ export const AppointmentForm = ({ portalType = 'admin' }) => {
       clientName: '',
       location: '',
       contact: '',
-      reference: 'Direct Client',
+      reference: 'Walk-in Client',
       referenceName: '',
       internalReference: '',
       requirements: '',
@@ -322,8 +322,8 @@ export const AppointmentForm = ({ portalType = 'admin' }) => {
                     </select>
                   </div>
 
-                  {/* Conditional Name Field (Visible for all except Direct Client) */}
-                  {selectedRef !== 'Direct Client' && (
+                  {/* Conditional Name Field (Visible for all except Walk-in Client) */}
+                  {selectedRef !== 'Walk-in Client' && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}

@@ -16,6 +16,9 @@ router.delete('/batch', verifyToken, appointmentController.batchDeleteAppointmen
 router.get('/', verifyToken, appointmentController.getAppointments);
 router.post('/', verifyToken, appointmentController.createAppointment);
 
+// High-performance appointment statistics and aggregates for 50,000+ records via MongoDB $facet pipeline
+router.get('/stats', verifyToken, appointmentController.getAppointmentStats);
+
 // Single Appointment Read, Update & Delete
 router.get('/:id', verifyToken, appointmentController.getAppointmentById);
 router.put('/:id', verifyToken, appointmentController.updateAppointment);

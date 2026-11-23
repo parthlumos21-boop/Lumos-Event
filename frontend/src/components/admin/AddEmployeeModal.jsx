@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from '../common/Modal';
 import SearchableSelect from '../common/SearchableSelect';
 import axiosClient from '../../api/axiosClient';
-import { UserPlus, AlertCircle, CheckCircle } from 'lucide-react';
+import { UserPlus, AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
 
 const AddEmployeeModal = ({ isOpen, onClose, onEmployeeAdded }) => {
   const [name, setName] = useState('');
@@ -10,6 +10,7 @@ const AddEmployeeModal = ({ isOpen, onClose, onEmployeeAdded }) => {
   const [department, setDepartment] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -36,6 +37,7 @@ const AddEmployeeModal = ({ isOpen, onClose, onEmployeeAdded }) => {
     setDepartment('');
     setEmail('');
     setPassword('');
+    setShowPassword(false);
     setError('');
     setSuccess(false);
   };
@@ -85,8 +87,7 @@ const AddEmployeeModal = ({ isOpen, onClose, onEmployeeAdded }) => {
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="Add New Employee / User"
-      subtitle="Data will be stored into mongodb users collection of LumosEvent database"
+      title="Add New Staff Member"
       maxWidth="max-w-lg"
     >
       {success ? (
@@ -94,8 +95,8 @@ const AddEmployeeModal = ({ isOpen, onClose, onEmployeeAdded }) => {
           <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
             <CheckCircle size={36} />
           </div>
-          <h4 className="text-xl font-bold text-gray-900">User / Employee Added</h4>
-          <p className="text-sm text-gray-500">Record successfully created in LumosEvent.users collection.</p>
+          <h4 className="text-xl font-bold text-gray-900">Staff Member Added</h4>
+          <p className="text-sm text-gray-500">Record successfully created.</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 font-sans text-gray-800">
@@ -164,16 +165,27 @@ const AddEmployeeModal = ({ isOpen, onClose, onEmployeeAdded }) => {
           {/* Password Field */}
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700">
-              Temporary Password <span className="text-red-500">*</span>
+              Password <span className="text-red-500">*</span>
             </label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Minimum 6 characters"
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-[#31747d] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#31747d]/20 focus:border-[#31747d] font-sans"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password (min. 6 characters)"
+                className="w-full pl-4 pr-11 py-3 rounded-xl border border-gray-300 bg-white text-[#31747d] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#31747d]/20 focus:border-[#31747d] font-sans"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#31747d] p-1 rounded-lg transition-colors cursor-pointer"
+                title={showPassword ? 'Hide password' : 'Show password'}
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           {/* Actions */}
@@ -192,7 +204,7 @@ const AddEmployeeModal = ({ isOpen, onClose, onEmployeeAdded }) => {
               className="px-6 py-2.5 rounded-full bg-[#31747d] hover:bg-[#255b62] text-white text-sm font-semibold flex items-center gap-2 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#31747d]/40 disabled:opacity-60 cursor-pointer"
             >
               <UserPlus size={16} />
-              <span>{loading ? 'Creating...' : 'Save Employee / User'}</span>
+              <span>{loading ? 'Creating...' : 'Save Staff Member'}</span>
             </button>
           </div>
         </form>

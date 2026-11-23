@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../../context/AuthContext';
 
 const RATING_LABELS = {
   1: '1/5 - Poor',
@@ -9,6 +10,8 @@ const RATING_LABELS = {
 };
 
 const GuestFeedbackCard = ({ guest, onSave, saving }) => {
+  const { role } = useAuth();
+  const isAdmin = role === 'admin';
   const [editingField, setEditingField] = useState(null); // 'staffRating' | 'rating' | 'comments' | 'all' | null
   const [hoverRating, setHoverRating] = useState(0);
   const [hoverStaffRating, setHoverStaffRating] = useState(0);
@@ -98,15 +101,15 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
             </span>
           )}
 
-          {editingField !== 'all' ? (
+          {editingField !== 'all' && editingField !== 'comments' ? (
             <button
               type="button"
-              onClick={() => setEditingField('all')}
+              onClick={() => setEditingField(isAdmin ? 'all' : 'comments')}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 hover:text-[#007788] hover:border-[#007788] text-xs font-semibold shadow-2xs transition-all opacity-80 hover:opacity-100 cursor-pointer"
-              title="Edit feedback (or hover any field to edit directly)"
+              title={isAdmin ? "Edit feedback (or hover any field to edit directly)" : "Edit comments"}
             >
               <i className="fa-solid fa-pen text-[11px]" />
-              <span>Edit All</span>
+              <span>{isAdmin ? 'Edit All' : 'Edit Comments'}</span>
             </button>
           ) : (
             <div className="flex items-center gap-1.5">
@@ -115,12 +118,12 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
               </span>
               <button
                 type="button"
-                onClick={() => handleSaveField('all')}
+                onClick={() => handleSaveField(editingField || 'all')}
                 disabled={saving}
                 className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#007788] hover:bg-[#006674] text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer"
               >
                 <i className="fa-solid fa-check text-xs" />
-                <span>Save All</span>
+                <span>Save</span>
               </button>
               <button
                 type="button"
@@ -145,7 +148,7 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
               <span className="text-[11px] text-gray-400 font-medium block">How was Staff?</span>
-              {!isEditing('staffRating') && (
+              {!isEditing('staffRating') && isAdmin && (
                 <button
                   type="button"
                   onClick={() => setEditingField('staffRating')}
@@ -157,11 +160,11 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
               )}
             </div>
 
-            {!isEditing('staffRating') ? (
+            {!isEditing('staffRating') || !isAdmin ? (
               <div
-                onClick={() => setEditingField('staffRating')}
-                className="flex items-center gap-3 mt-1 cursor-pointer group/stars"
-                title="Click to edit staff rating"
+                onClick={isAdmin ? () => setEditingField('staffRating') : undefined}
+                className={`flex items-center gap-3 mt-1 ${isAdmin ? 'cursor-pointer group/stars' : 'cursor-default'}`}
+                title={isAdmin ? "Click to edit staff rating" : "Only administrators can update rating scores"}
               >
                 <div className="flex items-center gap-1 text-base">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -259,7 +262,7 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
               <span className="text-[11px] text-gray-400 font-medium block">How Was Your Visit?</span>
-              {!isEditing('rating') && (
+              {!isEditing('rating') && isAdmin && (
                 <button
                   type="button"
                   onClick={() => setEditingField('rating')}
@@ -271,11 +274,11 @@ const GuestFeedbackCard = ({ guest, onSave, saving }) => {
               )}
             </div>
 
-            {!isEditing('rating') ? (
+            {!isEditing('rating') || !isAdmin ? (
               <div
-                onClick={() => setEditingField('rating')}
-                className="flex items-center gap-3 mt-1 cursor-pointer group/stars"
-                title="Click to edit rating"
+                onClick={isAdmin ? () => setEditingField('rating') : undefined}
+                className={`flex items-center gap-3 mt-1 ${isAdmin ? 'cursor-pointer group/stars' : 'cursor-default'}`}
+                title={isAdmin ? "Click to edit rating" : "Only administrators can update rating scores"}
               >
                 <div className="flex items-center gap-1 text-base">
                   {[1, 2, 3, 4, 5].map((star) => (
