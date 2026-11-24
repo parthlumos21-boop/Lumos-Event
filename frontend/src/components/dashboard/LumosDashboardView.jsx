@@ -4,8 +4,10 @@ import axiosClient from '../../api/axiosClient';
 import DashboardHeader from './DashboardHeader';
 import StatOverviewGrid from './StatOverviewGrid';
 import QuickAccessCards from './QuickAccessCards';
-import RecentRegistrationsList from './RecentRegistrationsList';
+import UpcomingReminders from './UpcomingReminders';
+import RecentFeedback from './RecentFeedback';
 import GuestInsightsPanels, { DASHBOARD_FILTER_MAP } from './GuestInsightsPanels';
+import appointmentFollowUpService from '../../services/appointmentFollowUpService';
 
 const LumosDashboardView = ({
   title = 'Dashboard',
@@ -24,6 +26,8 @@ const LumosDashboardView = ({
   const [recentGuests, setRecentGuests] = useState([]);
   const [interestsBreakdown, setInterestsBreakdown] = useState([]);
   const [relationshipsBreakdown, setRelationshipsBreakdown] = useState([]);
+  const [upcomingReminders, setUpcomingReminders] = useState([]);
+  const [pendingRemindersCount, setPendingRemindersCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -36,7 +40,7 @@ const LumosDashboardView = ({
     }
 
     try {
-      const [statsRes, aptStatsRes] = await Promise.all([
+      const [statsRes, aptStatsRes, remindersRes] = await Promise.all([
         axiosClient.get('/guests/stats').catch(() => ({
           data: {
             totalGuests: 0,
@@ -61,6 +65,11 @@ const LumosDashboardView = ({
             references: [],
             statusBreakdown: []
           }
+        })),
+        appointmentFollowUpService.getUpcomingReminders().catch(() => ({
+          success: false,
+          totalPendingCount: 0,
+          reminders: []
         }))
       ]);
 
@@ -74,6 +83,14 @@ const LumosDashboardView = ({
       setRecentGuests(Array.isArray(d.recentGuests) ? d.recentGuests : []);
       setInterestsBreakdown(Array.isArray(d.interests) ? d.interests : []);
       setRelationshipsBreakdown(Array.isArray(d.relationships) ? d.relationships : []);
+
+      if (remindersRes && Array.isArray(remindersRes.reminders)) {
+        setUpcomingReminders(remindersRes.reminders);
+        setPendingRemindersCount(remindersRes.totalPendingCount ?? remindersRes.reminders.length);
+      } else {
+        setUpcomingReminders([]);
+        setPendingRemindersCount(0);
+      }
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     } finally {
@@ -101,6 +118,20 @@ const LumosDashboardView = ({
 
   const handleNavigateAppointment = () => {
     navigate(newAppointmentRoute);
+  };
+
+  const appointmentsRoute = guestListRoute.startsWith('/admin') ? '/admin/appointments' : '/user/appointments';
+
+  const handleViewAllReminders = () => {
+    navigate(appointmentsRoute);
+  };
+
+  const handleSelectReminder = (reminder) => {
+    if (reminder?.appointmentId) {
+      navigate(`${appointmentsRoute}/${reminder.appointmentId}`);
+    } else {
+      navigate(appointmentsRoute);
+    }
   };
 
   const handleSelectGuest = (guestId) => {
@@ -147,15 +178,24 @@ const LumosDashboardView = ({
         onNavigateAppointment={handleNavigateAppointment}
       />
 
-      {/* 4. Recent Registrations (Full-width hybrid list/table with top 5 recent guests) */}
-      <RecentRegistrationsList
+      {/* 4. Upcoming Reminders – New Section */}
+      <UpcomingReminders
+        reminders={upcomingReminders}
+        pendingCount={pendingRemindersCount}
+        loading={loading}
+        onViewAll={handleViewAllReminders}
+        onSelectReminder={handleSelectReminder}
+      />
+
+      {/* 5. Recent Feedback (Vertically stacked compact cards) */}
+      <RecentFeedback
         guests={recentGuests}
         loading={loading}
         onViewAll={handleNavigateGuests}
         onSelectGuest={handleSelectGuest}
       />
 
-      {/* 5. Guest Insights (Left: Interests, Right: Relationship Overview) */}
+      {/* 6. Guest Insights (Left: Interests, Right: Relationship Overview) */}
       <GuestInsightsPanels
         interests={interestsBreakdown}
         relationships={relationshipsBreakdown}

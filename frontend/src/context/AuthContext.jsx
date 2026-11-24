@@ -43,8 +43,12 @@ export const AuthProvider = ({ children }) => {
           }
         } catch (err) {
           console.warn('Initial session check note:', err?.message || err);
-          // If 401, axiosClient interceptor will attempt silent refresh automatically.
-          // We DO NOT force logout here so user is never logged out unexpectedly.
+          if (err.response?.status === 401 || err.response?.status === 404) {
+            localStorage.removeItem('lumos_user');
+            localStorage.removeItem('lumos_access_token');
+            localStorage.removeItem('lumos_refresh_token');
+            setUser(null);
+          }
         }
       }
       setLoading(false);

@@ -11,7 +11,8 @@ const HeaderMetricCard = memo(({
   value,
   label,
   minWidth = 'min-w-[80px] sm:min-w-[90px]',
-  className = ''
+  className = '',
+  valueClassName = 'text-xs sm:text-sm font-extrabold text-gray-900 font-mono tracking-tight truncate leading-none'
 }) => {
   const renderIcon = () => {
     if (!icon) return null;
@@ -33,7 +34,7 @@ const HeaderMetricCard = memo(({
       {/* Top Row: Icon + Value Centered from Left, Right, Top */}
       <div className="flex items-center justify-center gap-1.5 w-full">
         {renderIcon()}
-        <span className="text-xs sm:text-sm font-extrabold text-gray-900 font-mono tracking-tight truncate leading-none">
+        <span className={clsx(valueClassName)}>
           {value !== undefined && value !== null ? value : 0}
         </span>
       </div>

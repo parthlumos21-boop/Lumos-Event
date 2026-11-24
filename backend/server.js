@@ -67,6 +67,16 @@ mongoose.connect(MONGO_URI)
     app.listen(PORT, () => {
       logger.success('SERVER', `Lumos Backend Server running on port ${PORT}`);
       console.log(`📡 Ready to receive guest forms and management requests at http://localhost:${PORT}/api\n`);
+
+      // Background appointment follow-up reminder worker (Disabled for now as requested)
+      /*
+      try {
+        const { startReminderWorker } = require('./jobs/appointmentReminderWorker');
+        startReminderWorker();
+      } catch (workerErr) {
+        logger.error('Failed to start appointment reminder worker:', workerErr);
+      }
+      */
     });
   })
   .catch((err) => {

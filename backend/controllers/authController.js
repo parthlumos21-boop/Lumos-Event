@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
@@ -121,12 +122,25 @@ exports.logout = async (req, res) => {
 
 exports.me = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const userId = req.user?.id || req.user?._id || req.user?.userId;
+    let user = null;
+
+    if (userId && mongoose.Types.ObjectId.isValid(userId)) {
+      user = await User.findById(userId).select('-password');
     }
+
+    // Graceful fallback to email if the user document ID changed during DB reseed/migration
+    if (!user && req.user?.email) {
+      user = await User.findOne({ email: req.user.email.toLowerCase().trim() }).select('-password');
+    }
+
+    if (!user) {
+      return res.status(401).json({ message: 'User session expired or user not found. Please log in again.' });
+    }
+
     res.json({ user });
   } catch (err) {
+    logger.error('AUTH ME ERROR', err.message, err);
     res.status(500).json({ message: 'Error fetching profile', error: err.message });
   }
 };

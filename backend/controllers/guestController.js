@@ -343,6 +343,7 @@ exports.getGuestStats = async (req, res) => {
                 'guest.phone': 1,
                 relationship: 1,
                 'feedback.rating': 1,
+                'feedback.comments': 1,
                 'followUp.required': 1,
                 createdAt: 1
               }

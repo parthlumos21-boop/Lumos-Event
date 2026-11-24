@@ -1,4 +1,5 @@
 import React from 'react';
+import { format12HourTime } from '../../../utils/timeFormat';
 
 export const AppointmentRecordInfoCard = ({ appointment }) => {
   const createdBy = appointment?.createdBy || {};
@@ -54,7 +55,7 @@ export const AppointmentRecordInfoCard = ({ appointment }) => {
           <div>
             <span className="text-[11px] text-gray-400 font-medium block">Created On</span>
             <span className="font-bold text-gray-900 text-xs block font-mono">
-              {createdAt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}, {createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {createdAt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}, {format12HourTime(createdAt)}
             </span>
           </div>
         </div>
@@ -67,7 +68,7 @@ export const AppointmentRecordInfoCard = ({ appointment }) => {
           <div>
             <span className="text-[11px] text-gray-400 font-medium block">Last Updated</span>
             <span className="font-bold text-gray-900 text-xs block font-mono">
-              {updatedAt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}, {updatedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {updatedAt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}, {format12HourTime(updatedAt)}
             </span>
           </div>
         </div>

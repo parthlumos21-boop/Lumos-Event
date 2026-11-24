@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosClient from '../../api/axiosClient';
 import { useAuth } from '../../context/AuthContext';
@@ -9,6 +9,10 @@ import AppointmentDetailsCard from './tabs/AppointmentDetailsCard';
 import AppointmentRecordInfoCard from './tabs/AppointmentRecordInfoCard';
 import AppointmentRecentActivitiesCard from './tabs/AppointmentRecentActivitiesCard';
 import AppointmentActivitiesTab from './tabs/AppointmentActivitiesTab';
+import FollowUpModal from './modals/FollowUpModal';
+import FollowUpList from './tabs/FollowUpList';
+import FollowUpCard from './tabs/FollowUpCard';
+import appointmentFollowUpService from '../../services/appointmentFollowUpService';
 import AddAppointmentActivityModal from './modals/AddAppointmentActivityModal';
 import AppointmentAuditHistoryModal from './modals/AppointmentAuditHistoryModal';
 import SearchableSelect from '../common/SearchableSelect';
@@ -35,6 +39,13 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddActivityModalOpen, setIsAddActivityModalOpen] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
+
+  // Follow-ups state
+  const [followUps, setFollowUps] = useState([]);
+  const [isFollowUpModalOpen, setIsFollowUpModalOpen] = useState(false);
+  const [editingFollowUp, setEditingFollowUp] = useState(null);
+  const [submittingFollowUp, setSubmittingFollowUp] = useState(false);
+  const [followUpBannerMsg, setFollowUpBannerMsg] = useState('');
 
   // Reference users for Internal Reference dropdown from MongoDB users collection
   const [userOptions, setUserOptions] = useState([]);
@@ -92,6 +103,9 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
           setActivities(app.logactivity);
         } else if (res.data.recentActivities) {
           setActivities(res.data.recentActivities);
+        }
+        if (app.followUps && Array.isArray(app.followUps)) {
+          setFollowUps(app.followUps);
         }
 
         setEditFormData({
@@ -244,6 +258,86 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
     setIsAuditModalOpen(true);
   };
 
+  const fetchFollowUps = useCallback(async () => {
+    if (!id) return;
+    try {
+      const res = await appointmentFollowUpService.getFollowUps(id);
+      if (res?.success && Array.isArray(res.followUps)) {
+        setFollowUps(res.followUps);
+      }
+    } catch (err) {
+      console.error('Error fetching appointment follow-ups:', err);
+    }
+  }, [id]);
+
+  const handleSaveFollowUp = async (formData) => {
+    setSubmittingFollowUp(true);
+    try {
+      if (editingFollowUp) {
+        await appointmentFollowUpService.updateFollowUp(id, editingFollowUp.followUpId, formData);
+        setFollowUpBannerMsg('Follow-up updated successfully.');
+      } else {
+        await appointmentFollowUpService.createFollowUp(id, formData);
+        setFollowUpBannerMsg('Follow-up scheduled with reminders.');
+      }
+      setIsFollowUpModalOpen(false);
+      setEditingFollowUp(null);
+      await fetchAppointment();
+      await fetchFollowUps();
+      setTimeout(() => setFollowUpBannerMsg(''), 4000);
+    } catch (err) {
+      console.error('Error saving follow-up:', err);
+      alert(err.response?.data?.message || 'Failed to save follow-up');
+    } finally {
+      setSubmittingFollowUp(false);
+    }
+  };
+
+  const handleCompleteFollowUp = async (followUpId) => {
+    try {
+      await appointmentFollowUpService.updateStatus(id, followUpId, 'Completed');
+      await fetchAppointment();
+      await fetchFollowUps();
+      setFollowUpBannerMsg('Follow-up marked as completed.');
+      setTimeout(() => setFollowUpBannerMsg(''), 3000);
+    } catch (err) {
+      console.error('Error completing follow-up:', err);
+    }
+  };
+
+  const handleCancelFollowUp = async (followUpId) => {
+    try {
+      await appointmentFollowUpService.updateStatus(id, followUpId, 'Cancelled');
+      await fetchAppointment();
+      await fetchFollowUps();
+      setFollowUpBannerMsg('Follow-up cancelled.');
+      setTimeout(() => setFollowUpBannerMsg(''), 3000);
+    } catch (err) {
+      console.error('Error cancelling follow-up:', err);
+    }
+  };
+
+  const handleDeleteFollowUp = async (followUpId) => {
+    if (!window.confirm('Are you sure you want to delete this follow-up?')) return;
+    try {
+      await appointmentFollowUpService.deleteFollowUp(id, followUpId);
+      await fetchAppointment();
+      await fetchFollowUps();
+      setFollowUpBannerMsg('Follow-up deleted.');
+      setTimeout(() => setFollowUpBannerMsg(''), 3000);
+    } catch (err) {
+      console.error('Error deleting follow-up:', err);
+    }
+  };
+
+  const pendingFollowUpsCount = useMemo(() => {
+    return (followUps || []).filter((f) => f && (f.status === 'Pending' || f.status === 'Overdue')).length;
+  }, [followUps]);
+
+  const upcomingFollowUps = useMemo(() => {
+    return (followUps || []).filter((f) => f && (f.status === 'Pending' || f.status === 'Overdue'));
+  }, [followUps]);
+
   const handleBack = () => {
     const basePath = portal === 'admin' || role === 'admin' ? '/admin/appointments' : '/user/appointments';
     navigate(basePath);
@@ -299,8 +393,28 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
         stats={stats}
         onEditAll={() => setIsEditModalOpen(true)}
         onRefresh={fetchAppointment}
+        onAddFollowUp={() => {
+          setEditingFollowUp(null);
+          setIsFollowUpModalOpen(true);
+        }}
+        onViewChanges={() => setIsAuditModalOpen(true)}
+        onViewActivities={() => setActiveTab('activities')}
         loading={loading}
       />
+
+      {/* Follow-up / Action Banner Notification */}
+      {followUpBannerMsg && (
+        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-xs font-semibold flex items-center justify-between shadow-2xs animate-in fade-in">
+          <span>{followUpBannerMsg}</span>
+          <button
+            type="button"
+            onClick={() => setFollowUpBannerMsg('')}
+            className="text-emerald-500 hover:text-emerald-800 text-sm font-bold px-2 cursor-pointer"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       {/* Navigation Tabs - Mobile Horizontal Touch Scroll */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar whitespace-nowrap py-1 border-b border-gray-200/80 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -330,6 +444,30 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
         >
           <i className="fa-solid fa-address-card text-xs" />
           <span>Appointment Details</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('followups')}
+          className={clsx(
+            'inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 select-none',
+            activeTab === 'followups'
+              ? 'bg-[#007788] text-white shadow-xs'
+              : 'text-gray-600 hover:text-[#007788] hover:bg-gray-100 bg-white border border-gray-200/80'
+          )}
+        >
+          <i className="fa-solid fa-calendar-check text-xs" />
+          <span>Follow-ups</span>
+          {pendingFollowUpsCount > 0 && (
+            <span
+              className={clsx(
+                'px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold leading-none',
+                activeTab === 'followups' ? 'bg-white/20 text-white' : 'bg-amber-100 text-amber-800'
+              )}
+            >
+              {pendingFollowUpsCount}
+            </span>
+          )}
         </button>
 
         <button
@@ -374,7 +512,7 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
       {/* Tab Contents */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column (7 cols): Appointment Information, Requirements & Remarks, Record Information */}
+          {/* Left Column (7 cols): Appointment Information, Requirements & Remarks */}
           <div className="lg:col-span-7 space-y-6">
             <AppointmentInfoCard
               appointment={appointment}
@@ -387,17 +525,78 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
               onSave={handleSaveInline}
               saving={saving}
             />
-
-            <AppointmentRecordInfoCard appointment={appointment} />
           </div>
 
-          {/* Right Column (5 cols): Schedule, Recent Activities & System History */}
+          {/* Right Column (5 cols): Schedule, Follow-ups, Recent Activities & System History */}
           <div className="lg:col-span-5 space-y-6">
             <AppointmentScheduleCard
               appointment={appointment}
               onSave={handleSaveInline}
               saving={saving}
             />
+
+            {/* Upcoming Follow-ups Card */}
+            <div className="bg-white border border-gray-200/90 rounded-3xl p-6 shadow-xs font-sans">
+              <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-1.5 h-5 bg-[#007788] rounded-full inline-block" />
+                  <h3 className="text-base font-bold text-gray-900 tracking-tight">Upcoming Follow-ups</h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditingFollowUp(null);
+                      setIsFollowUpModalOpen(true);
+                    }}
+                    className="text-xs font-semibold text-[#007788] hover:underline cursor-pointer"
+                  >
+                    + Add
+                  </button>
+                  <span className="text-gray-300">|</span>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('followups')}
+                    className="text-xs font-semibold text-[#007788] hover:underline cursor-pointer"
+                  >
+                    View All →
+                  </button>
+                </div>
+              </div>
+
+              {upcomingFollowUps.length === 0 ? (
+                <p className="text-xs text-gray-400 italic py-2">
+                  No upcoming follow-ups scheduled.{' '}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditingFollowUp(null);
+                      setIsFollowUpModalOpen(true);
+                    }}
+                    className="text-[#007788] font-semibold hover:underline cursor-pointer not-italic ml-1"
+                  >
+                    Schedule one
+                  </button>
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  {upcomingFollowUps.slice(0, 2).map((flw) => (
+                    <FollowUpCard
+                      key={flw.followUpId}
+                      followUp={flw}
+                      onComplete={handleCompleteFollowUp}
+                      onCancel={handleCancelFollowUp}
+                      onEdit={(f) => {
+                        setEditingFollowUp(f);
+                        setIsFollowUpModalOpen(true);
+                      }}
+                      onDelete={handleDeleteFollowUp}
+                      canManage={true}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Recent Activities Card matching image */}
             <AppointmentRecentActivitiesCard
@@ -461,6 +660,25 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Follow-ups Tab */}
+      {activeTab === 'followups' && (
+        <FollowUpList
+          followUps={followUps}
+          onAddFollowUp={() => {
+            setEditingFollowUp(null);
+            setIsFollowUpModalOpen(true);
+          }}
+          onComplete={handleCompleteFollowUp}
+          onCancel={handleCancelFollowUp}
+          onEdit={(f) => {
+            setEditingFollowUp(f);
+            setIsFollowUpModalOpen(true);
+          }}
+          onDelete={handleDeleteFollowUp}
+          canManage={true}
+        />
       )}
 
       {/* Details Tab */}
@@ -671,6 +889,19 @@ export const AppointmentProfile = ({ portal = 'admin' }) => {
         onClose={() => setIsAuditModalOpen(false)}
         auditLogs={allAuditLogs}
         totalLogs={allAuditLogs.length}
+      />
+
+      {/* Follow-up Creation / Edit Modal */}
+      <FollowUpModal
+        isOpen={isFollowUpModalOpen}
+        onClose={() => {
+          setIsFollowUpModalOpen(false);
+          setEditingFollowUp(null);
+        }}
+        onSubmit={handleSaveFollowUp}
+        submitting={submittingFollowUp}
+        appointment={appointment}
+        initialData={editingFollowUp}
       />
     </div>
   );

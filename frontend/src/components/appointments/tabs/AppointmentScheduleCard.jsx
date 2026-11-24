@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { format12HourTime } from '../../../utils/timeFormat';
 
 export const AppointmentScheduleCard = ({ appointment, onSave, saving }) => {
   const [editingField, setEditingField] = useState(null); // 'appointmentDate' | 'appointmentTime' | 'all' | null
@@ -202,7 +203,7 @@ export const AppointmentScheduleCard = ({ appointment, onSave, saving }) => {
                 className="font-bold text-gray-900 text-sm block cursor-pointer hover:text-[#007788] select-none"
                 title="Click to edit"
               >
-                {formData.appointmentTime || '-'}
+                {format12HourTime(formData.appointmentTime)}
               </span>
             ) : (
               <div className="flex items-center gap-1 mt-1">
