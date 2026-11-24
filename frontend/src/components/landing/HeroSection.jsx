@@ -65,18 +65,16 @@ export const HeroSection = ({ onOpenQRModal }) => {
 
             {/* Action Buttons: Primary Lumos Teal "Get Started" + White "Permanent QR Code" Dropdown */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <div data-magnetic>
-                <LumosButton
-                  variant="primary"
-                  size="lg"
-                  onClick={() => navigate('/form')}
-                >
-                  {landingContent.hero.getStartedText}
-                </LumosButton>
-              </div>
+              <LumosButton
+                variant="primary"
+                size="lg"
+                onClick={() => navigate('/form')}
+              >
+                {landingContent.hero.getStartedText}
+              </LumosButton>
 
               {/* Permanent QR Code Dropdown Button */}
-              <div className="relative" ref={dropdownRef} data-magnetic>
+              <div className="relative" ref={dropdownRef}>
                 <LumosButton
                   variant="white"
                   size="lg"
@@ -141,7 +139,7 @@ export const HeroSection = ({ onOpenQRModal }) => {
 
           {/* Right Column: Clearance on Desktop (since absolute overlay spans diagonally) & Natural flow on Mobile/Tablet */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="lg:hidden relative max-w-[420px] w-full" data-magnetic>
+            <div className="lg:hidden relative max-w-[420px] w-full">
               <img
                 src="/modern_architectural_building.png"
                 onError={(e) => {
@@ -176,29 +174,27 @@ export const HeroSection = ({ onOpenQRModal }) => {
         {/* Centered Phone Mockup with Desktop Floating Chips (Overlaps building's lower-left edge) */}
         <div className="relative z-10 flex items-center justify-center">
           {/* Top-Left: Temperature control */}
-          <div className="hidden lg:block absolute top-[20%] -left-[180px] z-20" data-magnetic>
+          <div className="hidden lg:block absolute top-[20%] -left-[180px] z-20">
             <FeatureChip icon="Thermometer" label={"Temperature\ncontrol"} />
           </div>
 
           {/* Bottom-Left: Smart spotlights */}
-          <div className="hidden lg:block absolute bottom-[26%] -left-[220px] z-20" data-magnetic>
+          <div className="hidden lg:block absolute bottom-[26%] -left-[220px] z-20">
             <FeatureChip icon="Sun" label={"Smart\nspotlights"} />
           </div>
 
           {/* Top-Right: Alarm system */}
-          <div className="hidden lg:block absolute top-[20%] -right-[180px] z-20" data-magnetic>
+          <div className="hidden lg:block absolute top-[20%] -right-[180px] z-20">
             <FeatureChip icon="ShieldCheck" label={"Alarm\nsystem"} />
           </div>
 
           {/* Bottom-Right: Access Control */}
-          <div className="hidden lg:block absolute bottom-[26%] -right-[210px] z-20" data-magnetic>
+          <div className="hidden lg:block absolute bottom-[26%] -right-[210px] z-20">
             <FeatureChip icon="Lock" label={"Access\nControl"} />
           </div>
 
           {/* Smartphone Mockup with Scroll-Triggered Boot Sequence */}
-          <div data-magnetic>
-            <PhoneMockup variant="home" />
-          </div>
+          <PhoneMockup variant="home" />
         </div>
 
         {/* Thin Teal Sine Wave Line crossing across Easy Control & Phone bottom */}
