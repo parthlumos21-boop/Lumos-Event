@@ -1,0 +1,1159 @@
+[
+  {
+    "_id": {
+      "$oid": "6afeeecf7ecc59842ee8cca7"
+    },
+    "srNo": "APT-1001",
+    "clientName": "Test Client Appointment",
+    "location": "Ahmedabad",
+    "contact": "8757526223",
+    "architectureReference": "Architect",
+    "reference": "Test Ref",
+    "requirements": "- Test Requirement.",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795046400000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "",
+    "status": "Rescheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795092175859"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795150800636"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "updatedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "srNo": "APT-1002",
+    "clientName": "XYZ client demo",
+    "location": "Ahemedabad",
+    "contact": "8798698796",
+    "architectureReference": "Direct Client",
+    "reference": "",
+    "requirements": "Test",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "Test new remark",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795152165481"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795503431003"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "updatedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795132800000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with XYZ client demo for 11:00 on 20/11/2026. Reference: Direct Client.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afaff78638ceba2694d55ec"
+          },
+          "name": "Test Employee",
+          "email": "testusr@lumos.com",
+          "role": "employee"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795152165481"
+          }
+        },
+        "_id": {
+          "$oid": "6affee014ef2d8a6b244699e"
+        }
+      },
+      {
+        "activityType": "Client Visit",
+        "titleSummary": "Tet Client",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795197120000"
+          }
+        },
+        "detailedNotes": "Tst notes.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795157543152"
+          }
+        },
+        "_id": {
+          "$oid": "6affee274ef2d8a6b24469a0"
+        }
+      },
+      {
+        "activityType": "Follow-up Call",
+        "titleSummary": "Take 5 min call",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795157640000"
+          }
+        },
+        "detailedNotes": "Follow up on home theater.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795157688275"
+          }
+        },
+        "_id": {
+          "$oid": "6affeeb84ef2d8a6b24469a6"
+        }
+      },
+      {
+        "activityType": "Follow-up Call",
+        "titleSummary": "Follow-up Scheduled for 24 Nov 2026 at 12:00 (Owner: Test Employee)",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795500469885"
+          }
+        },
+        "detailedNotes": "Notes: Test Only",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795500469885"
+          }
+        },
+        "_id": {
+          "$oid": "6b0529b50e329b3dbf734fe6"
+        }
+      },
+      {
+        "activityType": "Customer Interaction",
+        "titleSummary": "Follow-up Completed for 12:00 (Owner: Test Employee)",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795500501192"
+          }
+        },
+        "detailedNotes": "Follow-up status changed to Completed",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795500501192"
+          }
+        },
+        "_id": {
+          "$oid": "6b0529d50e329b3dbf734ffc"
+        }
+      },
+      {
+        "activityType": "Follow-up Call",
+        "titleSummary": "Follow-up Scheduled for 24 Nov 2026 at 12:40 (Owner: Test Employee)",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795503431002"
+          }
+        },
+        "detailedNotes": "Notes: - Take First call and schedule meeting.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795503431002"
+          }
+        },
+        "_id": {
+          "$oid": "6b053547250be39162f24f03"
+        }
+      }
+    ],
+    "followUps": [
+      {
+        "followUpId": "flw_6b0529b50e329b3dbf734fe5",
+        "followUpDate": {
+          "$date": {
+            "$numberLong": "1795478400000"
+          }
+        },
+        "followUpTime": "12:00",
+        "notes": "Test Only",
+        "appointmentOwner": {
+          "userId": {
+            "$oid": "6afaff78638ceba2694d55ec"
+          },
+          "name": "Test Employee",
+          "email": "testusr@lumos.com",
+          "role": "employee"
+        },
+        "assignedTo": {
+          "userId": {
+            "$oid": "6afaff78638ceba2694d55ec"
+          },
+          "name": "Test Employee",
+          "email": "testusr@lumos.com",
+          "role": "employee"
+        },
+        "reminder": {
+          "enabled": false,
+          "reminderBefore": {
+            "$numberInt": "15"
+          },
+          "reminderUnit": "minutes",
+          "reminderAt": null,
+          "isSent": false,
+          "sentAt": null,
+          "notifyRecipients": [
+            {
+              "userId": {
+                "$oid": "6afaff78638ceba2694d55ec"
+              },
+              "email": "testusr@lumos.com",
+              "name": "Test Employee",
+              "role": "employee",
+              "isNotified": false,
+              "_id": {
+                "$oid": "6b0529b50e329b3dbf734fe8"
+              }
+            },
+            {
+              "userId": {
+                "$oid": "6afafa8fc947a3ef937862b4"
+              },
+              "email": "admin@lumos.com",
+              "name": "System Admin",
+              "role": "admin",
+              "isNotified": false,
+              "_id": {
+                "$oid": "6b0529b50e329b3dbf734fe9"
+              }
+            }
+          ]
+        },
+        "status": "Completed",
+        "createdBy": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795500469885"
+          }
+        },
+        "updatedAt": {
+          "$date": {
+            "$numberLong": "1795500501192"
+          }
+        },
+        "_id": {
+          "$oid": "6b0529b50e329b3dbf734fe7"
+        },
+        "completedAt": {
+          "$date": {
+            "$numberLong": "1795500501192"
+          }
+        }
+      },
+      {
+        "followUpId": "flw_6b053546250be39162f24f02",
+        "followUpDate": {
+          "$date": {
+            "$numberLong": "1795478400000"
+          }
+        },
+        "followUpTime": "12:40",
+        "notes": "- Take First call and schedule meeting.",
+        "appointmentOwner": {
+          "userId": {
+            "$oid": "6afaff78638ceba2694d55ec"
+          },
+          "name": "Test Employee",
+          "email": "testusr@lumos.com",
+          "role": "employee"
+        },
+        "assignedTo": {
+          "userId": {
+            "$oid": "6afaff78638ceba2694d55ec"
+          },
+          "name": "Test Employee",
+          "email": "testusr@lumos.com",
+          "role": "employee"
+        },
+        "reminder": {
+          "enabled": true,
+          "reminderBefore": {
+            "$numberInt": "15"
+          },
+          "reminderUnit": "minutes",
+          "reminderAt": {
+            "$date": {
+              "$numberLong": "1795503300000"
+            }
+          },
+          "isSent": false,
+          "sentAt": null,
+          "notifyRecipients": [
+            {
+              "userId": {
+                "$oid": "6afaff78638ceba2694d55ec"
+              },
+              "email": "testusr@lumos.com",
+              "name": "Test Employee",
+              "role": "employee",
+              "isNotified": false,
+              "_id": {
+                "$oid": "6b053547250be39162f24f05"
+              }
+            },
+            {
+              "userId": {
+                "$oid": "6afafa8fc947a3ef937862b4"
+              },
+              "email": "admin@lumos.com",
+              "name": "System Admin",
+              "role": "admin",
+              "isNotified": false,
+              "_id": {
+                "$oid": "6b053547250be39162f24f06"
+              }
+            }
+          ]
+        },
+        "status": "Pending",
+        "createdBy": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795503430975"
+          }
+        },
+        "updatedAt": {
+          "$date": {
+            "$numberLong": "1795503430975"
+          }
+        },
+        "_id": {
+          "$oid": "6b053547250be39162f24f04"
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "6b000d434ef2d8a6b24469ab"
+    },
+    "srNo": "APT-1003",
+    "clientName": "Parth Client",
+    "location": "Ahmedabad",
+    "contact": "7898895623",
+    "architectureReference": "Interior Designer",
+    "reference": "Rush Test",
+    "requirements": "- Test Requirements\n- Switches",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "appointmentTime": "14:34",
+    "remark": "This is for test remarks.",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795132800000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Parth Client for 14:34 on 20/11/2026. Reference: Rush Test.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795165507056"
+          }
+        },
+        "_id": {
+          "$oid": "6b000d434ef2d8a6b24469ac"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795165507068"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795166261379"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "updatedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0010b32b3769965b05853d"
+    },
+    "srNo": "APT-1004",
+    "clientName": "Joshi Client",
+    "location": "Surat",
+    "contact": "8757526221",
+    "architectureReference": "Architect",
+    "referenceName": "Rush Test",
+    "reference": "Rush Test",
+    "internalReference": "Rush Test",
+    "requirements": "",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795219200000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Joshi Client for 11:00 on 21/11/2026. Reference: Architect (Rush Test). Internal Reference: Rush Test.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795166387529"
+          }
+        },
+        "_id": {
+          "$oid": "6b0010b32b3769965b05853e"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795166387539"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795166387539"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b001fd8280e9ed5bfb25bb4"
+    },
+    "srNo": "APT-1005",
+    "clientName": "Test New Client",
+    "location": "Surat",
+    "contact": "8757526224",
+    "reference": "Builder",
+    "referenceName": "Parth Interior",
+    "internalReference": "Rush Test",
+    "requirements": "",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795219200000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Test New Client for 11:00 on 21/11/2026. Reference: Builder (Parth Interior). Internal Reference: Rush Test.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795170264495"
+          }
+        },
+        "_id": {
+          "$oid": "6b001fd8280e9ed5bfb25bb5"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795170264507"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795170264507"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b00461a6b49331415fae347"
+    },
+    "srNo": "APT-1006",
+    "clientName": "Test Client App",
+    "location": "Ahmedabad",
+    "contact": "8757526274",
+    "reference": "Builder",
+    "referenceName": "Test Builder",
+    "internalReference": "Test Employee",
+    "requirements": "",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795132800000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Test Client App for 11:00 on 20/11/2026. Reference: Builder (Test Builder). Internal Reference: Test Employee.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795180058138"
+          }
+        },
+        "_id": {
+          "$oid": "6b00461a6b49331415fae348"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180058142"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180058142"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0046566b49331415fae34b"
+    },
+    "srNo": "APT-1007",
+    "clientName": "Joshi Client demo",
+    "location": "Mumbai",
+    "contact": "7878787898",
+    "reference": "Automation Consultant",
+    "referenceName": "Test Automation Consultant",
+    "internalReference": "Test Sales Lead",
+    "requirements": "Test",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "Test Remark.",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795132800000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Joshi Client demo for 11:00 on 20/11/2026. Reference: Automation Consultant (Test Automation Consultant). Internal Reference: Test Sales Lead.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795180118169"
+          }
+        },
+        "_id": {
+          "$oid": "6b0046566b49331415fae34c"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180118172"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180118172"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0046ee6b49331415fae34f"
+    },
+    "srNo": "APT-1008",
+    "clientName": "Test Client App demo",
+    "location": "Delhi",
+    "contact": "8357575250",
+    "reference": "Automation Consultant",
+    "referenceName": "Test Automation Consultant",
+    "internalReference": "Rush Test",
+    "requirements": "Test",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "appointmentTime": "18:41",
+    "remark": "Test",
+    "status": "Pending",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795219200000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Test Client App demo for 18:41 on 21/11/2026. Reference: Automation Consultant (Test Automation Consultant). Internal Reference: Rush Test.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795180270139"
+          }
+        },
+        "_id": {
+          "$oid": "6b0046ee6b49331415fae350"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180270141"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795235012564"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "updatedBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b011f743ea34d53a6c21b45"
+    },
+    "srNo": "APT-1009",
+    "clientName": "Example Client",
+    "location": "Delhi",
+    "contact": "8969785689",
+    "reference": "Walk-in Client",
+    "referenceName": "",
+    "internalReference": "Keval V Shah",
+    "requirements": "- TST REQ-1\n- TST REQ-2",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "Test Remarks.",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795219200000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Example Client for 11:00 on 21/11/2026. Reference: Direct Client. Internal Reference: Keval V Shah.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afbfa2177c8b1c46a050346"
+          },
+          "name": "Keval V Shah",
+          "email": "kvs@lumossolution.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795235700447"
+          }
+        },
+        "_id": {
+          "$oid": "6b011f743ea34d53a6c21b46"
+        }
+      },
+      {
+        "activityType": "Follow-up Call",
+        "titleSummary": "Test",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795216200000"
+          }
+        },
+        "detailedNotes": "Test Call log.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afbfa2177c8b1c46a050346"
+          },
+          "name": "Keval V Shah",
+          "email": "kvs@lumossolution.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795236136218"
+          }
+        },
+        "_id": {
+          "$oid": "6b0121283ea34d53a6c21b4a"
+        }
+      },
+      {
+        "activityType": "Follow-up Call",
+        "titleSummary": "Follow-up Scheduled for 24 Nov 2026 at 11:39 (Owner: Keval V Shah)",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795500405701"
+          }
+        },
+        "detailedNotes": "Notes: Test Follow Ups.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795500405701"
+          }
+        },
+        "_id": {
+          "$oid": "6b0529750e329b3dbf734fd4"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795235700456"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795500405701"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "updatedBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "followUps": [
+      {
+        "followUpId": "flw_6b0529750e329b3dbf734fd3",
+        "followUpDate": {
+          "$date": {
+            "$numberLong": "1795478400000"
+          }
+        },
+        "followUpTime": "11:39",
+        "notes": "Test Follow Ups.",
+        "appointmentOwner": {
+          "userId": {
+            "$oid": "6afbfa2177c8b1c46a050346"
+          },
+          "name": "Keval V Shah",
+          "email": "kvs@lumossolution.com",
+          "role": "admin"
+        },
+        "assignedTo": {
+          "userId": {
+            "$oid": "6afbfa2177c8b1c46a050346"
+          },
+          "name": "Keval V Shah",
+          "email": "kvs@lumossolution.com",
+          "role": "admin"
+        },
+        "reminder": {
+          "enabled": false,
+          "reminderBefore": {
+            "$numberInt": "15"
+          },
+          "reminderUnit": "minutes",
+          "reminderAt": null,
+          "isSent": false,
+          "sentAt": null,
+          "notifyRecipients": [
+            {
+              "userId": {
+                "$oid": "6afbfa2177c8b1c46a050346"
+              },
+              "email": "kvs@lumossolution.com",
+              "name": "Keval V Shah",
+              "role": "admin",
+              "isNotified": false,
+              "_id": {
+                "$oid": "6b0529750e329b3dbf734fd6"
+              }
+            },
+            {
+              "userId": {
+                "$oid": "6afafa8fc947a3ef937862b4"
+              },
+              "email": "admin@lumos.com",
+              "name": "System Admin",
+              "role": "admin",
+              "isNotified": false,
+              "_id": {
+                "$oid": "6b0529750e329b3dbf734fd7"
+              }
+            }
+          ]
+        },
+        "status": "Pending",
+        "createdBy": {
+          "userId": {
+            "$oid": "6afafa8fc947a3ef937862b4"
+          },
+          "name": "System Admin",
+          "email": "admin@lumos.com",
+          "role": "admin"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795500405696"
+          }
+        },
+        "updatedAt": {
+          "$date": {
+            "$numberLong": "1795500405696"
+          }
+        },
+        "_id": {
+          "$oid": "6b0529750e329b3dbf734fd5"
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "6b0431bb30d47293217072c8"
+    },
+    "srNo": "APT-1010",
+    "clientName": "Test Client",
+    "location": "Baroda",
+    "contact": "7878787877",
+    "reference": "Walk-in Client",
+    "referenceName": "",
+    "internalReference": "Demo Man",
+    "requirements": "- TEst Req-1\n- Test Req-2",
+    "appointmentDate": {
+      "$date": {
+        "$numberLong": "1795392000000"
+      }
+    },
+    "appointmentTime": "11:00",
+    "remark": "",
+    "status": "Scheduled",
+    "createdBy": {
+      "userId": {
+        "$oid": "6b042e7530d47293217072c3"
+      },
+      "name": "Demo Man",
+      "email": "demotest@lumossolution.com",
+      "role": "employee"
+    },
+    "logactivity": [
+      {
+        "activityType": "Meeting Scheduled",
+        "titleSummary": "Appointment meeting scheduled",
+        "activityDateTime": {
+          "$date": {
+            "$numberLong": "1795392000000"
+          }
+        },
+        "detailedNotes": "Scheduled meeting with Test Client for 11:00 on 23/11/2026. Reference: Walk-in Client. Internal Reference: Demo Man.",
+        "createdByLog": {
+          "userId": {
+            "$oid": "6b042e7530d47293217072c3"
+          },
+          "name": "Demo Man",
+          "email": "demotest@lumossolution.com",
+          "role": "employee"
+        },
+        "createdAt": {
+          "$date": {
+            "$numberLong": "1795436987182"
+          }
+        },
+        "_id": {
+          "$oid": "6b0431bb30d47293217072c9"
+        }
+      }
+    ],
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795436987186"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795436987186"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

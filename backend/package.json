@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "db:export": "node scripts/exportCollections.js",
+    "db:import": "node scripts/importCollections.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

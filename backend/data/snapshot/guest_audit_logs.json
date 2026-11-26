@@ -1,0 +1,636 @@
+[
+  {
+    "_id": {
+      "$oid": "6afc0fee0654f6a9f8088e87"
+    },
+    "recordId": {
+      "$oid": "6afaffdd638ceba2694d55ee"
+    },
+    "collectionName": "lumos_event",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changes": [
+      {
+        "field": "relationship",
+        "fieldLabel": "Relationship with Lumos",
+        "oldValue": "Existing Customer",
+        "newValue": "Interior Designer"
+      }
+    ],
+    "remarks": "Inline updated from Guest Information card",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794904046315"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794904046319"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794904046319"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afc32b81b3c9d3cb7f534ab"
+    },
+    "recordId": {
+      "$oid": "6afc32b81b3c9d3cb7f534aa"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": null,
+      "name": "Public Guest",
+      "email": "guest@lumossolution.com",
+      "role": "guest"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794912952620"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794912952621"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794912952621"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afc516503a9f97bd2a1cb73"
+    },
+    "recordId": {
+      "$oid": "6afc32b81b3c9d3cb7f534aa"
+    },
+    "collectionName": "lumos_event",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changes": [
+      {
+        "field": "relationship",
+        "fieldLabel": "Relationship with Lumos",
+        "oldValue": "Friend / Family",
+        "newValue": "Builder / Developer"
+      }
+    ],
+    "remarks": "Inline updated from Guest Information card",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794920805241"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794920805243"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794920805243"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afd253df45b1ec9a83d788b"
+    },
+    "recordId": {
+      "$oid": "6afd253df45b1ec9a83d788a"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794975037857"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794975037858"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794975037858"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afd2578f45b1ec9a83d788e"
+    },
+    "recordId": {
+      "$oid": "6afd253df45b1ec9a83d788a"
+    },
+    "collectionName": "lumos_event",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [
+      {
+        "field": "guest.name",
+        "fieldLabel": "Guest Name",
+        "oldValue": "New Member",
+        "newValue": "New Person"
+      }
+    ],
+    "remarks": "Field 'name' updated from Guest Information card",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794975096924"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794975096925"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794975096925"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afd732cc740bb58e613b3cc"
+    },
+    "recordId": {
+      "$oid": "6afd732cc740bb58e613b3cb"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794994988111"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794994988115"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794994988115"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afd7e9ac740bb58e613b3d0"
+    },
+    "recordId": {
+      "$oid": "6afd7e9ac740bb58e613b3cf"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794997914732"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794997914733"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794997914733"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afd7f1bc1535351bc3b952d"
+    },
+    "recordId": {
+      "$oid": "6afd7f1bc1535351bc3b952c"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1794998043853"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794998043853"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794998043853"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afd9579c7d1574ab9c71cd4"
+    },
+    "recordId": {
+      "$oid": "6afd9579c7d1574ab9c71cd3"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795003769769"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795003769770"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795003769770"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afd95b5c7d1574ab9c71cd6"
+    },
+    "recordId": {
+      "$oid": "6afd95b5c7d1574ab9c71cd5"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afd954dc7d1574ab9c71cd1"
+      },
+      "name": "Rush Test",
+      "email": "rush@lumossolution.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795003829975"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795003829975"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795003829975"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0045c76b49331415fae346"
+    },
+    "recordId": {
+      "$oid": "6b0045c76b49331415fae345"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795179975854"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795179975855"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795179975855"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b016d764db67adc6b888ab6"
+    },
+    "recordId": {
+      "$oid": "6b016d764db67adc6b888ab5"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795255670449"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795255670450"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795255670450"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0172658bd6f689059d55ff"
+    },
+    "recordId": {
+      "$oid": "6b0172658bd6f689059d55fe"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795256933184"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795256933184"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795256933184"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b017b6c8bd6f689059d5602"
+    },
+    "recordId": {
+      "$oid": "6b017b6c8bd6f689059d5601"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795259244746"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795259244746"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795259244746"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0430ce30d47293217072c6"
+    },
+    "recordId": {
+      "$oid": "6b0430ce30d47293217072c5"
+    },
+    "collectionName": "lumos_event",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6b042e7530d47293217072c3"
+      },
+      "name": "Demo Man",
+      "email": "demotest@lumossolution.com",
+      "role": "employee"
+    },
+    "changes": [],
+    "remarks": "Initial guest registration",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795436750580"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795436750581"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795436750581"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b04311630d47293217072c7"
+    },
+    "recordId": {
+      "$oid": "6b0430ce30d47293217072c5"
+    },
+    "collectionName": "lumos_event",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "changes": [
+      {
+        "field": "guest.name",
+        "fieldLabel": "Guest Name",
+        "oldValue": "Demo Guest",
+        "newValue": "Demo Guest New"
+      }
+    ],
+    "remarks": "Field 'name' updated from Guest Information card",
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795436822689"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795436822690"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795436822690"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

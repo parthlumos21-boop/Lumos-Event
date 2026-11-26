@@ -1,0 +1,224 @@
+[
+  {
+    "_id": {
+      "$oid": "6afc0c640654f6a9f8088e86"
+    },
+    "guestId": {
+      "$oid": "6afaffdd638ceba2694d55ee"
+    },
+    "activityType": "Follow-up Call",
+    "title": "Test Log",
+    "description": "This is test.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1794883260000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794903140626"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794903140626"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6afc2fc6773c6e8e1b4890e4"
+    },
+    "guestId": {
+      "$oid": "6afaffdd638ceba2694d55ee"
+    },
+    "activityType": "Guest Visit",
+    "title": "Talk about swicthes",
+    "description": "This is for testing only.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1794895980000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794912198771"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794912198771"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6affdfd93ac3320b54fefd7c"
+    },
+    "guestId": {
+      "$oid": "6afd9579c7d1574ab9c71cd3"
+    },
+    "activityType": "Follow-up Call",
+    "title": "Test call",
+    "description": "Test call.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795134060000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795153881263"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795153881263"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b015fb2c2ca9a15ef27921c"
+    },
+    "guestId": {
+      "$oid": "6b0045c76b49331415fae345"
+    },
+    "activityType": "Follow-up Call",
+    "title": "Test",
+    "description": "",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795232280000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795252146791"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795252146791"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0171298bd6f689059d55fd"
+    },
+    "guestId": {
+      "$oid": "6b016d764db67adc6b888ab5"
+    },
+    "activityType": "Follow-up Call",
+    "title": "Test Follow Up",
+    "description": "Test Details",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795236780000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795256617598"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795256617598"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b01810c8bd6f689059d5603"
+    },
+    "guestId": {
+      "$oid": "6b017b6c8bd6f689059d5601"
+    },
+    "activityType": "Follow-up Call",
+    "title": "Test Call Follow Up",
+    "description": "Test Call.\n- Take 5 Min call and schedule the appointment at 21-11",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795260600000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795260684951"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795260684951"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

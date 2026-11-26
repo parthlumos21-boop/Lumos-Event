@@ -1,0 +1,122 @@
+[
+  {
+    "_id": {
+      "$oid": "6afafa8fc947a3ef937862b4"
+    },
+    "name": "System Admin",
+    "role": "admin",
+    "department": "Administration",
+    "email": "admin@lumos.com",
+    "password": "$2b$10$fsC.Mmxp8iW3OLZveooz2uz/g6CFjTlsPTk88HMeAviIRmNm2jn1.",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794833039091"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795435207795"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "plainPassword": "admin123"
+  },
+  {
+    "_id": {
+      "$oid": "6afaff78638ceba2694d55ec"
+    },
+    "name": "Test Employee",
+    "role": "employee",
+    "department": "Sales",
+    "email": "testusr@lumos.com",
+    "password": "$2b$10$fKxTkgcrlPUMVYC/vByUh.pol8hqDcG.vzbMXSxpTMr0uVXBlra6S",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794834296042"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795435207821"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "plainPassword": "test@123"
+  },
+  {
+    "_id": {
+      "$oid": "6afbfa2177c8b1c46a050346"
+    },
+    "name": "Keval V Shah",
+    "role": "admin",
+    "department": "General",
+    "email": "kvs@lumossolution.com",
+    "password": "$2b$10$6zAPpjPSKao2exEj1fXv0OdcuZSypD6dXzRRClkdCiy2IaJCxY2sS",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794898465875"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795435207821"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "plainPassword": "keval@123"
+  },
+  {
+    "_id": {
+      "$oid": "6afd954dc7d1574ab9c71cd1"
+    },
+    "name": "Rush Test",
+    "role": "employee",
+    "department": "General",
+    "email": "rush@lumossolution.com",
+    "password": "$2b$10$.LwdTBHXQeHakCo2LB54JeeirJRAO9V2jxmpYAunQMQlAkU2MR2t.",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795003725982"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795435234072"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "plainPassword": "1234"
+  },
+  {
+    "_id": {
+      "$oid": "6b042e7530d47293217072c3"
+    },
+    "name": "Demo Man",
+    "role": "employee",
+    "department": "Sales",
+    "email": "demotest@lumossolution.com",
+    "password": "$2b$10$FnHmCLYSAy4hCVwdetgS1u2aGYldReKOQQg7ueuIJSSXg937cKn1G",
+    "plainPassword": "12345",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795436149914"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795436149914"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

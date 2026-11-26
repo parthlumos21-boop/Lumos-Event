@@ -1,0 +1,40 @@
+[
+  {
+    "_id": {
+      "$oid": "6afbe192b82ebdf1df72d73a"
+    },
+    "codeId": "lumos_public_event_form",
+    "title": "Lumos Event Public Registration Form",
+    "targetUrl": "http://localhost:6001/form",
+    "qrDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAdQAAAHUAQAAAACrXOTBAAAC1ElEQVR4nO2dW27rMAxEh0X/qR1k/8vKDqwV8H6QejlJe1GoqOSMEKCOowNHwIAYUQwrhp+O/PFjFCBLlixZsmTJvhmbpY54mxDXQFxnOU/bd71kL8t++p9w0TkBEDVk8TuhaT2gdpq253rJvgebW3AGADURkQSXMQBJ47RZzyVLdib7+eoDA9xjvE6A7LhestdmH/Ss5iHacqruwp4Le8f1kr02W/SsTa0CWE7SzLOJmuhxmrbneslem4WZ2dG9Pb56jdSO6yV7bRb2MPxmJDR8uJ5Pg3omuzDrSWZJMLNIOKv5ncGNML9Bdl0WNSZDzcOyh+J+ArS8OoTxmex6bNGzu4sDrtsQdmc2APSqpp7JLsk2VwxgkOsYq9ucSlHPZFdma+bZLE5S7gI198+SUD8twl7gO5Ml+8j6pg8Rin3HJ7filu+lMOlm8PKkNOm5ZMlOZscsXJeXQ01NFyNdrTX3g2RXZZto6zbQbTPq9rBLRw+Spp7JLseiD8voNdxl7U5HhNQz2aVZT2vk2P3V7JyInI65Y/Ks55IlO5lt8TnedrG69xjPqB3XS/YN2N48A/Dq/RKxAVQ73TzJlOeSJTuZHfxzy2b4RX8f7Xyw3NxxvWSvzRY923AUCHRmYzwc7DS/43rJXpsdldxnMB4idisZZXwmuyjb+Y1OrsCwGRyU3EzIjusle202fm8lgKj5wbYB0AO1OwF8b5hippoo6zfILsyqDQYDpWuBdyfIUb8Rc+6s5ye7NntqfKTtdNvlHb04qrCPSc8lS/Z32OacS2moF9HJrfu5Sj1Vyez3RXZtduyPFGE5ASgKr1FarZSS/vV3Jkv2PJ71R8pipYWdIbrVRTs7PaTN23G9ZN+MVTOz2q0OHqWrc76LHfQbZJdlX/RH6q7b/dJldMZzyZL9DfahP9Kz8v74rNb5s/6Z7KLsF+1Dvxv8/ylkyZIlS5Ys2f8a/wDKUax6Tst1YQAAAABJRU5ErkJggg==",
+    "format": "PNG",
+    "status": "active",
+    "metadata": {
+      "eventName": "Lumos Office Opening",
+      "errorCorrectionLevel": "H",
+      "margin": {
+        "$numberInt": "3"
+      },
+      "width": {
+        "$numberInt": "1024"
+      }
+    },
+    "createdBy": {
+      "role": "system",
+      "email": "system@lumossolution.com"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1794892178312"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1794892178312"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

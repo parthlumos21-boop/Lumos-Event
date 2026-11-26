@@ -1,0 +1,372 @@
+[
+  {
+    "_id": {
+      "$oid": "6affdf533ac3320b54fefd79"
+    },
+    "appointmentId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with XYZ client demo for 11:00 on 20/11/2026. Reference: Direct Client.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795153747784"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795153747784"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6affdfa23ac3320b54fefd7b"
+    },
+    "appointmentId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "activityType": "Follow-up Call",
+    "title": "Take Call regarding switches",
+    "description": "This is for test.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795153800000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795153826323"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795153826323"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b000d434ef2d8a6b24469ae"
+    },
+    "appointmentId": {
+      "$oid": "6b000d434ef2d8a6b24469ab"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Parth Client for 14:34 on 20/11/2026. Reference: Rush Test.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795165507082"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795165507082"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0010b32b3769965b058540"
+    },
+    "appointmentId": {
+      "$oid": "6b0010b32b3769965b05853d"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Joshi Client for 11:00 on 21/11/2026. Reference: Rush Test.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795166387548"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795166387548"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b001fd8280e9ed5bfb25bb7"
+    },
+    "appointmentId": {
+      "$oid": "6b001fd8280e9ed5bfb25bb4"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Test New Client for 11:00 on 21/11/2026. Reference: Builder (Parth Interior).",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795170264566"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795170264566"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b00461a6b49331415fae34a"
+    },
+    "appointmentId": {
+      "$oid": "6b00461a6b49331415fae347"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Test Client App for 11:00 on 20/11/2026. Reference: Builder (Test Builder).",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180058187"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180058187"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0046566b49331415fae34e"
+    },
+    "appointmentId": {
+      "$oid": "6b0046566b49331415fae34b"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Joshi Client demo for 11:00 on 20/11/2026. Reference: Automation Consultant (Test Automation Consultant).",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795132800000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180118179"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180118179"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0046ee6b49331415fae352"
+    },
+    "appointmentId": {
+      "$oid": "6b0046ee6b49331415fae34f"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Test Client App demo for 18:41 on 21/11/2026. Reference: Automation Consultant (Test Automation Consultant).",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180270146"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180270146"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b011f743ea34d53a6c21b48"
+    },
+    "appointmentId": {
+      "$oid": "6b011f743ea34d53a6c21b45"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Example Client for 11:00 on 21/11/2026. Reference: Direct Client.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795219200000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795235700477"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795235700477"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0431bb30d47293217072cb"
+    },
+    "appointmentId": {
+      "$oid": "6b0431bb30d47293217072c8"
+    },
+    "activityType": "Meeting Scheduled",
+    "title": "Appointment meeting scheduled",
+    "description": "Scheduled meeting with Test Client for 11:00 on 23/11/2026. Reference: Walk-in Client.",
+    "activityDate": {
+      "$date": {
+        "$numberLong": "1795392000000"
+      }
+    },
+    "createdBy": {
+      "userId": {
+        "$oid": "6b042e7530d47293217072c3"
+      },
+      "name": "Demo Man",
+      "email": "demotest@lumossolution.com",
+      "role": "employee"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795436987199"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795436987199"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

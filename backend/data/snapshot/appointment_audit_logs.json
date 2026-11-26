@@ -1,0 +1,875 @@
+[
+  {
+    "_id": {
+      "$oid": "6affdf533ac3320b54fefd78"
+    },
+    "recordId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795152165481"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "XYZ client demo"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1002"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795153747774"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795153747774"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6affdf743ac3320b54fefd7a"
+    },
+    "recordId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afaff78638ceba2694d55ec"
+      },
+      "name": "Test Employee",
+      "email": "testusr@lumos.com",
+      "role": "employee"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795153780301"
+      }
+    },
+    "changes": [
+      {
+        "field": "remark",
+        "fieldLabel": "Meeting Remarks",
+        "oldValue": "Test Remark.",
+        "newValue": "Test new remark"
+      }
+    ],
+    "remarks": "Inline updated via Appointment Profile",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795153780303"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795153780303"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6affee274ef2d8a6b24469a3"
+    },
+    "recordId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795157543171"
+      }
+    },
+    "changes": [
+      {
+        "field": "logactivity",
+        "fieldLabel": "Activity Update Added",
+        "oldValue": "Activities count: 1",
+        "newValue": "Added \"Tet Client\" (Client Visit)"
+      }
+    ],
+    "remarks": "Activity log update: Tet Client",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795157543186"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795157543186"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6affeeb84ef2d8a6b24469aa"
+    },
+    "recordId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795157688285"
+      }
+    },
+    "changes": [
+      {
+        "field": "logactivity",
+        "fieldLabel": "Activity Update Added",
+        "oldValue": "Activities count: 2",
+        "newValue": "Added \"Take 5 min call\" (Follow-up Call)"
+      }
+    ],
+    "remarks": "Activity log update: Take 5 min call",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795157688288"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795157688288"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b000d434ef2d8a6b24469ad"
+    },
+    "recordId": {
+      "$oid": "6b000d434ef2d8a6b24469ab"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795165507075"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Parth Client"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1003"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795165507077"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795165507077"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0010b32b3769965b05853f"
+    },
+    "recordId": {
+      "$oid": "6b0010b32b3769965b05853d"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795166387544"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Joshi Client"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1004"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795166387546"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795166387546"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b001fd8280e9ed5bfb25bb6"
+    },
+    "recordId": {
+      "$oid": "6b001fd8280e9ed5bfb25bb4"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795170264511"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Test New Client"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1005"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795170264513"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795170264513"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b00461a6b49331415fae349"
+    },
+    "recordId": {
+      "$oid": "6b00461a6b49331415fae347"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795180058183"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Test Client App"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1006"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180058185"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180058185"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0046566b49331415fae34d"
+    },
+    "recordId": {
+      "$oid": "6b0046566b49331415fae34b"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795180118175"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Joshi Client demo"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1007"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180118177"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180118177"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0046ee6b49331415fae351"
+    },
+    "recordId": {
+      "$oid": "6b0046ee6b49331415fae34f"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795180270143"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Test Client App demo"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1008"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795180270144"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795180270144"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b011cc43ea34d53a6c21b44"
+    },
+    "recordId": {
+      "$oid": "6b0046ee6b49331415fae34f"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795235012588"
+      }
+    },
+    "changes": [
+      {
+        "field": "status",
+        "fieldLabel": "Appointment Status",
+        "oldValue": "Scheduled",
+        "newValue": "Pending"
+      }
+    ],
+    "remarks": "Inline updated via Appointment Profile",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795235012603"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795235012603"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b011f743ea34d53a6c21b47"
+    },
+    "recordId": {
+      "$oid": "6b011f743ea34d53a6c21b45"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795235700470"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Example Client"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1009"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795235700472"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795235700472"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0121283ea34d53a6c21b4d"
+    },
+    "recordId": {
+      "$oid": "6b011f743ea34d53a6c21b45"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afbfa2177c8b1c46a050346"
+      },
+      "name": "Keval V Shah",
+      "email": "kvs@lumossolution.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795236136257"
+      }
+    },
+    "changes": [
+      {
+        "field": "logactivity",
+        "fieldLabel": "Activity Update Added",
+        "oldValue": "Activities count: 1",
+        "newValue": "Added \"Test\" (Follow-up Call)"
+      }
+    ],
+    "remarks": "Activity log update: Test",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795236136262"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795236136262"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0431bb30d47293217072ca"
+    },
+    "recordId": {
+      "$oid": "6b0431bb30d47293217072c8"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "CREATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6b042e7530d47293217072c3"
+      },
+      "name": "Demo Man",
+      "email": "demotest@lumossolution.com",
+      "role": "employee"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795436987194"
+      }
+    },
+    "changes": [
+      {
+        "field": "clientName",
+        "fieldLabel": "Client Name",
+        "oldValue": "-",
+        "newValue": "Test Client"
+      },
+      {
+        "field": "srNo",
+        "fieldLabel": "Sr. No.",
+        "oldValue": "-",
+        "newValue": "APT-1010"
+      },
+      {
+        "field": "status",
+        "fieldLabel": "Status",
+        "oldValue": "-",
+        "newValue": "Scheduled"
+      }
+    ],
+    "remarks": "Initial appointment booking created",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795436987196"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795436987196"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0529750e329b3dbf734fde"
+    },
+    "recordId": {
+      "$oid": "6b011f743ea34d53a6c21b45"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795500405774"
+      }
+    },
+    "changes": [
+      {
+        "field": "followUps",
+        "fieldLabel": "Follow-up Created",
+        "oldValue": "Total follow-ups: 0",
+        "newValue": "Scheduled on 24 Nov 2026 at 11:39 (Owner: Keval V Shah)"
+      }
+    ],
+    "remarks": "Follow-up created: Follow-up Scheduled for 24 Nov 2026 at 11:39 (Owner: Keval V Shah)",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795500405782"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795500405782"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b0529b50e329b3dbf734ff1"
+    },
+    "recordId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795500469900"
+      }
+    },
+    "changes": [
+      {
+        "field": "followUps",
+        "fieldLabel": "Follow-up Created",
+        "oldValue": "Total follow-ups: 0",
+        "newValue": "Scheduled on 24 Nov 2026 at 12:00 (Owner: Test Employee)"
+      }
+    ],
+    "remarks": "Follow-up created: Follow-up Scheduled for 24 Nov 2026 at 12:00 (Owner: Test Employee)",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795500469902"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795500469902"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6b053547250be39162f24f13"
+    },
+    "recordId": {
+      "$oid": "6affd92548d328ae191ca320"
+    },
+    "collectionName": "lumos_appointments",
+    "action": "UPDATE",
+    "changedBy": {
+      "userId": {
+        "$oid": "6afafa8fc947a3ef937862b4"
+      },
+      "name": "System Admin",
+      "email": "admin@lumos.com",
+      "role": "admin"
+    },
+    "changedAt": {
+      "$date": {
+        "$numberLong": "1795503431079"
+      }
+    },
+    "changes": [
+      {
+        "field": "followUps",
+        "fieldLabel": "Follow-up Created",
+        "oldValue": "Total follow-ups: 1",
+        "newValue": "Scheduled on 24 Nov 2026 at 12:40 (Owner: Test Employee)"
+      }
+    ],
+    "remarks": "Follow-up created: Follow-up Scheduled for 24 Nov 2026 at 12:40 (Owner: Test Employee)",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1795503431085"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1795503431085"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]
