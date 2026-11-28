@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save, Phone, Mail, User as UserIcon, Star, MessageSquare, Eye, EyeOff, Lock } from 'lucide-react';
 import SearchableSelect from './SearchableSelect';
+import { FORM_RELATIONSHIP_OPTIONS, toSelectOptions } from '../../constants/guestOptions';
 
-const relationshipOptions = [
-  { value: 'Existing Customer', label: 'Existing Customer' },
-  { value: 'Potential Customer', label: 'Potential Customer' },
-  { value: 'Architect / Interior Designer', label: 'Architect / Interior Designer' },
-  { value: 'Builder / Developer', label: 'Builder / Developer' },
-  { value: 'Business Partner', label: 'Business Partner' },
-  { value: 'Vendor / Supplier', label: 'Vendor / Supplier' },
-  { value: 'Friend / Family', label: 'Friend / Family' },
-  { value: 'Other', label: 'Other' }
-];
+const relationshipOptions = toSelectOptions(FORM_RELATIONSHIP_OPTIONS);
 
 const roleOptions = [
   { value: 'admin', label: 'Admin (Full Access)' },

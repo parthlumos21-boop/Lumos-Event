@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-const RELATIONSHIP_OPTIONS = [
-  'Architect',
-  'Interior Designer',
-  'Builder / Developer',
-  'Electrical Consultant / Contractor',
-  'System Integrator',
-  'Existing Customer',
-  'Potential Customer',
-  'Business Partner / Vendor',
-  'Friend & Family',
-  'Other'
-];
+import { GUEST_DETAIL_RELATIONSHIP_OPTIONS as RELATIONSHIP_OPTIONS } from '../../../constants/guestOptions';
 
 const GuestInformationCard = ({ guest, onSave, saving }) => {
   const [editingField, setEditingField] = useState(null); // 'name' | 'email' | 'phone' | 'relationship' | 'company' | 'followUp' | 'all' | null

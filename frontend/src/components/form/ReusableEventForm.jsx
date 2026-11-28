@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import { CheckCircle, ArrowLeft, Send } from 'lucide-react';
 import celebrationGif from '../../assets/celebration.gif';
 import SearchableSelect from '../common/SearchableSelect';
+import { FORM_RELATIONSHIP_OPTIONS } from '../../constants/guestOptions';
 
 const ReusableEventForm = ({ portalType = 'user' }) => {
   const navigate = useNavigate();
@@ -235,16 +236,7 @@ const ReusableEventForm = ({ portalType = 'user' }) => {
                   rules={{ required: 'Please select a relationship' }}
                   render={({ field }) => (
                     <div className="flex flex-wrap gap-2 md:flex-col">
-                      {[
-                        'Existing Customer',
-                        'Potential Customer',
-                        'Architect / Interior Designer',
-                        'Builder / Developer',
-                        'Business Partner',
-                        'Vendor / Supplier',
-                        'Friend / Family',
-                        'Other'
-                      ].map((opt) => {
+                      {FORM_RELATIONSHIP_OPTIONS.map((opt) => {
                         const isSelected = field.value === opt;
                         return (
                           <button
